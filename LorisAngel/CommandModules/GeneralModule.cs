@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace LorisAngel.CommandModules
@@ -73,6 +74,15 @@ namespace LorisAngel.CommandModules
             };
 
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
+        }
+
+        [Command("changelog")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task ChangelogAsync()
+        {
+            await Context.Message.DeleteAsync();
+            await Context.Channel.SendMessageAsync("```markdown\n" + File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "changelog.txt")) + "\n```");
         }
     }
 }

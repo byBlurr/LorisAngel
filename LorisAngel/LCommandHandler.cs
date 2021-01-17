@@ -2,7 +2,9 @@
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
 using Discord.WebSocket;
+using LorisAngel.Database;
 using LorisAngel.Utility;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,7 +21,8 @@ namespace LorisAngel
             commands.Add(new BotCommand("invite", "invite", "Receive the invite link to add LorisAngel to your server.", CommandCategory.BotRelated));
             commands.Add(new BotCommand("users", "users", "Check how many guilds the bot is in and how many total users.", CommandCategory.BotRelated));
             commands.Add(new BotCommand("uptime", "uptime", "Check how long the bot has been live since last restart.", CommandCategory.BotRelated));
-            //commands.Add(new BotCommand("settings", "settings", "Adjust the bots settings for this guild.", CommandCategory.BotRelated));
+            commands.Add(new BotCommand("settings", "settings", "Adjust the bots settings for this guild.", CommandCategory.BotRelated));
+            commands.Add(new BotCommand("changelog", "changelog", "View the bots changelog and see what is coming soon.", CommandCategory.BotRelated));
             
             // User commands (All to be written from scratch)
             //commands.Add(new BotCommand("profile", "profile <@user>", "View the users profile.", CommandCategory.User));
@@ -46,7 +49,7 @@ namespace LorisAngel
             commands.Add(new BotCommand("dice", "dice <amount>", "Roll a 6 sided dice or multiple.", CommandCategory.Fun));
 
             // Moderation commands
-
+            // Not to be added until a webpanel is up
         }
 
         public override void SetupHandlers(DiscordSocketClient bot)
@@ -59,7 +62,47 @@ namespace LorisAngel
 
         private async Task ReadyAsync()
         {
+            PickupsFile.Exists();
+            DeathsFile.Exists();
+            RoastsFile.Exists();
+            JokesFile.Exists();
+            ComplimentsFile.Exists();
+            PunishFile.Exists();
+
             await bot.SetStatusAsync(UserStatus.Online);
+
+            var status = Task.Run(async () => {
+                int i = 0;
+                while (true)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            await bot.SetGameAsync($"use -invite {Util.GetRandomHeartEmoji()}", type: ActivityType.Playing);
+                            i++;
+                            break;
+                        case 1:
+                            await bot.SetGameAsync($"use -help { Util.GetRandomHeartEmoji()}", type: ActivityType.Playing);
+                            i++;
+                            break;
+                        case 2:
+                            await bot.SetGameAsync($"use -changelog", type: ActivityType.Playing);
+                            i++;
+                            break;
+                        default:
+                            {
+                                Random rnd = new Random();
+                                BotConfig conf = BotConfig.Load();
+                                int j = rnd.Next(0, conf.Commands.Count);
+
+                                await bot.SetGameAsync($"try -{conf.Commands[j].Handle.ToLower()} {Util.GetRandomHeartEmoji()}", type: ActivityType.Playing);
+                                i = 0;
+                                break;
+                            }
+                    }
+                    await Task.Delay(15000);
+                }
+            });
         }
 
         private async Task JoinedGuildAsync(SocketGuild guild)

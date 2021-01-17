@@ -2,13 +2,20 @@
 - Rewrote entire bot
 - Added moderation features (Enable/Disable for your guild, default: disabled)
 - Added all new user commands (-help user)
+- Added guild settings command (-settings)
+- Added changelog command (You using it)
 - Removed -crack command
 - Removed currency (Will be readded at a later date)
 - Removed donate command (Will be introduced to the webpanel)
 - Removed all old user commands
+- Removed games to be rewritten
 
 # Coming Soon
 - Webpanel
 - User profiles
 - User preferences (Webpanel settings)
 - Guild preferences (Webpanel settings)
+- Return of connect4, tictactoe, snakes&ladders and blackjack
+- Return of smaller features
+- Currency
+- Leaderboards

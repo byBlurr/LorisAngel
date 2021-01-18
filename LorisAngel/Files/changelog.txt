@@ -1,4 +1,7 @@
-﻿# Version 2.0 - The Rewrite
+﻿# Version 2.0.1 - Adding back some features from V1
+- Added improved relationship command (-ship user)
+
+# Version 2.0 - The Rewrite
 - Rewrote entire bot
 - Added moderation features (Enable/Disable for your guild, default: disabled)
 - Added all new user commands (-help user)

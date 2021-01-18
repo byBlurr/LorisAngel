@@ -376,6 +376,70 @@ namespace LorisAngel.CommandModules
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }
 
+
+        [Command("ship")]
+        [Alias("relationship", "lovecalc", "lovecalculator")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task ShipAsync(IUser user = null, IUser user1 = null)
+        {
+            if (user == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", "Correct Usage: `{gconf.Prefix}ship <user>` or `{gconf.Prefix}ship <user1> <user2>`", false);
+                return;
+            }
+            if (user1 == null) user1 = (Context.User as IUser);
+
+            string name1 = Util.ToUppercaseFirst(user.Username);
+            string name2 = Util.ToUppercaseFirst(user1.Username);
+            string title = "";
+            string message = "";
+            int score = 0;
+            string name = "";
+
+            // Check if entry exists in database
+            var ship = ShipDatabase.DoesExist(user.Id, user1.Id);
+            if (ship != null)
+            {
+                score = ship.Percentage;
+                name = ship.Shipname;
+            }
+            else
+            {
+                Random rnd = new Random();
+                score = rnd.Next(0, 100);
+                name = $"{name1[0].ToString().ToUpper()}{name1[1]}{name2[name2.Length - 3]}{name2[name2.Length - 2]}{name2[name2.Length - 1]}";
+
+                ship = new Relationship(user.Id, user1.Id, name1, name2, name, score);
+                ShipDatabase.SaveShip(ship);
+            }
+
+            if (score > 95)
+            {
+                title = $"{name1} 💘 {name2}";
+                message = $"I really ship {name}! They're soul mates, a {score}% match!";
+            }
+            else if (score > 55)
+            {
+                title = $"{name1} ❤️ {name2}";
+                message = $"I ship {name}! They get a {score}% match!";
+            }
+            else
+            {
+                title = $"{name1} 💔 {name2}";
+                message = $"Can't say I ship {name}! They get a shitty {score}% match!";
+            }
+
+            EmbedBuilder embed = new EmbedBuilder()
+            {
+                Color = Color.DarkPurple,
+                Title = title,
+                Description = message,
+                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
+            };
+            await Context.Channel.SendMessageAsync(null, false, embed.Build());
+        }
+
         public static byte[] ConvertToByteArray(string str, Encoding encoding) => encoding.GetBytes(str);
         public static String ToBinary(Byte[] data) => string.Join(" ", data.Select(byt => Convert.ToString(byt, 2).PadLeft(8, '0')));
     }

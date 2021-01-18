@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 
 namespace LorisAngel
 {
-    class LCommandHandler : CommandHandler
+    public class LCommandHandler : CommandHandler
     {
+        public const string DATABASE_NAME = "lorisangel";
+
         public override void RegisterCommands(List<BotCommand> commands)
         {
             commands.Clear();
@@ -47,6 +49,7 @@ namespace LorisAngel
             commands.Add(new BotCommand("binary", "binary <message>", "The bot will convert the message into binary.", CommandCategory.Fun));
             commands.Add(new BotCommand("8ball", "8ball <question>", "Ask the bot a yes/no question.", CommandCategory.Fun));
             commands.Add(new BotCommand("dice", "dice <amount>", "Roll a 6 sided dice or multiple.", CommandCategory.Fun));
+            commands.Add(new BotCommand("ship", "ship <@user> or ship <@user1> <@user2>", "Check your compatibility together.", CommandCategory.Fun));
 
             // Moderation commands
             // Not to be added until a webpanel is up

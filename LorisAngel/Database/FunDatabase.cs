@@ -38,46 +38,10 @@ namespace LorisAngel.Database
 
             return Objects;
         }
-
-        // TODO REMOVE
-        public static async Task AddAllToDatabase(List<FunObject> allObjects)
-        {
-            var save = Task.Run(async () =>
-            {
-                var dbCon = DBConnection.Instance();
-                dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
-
-                if (dbCon.IsConnect())
-                {
-                    foreach (var obj in allObjects)
-                    {
-                        var cmd = new MySqlCommand("INSERT INTO funmessages (type, text, extra) VALUES (@type, @text, @extra)", dbCon.Connection);
-                        cmd.Parameters.Add("@type", MySqlDbType.String).Value = obj.DaType;
-                        cmd.Parameters.Add("@text", MySqlDbType.String).Value = obj.Text;
-                        cmd.Parameters.Add("@extra", MySqlDbType.String).Value = obj.Extra;
-
-                        try
-                        {
-                            await cmd.ExecuteNonQueryAsync();
-                            cmd.Dispose();
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine($"{e.Message}");
-                            cmd.Dispose();
-                        }
-                    }
-
-                    dbCon.Close();
-                }
-
-            });
-        }
     }
 
     public class FunObject
     {
-        public string DaType { get; set; }
         public string Text { get; private set; }
         public string Extra { get; private set; }
 

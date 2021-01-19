@@ -86,7 +86,7 @@ namespace LorisAngel
                             i++;
                             break;
                         case 1:
-                            await bot.SetGameAsync($"use -help { Util.GetRandomHeartEmoji()}", type: ActivityType.Playing);
+                            await bot.SetGameAsync($"Lori's Angel v2! { Util.GetRandomHeartEmoji()}", type: ActivityType.Playing);
                             i++;
                             break;
                         case 2:

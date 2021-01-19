@@ -21,6 +21,9 @@ namespace LorisAngel.Database
                 await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of SaveUsers thread."));
                 await Task.Delay(5000);
 
+                /*  MOVING INTO OWN FUNCTION AND PLACING IN OWN THREAD.
+                    ALSO COMPARING TO USERS LIST INSTEAD TO HELP SPEED IT UP.
+
                 int newUsers = 0;
                 foreach (var g in CommandHandler.GetBot().Guilds)
                 {
@@ -39,6 +42,8 @@ namespace LorisAngel.Database
                 }
 
                 if (newUsers > 0) await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", $"Added {newUsers} new users."));
+                */
+
                 Users = await GetAllUsersAsync();
                 ReadyToUpdate = true;
 
@@ -79,6 +84,33 @@ namespace LorisAngel.Database
                     }
                     await Task.Delay(500);
                 }
+            });
+
+            var CheckForNewUsers = Task.Run(async () =>
+            {
+                await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of CheckForNewUsers thread."));
+                while (!ReadyToUpdate) await Task.Delay(500);
+
+                int newUsers = 0;
+                foreach (var g in CommandHandler.GetBot().Guilds)
+                {
+                    if (g.Id != 264445053596991498 && g.Id != 110373943822540800 && g.Id != 446425626988249089) // Don't include the bot servers
+                    {
+                        foreach (var u in CommandHandler.GetBot().GetGuild(g.Id).Users)
+                        {
+                            if (!DoesUserExistMemory(u.Id) && !u.IsBot)
+                            {
+                                LoriUser newUser = new LoriUser(u.Id, u.Username, u.CreatedAt.DateTime, DateTime.Now, new DateTime(), u.Status.ToString(), "", DateTime.Now);
+                                newUser.SetNew();
+                                Users.Add(newUser);
+                                newUsers++;
+                            }
+                        }
+                    }
+                }
+
+                if (newUsers > 0) await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", $"Added {newUsers} new users."));
+                else await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", $"No new users found."));
             });
         }
 
@@ -139,23 +171,33 @@ namespace LorisAngel.Database
                 {
                     if (user.HasChanged)
                     {
-                        var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status, lastupdated = @lastupdated WHERE id = @id", dbCon.Connection);
-                        cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
-                        cmd.Parameters.Add("@name", MySqlDbType.String).Value = "";
-                        cmd.Parameters.Add("@lastseen", MySqlDbType.DateTime).Value = user.LastSeen;
-                        cmd.Parameters.Add("@status", MySqlDbType.String).Value = user.Status;
-                        cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
-
-                        try
+                        if (user.IsNew)
                         {
-                            await cmd.ExecuteNonQueryAsync();
+                            await AddUserToDatabaseAsync(user);
                             user.HasChanged = false;
-                            cmd.Dispose();
+                            user.IsNew = false;
                         }
-                        catch (Exception e)
+                        else
                         {
-                            Console.WriteLine($"Failed to save user: {e.Message}");
-                            cmd.Dispose();
+                            var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status, lastupdated = @lastupdated WHERE id = @id", dbCon.Connection);
+                            cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
+                            cmd.Parameters.Add("@name", MySqlDbType.String).Value = "";
+                            cmd.Parameters.Add("@lastseen", MySqlDbType.DateTime).Value = user.LastSeen;
+                            cmd.Parameters.Add("@status", MySqlDbType.String).Value = user.Status;
+                            cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
+
+                            try
+                            {
+                                await cmd.ExecuteNonQueryAsync();
+                                user.HasChanged = false;
+                                user.IsNew = false;
+                                cmd.Dispose();
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine($"Failed to save user: {e.Message}");
+                                cmd.Dispose();
+                            }
                         }
                     }
                 }
@@ -166,7 +208,7 @@ namespace LorisAngel.Database
 
 
         // Check if user exists in database
-        private static bool DoesUserExist(ulong id)
+        private static bool DoesUserExistDatabase(ulong id)
         {
             var dbCon = DBConnection.Instance();
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
@@ -191,6 +233,16 @@ namespace LorisAngel.Database
                 }
             }
 
+            return false;
+        }
+
+        // Check if user exists in memory
+        private static bool DoesUserExistMemory(ulong id)
+        {
+            foreach (LoriUser usr in Users)
+            {
+                if (usr.Id == id) return true;
+            }
             return false;
         }
 
@@ -245,6 +297,7 @@ namespace LorisAngel.Database
         public string Badges { get; private set; } // WILL BE A LIST OF BADGES ONCE BADGES ADDED
         public bool HasChanged { get; set; }
         public DateTime LastUpdated { get; set; }
+        public bool IsNew { get; set; }
 
         public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated)
         {
@@ -257,6 +310,13 @@ namespace LorisAngel.Database
             Badges = badges;
             HasChanged = false;
             LastUpdated = lastUpdated;
+            IsNew = false;
+        }
+
+        public void SetNew()
+        {
+            IsNew = true;
+            HasChanged = true;
         }
 
         public void UpdateStatus(UserStatus newStatus)

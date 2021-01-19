@@ -1,4 +1,7 @@
-﻿# Version 2.0.3
+﻿# Version 2.0.4
+- Optimised bot restarts
+
+# Version 2.0.3
 - Added userdata
 - Added profile command (-profile <@user>)
 - Optimisations

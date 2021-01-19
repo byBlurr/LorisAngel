@@ -25,13 +25,16 @@ namespace LorisAngel.Database
                 int newUsers = 0;
                 foreach (var g in CommandHandler.GetBot().Guilds)
                 {
-                    foreach (var u in CommandHandler.GetBot().GetGuild(g.Id).Users)
+                    if (g.Id != 264445053596991498 && g.Id != 110373943822540800 && g.Id != 446425626988249089) // Don't include the bot servers
                     {
-                        if(!DoesUserExist(u.Id) && !u.IsBot)
+                        foreach (var u in CommandHandler.GetBot().GetGuild(g.Id).Users)
                         {
-                            LoriUser newUser = new LoriUser(u.Id, u.Username, u.CreatedAt.DateTime, DateTime.Now, new DateTime(), u.Status.ToString(), "");
-                            await AddUserToDatabaseAsync(newUser);
-                            newUsers++;
+                            if (!DoesUserExist(u.Id) && !u.IsBot)
+                            {
+                                LoriUser newUser = new LoriUser(u.Id, u.Username, u.CreatedAt.DateTime, DateTime.Now, new DateTime(), u.Status.ToString(), "");
+                                await AddUserToDatabaseAsync(newUser);
+                                newUsers++;
+                            }
                         }
                     }
                 }
@@ -44,6 +47,7 @@ namespace LorisAngel.Database
                 while (true)
                 {
                     DateTime startTime = DateTime.Now;
+                    await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", $"Saving users..."));
                     await SaveAllUsersAsync(Users);
                     int timetosave = (int)((DateTime.Now - startTime).TotalSeconds);
                     /**if (timetosave > 5)**/ await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", $"Saving users took {timetosave} seconds"));

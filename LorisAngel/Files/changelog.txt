@@ -1,4 +1,7 @@
-﻿# Version 2.0.2
+﻿# Version 2.0.3
+- 
+
+# Version 2.0.2
 - Added better command error feedback
 - Added command to add censored words (-settings addcensor <word>)
 - Fixed SQL error on relationship command

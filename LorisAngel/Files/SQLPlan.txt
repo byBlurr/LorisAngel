@@ -1,9 +1,4 @@
-﻿UserProfile
-	ulong id
-	string profile
-
-
-On start up, load the users from database
+﻿On start up, load the users from database
 Loop every user of every guild every 5 seconds
 Add any missing user to the stored list of users
 Check status of any user, if changed store last seen as current time and update status

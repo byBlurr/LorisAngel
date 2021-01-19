@@ -106,6 +106,8 @@ namespace LorisAngel
                     await Task.Delay(15000);
                 }
             });
+
+            await ProfileDatabase.ProcessUsers();
         }
 
         private async Task JoinedGuildAsync(SocketGuild guild)

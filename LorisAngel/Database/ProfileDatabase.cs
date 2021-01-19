@@ -27,7 +27,7 @@ namespace LorisAngel.Database
                 {
                     foreach (var u in CommandHandler.GetBot().GetGuild(g.Id).Users)
                     {
-                        if(!DoesUserExist(u.Id))
+                        if(!DoesUserExist(u.Id) && !u.IsBot)
                         {
                             LoriUser newUser = new LoriUser(u.Id, u.Username, u.CreatedAt.DateTime, DateTime.Now, new DateTime(), u.Status.ToString(), "");
                             await AddUserToDatabaseAsync(newUser);
@@ -65,7 +65,7 @@ namespace LorisAngel.Database
                         foreach (LoriUser usr in Users)
                         {
                             var discUsr = bot.GetUser(usr.Id);
-                            if (discUsr != null)
+                            if (discUsr != null && !discUsr.IsBot)
                             {
                                 usr.UpdateStatus(discUsr.Status);
                                 usr.UpdateName(discUsr.Username);

@@ -1,5 +1,12 @@
-﻿# Version 2.0.1 - Adding back some features from V1
+﻿# Version 2.0.2
+- Added better command error feedback
+- Added command to add censored words (-settings addcensor <word>)
+- Fixed SQL error on relationship command
+- Fixed issues with server settings
+
+# Version 2.0.1
 - Added improved relationship command (-ship user)
+- Minor tweaks
 
 # Version 2.0 - The Rewrite
 - Rewrote entire bot
@@ -19,6 +26,5 @@
 - User preferences (Webpanel settings)
 - Guild preferences (Webpanel settings)
 - Return of connect4, tictactoe, snakes&ladders and blackjack
-- Return of smaller features
 - Currency
 - Leaderboards

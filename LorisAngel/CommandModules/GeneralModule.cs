@@ -14,7 +14,7 @@ namespace LorisAngel.CommandModules
         [Alias("inv")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task InviteAsybc()
+        private async Task InviteAsync()
         {
             await Context.Message.DeleteAsync();
             await Context.User.SendMessageAsync($"Invite Loris Angel to your server: {Util.GetInviteLink(729696788097007717)}");

@@ -18,7 +18,7 @@ namespace LorisAngel.CommandModules
         {
             await Context.Message.DeleteAsync();
 
-            if (user == null) user = Context.User as IUser;
+            if (user == null) user = (Context.User as IUser);
             string avatar = user.GetAvatarUrl(size: 2048);
 
             EmbedBuilder embed = new EmbedBuilder()
@@ -40,7 +40,7 @@ namespace LorisAngel.CommandModules
         {
             await Context.Message.DeleteAsync();
 
-            IUser user = await Context.Guild.GetUserAsync(userid) as IUser;
+            IUser user = (await Context.Guild.GetUserAsync(userid) as IUser);
             if (user == null)
             {
                 foreach (var guild in CommandHandler.GetBot().Guilds)
@@ -51,6 +51,8 @@ namespace LorisAngel.CommandModules
                     }
                 }
             }
+
+            if (user == null) user = (Context.User as IUser);
 
             string avatar = user.GetAvatarUrl(size: 2048);
             EmbedBuilder embed = new EmbedBuilder()

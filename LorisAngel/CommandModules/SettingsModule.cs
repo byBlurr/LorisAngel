@@ -1,9 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LorisAngel.CommandModules
@@ -31,18 +29,34 @@ namespace LorisAngel.CommandModules
 
             embed.AddField(new EmbedFieldBuilder() { Name = "Prefix", Value = gconf.Prefix, IsInline = true});
             embed.AddField(new EmbedFieldBuilder() { Name = "Censor", Value = gconf.Censor, IsInline = true});
+
+            string words = "";
+            foreach (string word in gconf.CensoredWords)
+            {
+                words += "," + word;
+            }
+            embed.AddField(new EmbedFieldBuilder() { Name = "Censored Words", Value = $"{gconf.Prefix}settings addcensor <word>\n{words}" });
+
+            await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }
 
         [Command("settings prefix")]
         [RequireUserPermission(GuildPermission.ManageGuild)]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task PrefixAsync(string prefix)
+        private async Task PrefixAsync(string prefix = null)
         {
             await Context.Message.DeleteAsync();
 
             BotConfig conf = BotConfig.Load();
             var gconf = conf.GetConfig(Context.Guild.Id);
+
+            if (prefix == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings prefix <prefix>`", false);
+                return;
+            }
+
             gconf.Prefix = prefix;
             conf.Save();
 
@@ -53,12 +67,18 @@ namespace LorisAngel.CommandModules
         [RequireUserPermission(GuildPermission.ManageGuild)]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task CensorAsync(string censor)
+        private async Task CensorAsync(string censor = null)
         {
             await Context.Message.DeleteAsync();
 
             BotConfig conf = BotConfig.Load();
             var gconf = conf.GetConfig(Context.Guild.Id);
+
+            if (censor == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings censor <True/False>`", false);
+                return;
+            }
 
             char c = censor.ToLower()[0];
             if (c == 't')
@@ -76,6 +96,37 @@ namespace LorisAngel.CommandModules
             else
             {
                 await Context.Channel.SendMessageAsync($"Incorrect use of command: Please use the command as follows `" + gconf.Prefix + "settings censor true` or `" + gconf.Prefix + "settings censor false`");
+            }
+        }
+
+        [Command("settings addcensor")]
+        [RequireUserPermission(GuildPermission.ManageGuild)]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task AddCensorAsync(string censor = null)
+        {
+            await Context.Message.DeleteAsync();
+
+            BotConfig conf = BotConfig.Load();
+            var gconf = conf.GetConfig(Context.Guild.Id);
+
+            if (censor == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings addcensor <word>`", false);
+                return;
+            }
+
+            string word = censor.ToLower().Trim();
+            if (word != string.Empty)
+            {
+                gconf.AddCensoredWord(word);
+                conf.Save();
+                await Context.Channel.SendMessageAsync($"The word {word} has been added to the guilds censor.");
+            }
+            else
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings addcensor <word>`", false);
+                return;
             }
         }
     }

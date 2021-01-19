@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Net.Bot;
+using Discord.Net.Bot.Database.Configs;
 using LorisAngel.Database;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,17 @@ namespace LorisAngel.CommandModules
         [Command("who")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task WhoAsync([Remainder] string question)
+        private async Task WhoAsync([Remainder] string question = null)
         {
             await Context.Message.DeleteAsync();
+
+            if (question == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}who <question>`", false);
+                return;
+            }
 
             ulong[] mentions = Context.Message.MentionedUserIds.ToArray<ulong>();
 
@@ -55,9 +64,9 @@ namespace LorisAngel.CommandModules
         [Alias("r")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        public async Task ReverseAsync([Remainder] string message = "")
+        public async Task ReverseAsync([Remainder] string message = null)
         {
-            if (message != "")
+            if (message != null)
             {
                 await Context.Message.DeleteAsync();
                 string newMessage = "";
@@ -69,64 +78,92 @@ namespace LorisAngel.CommandModules
 
                 await Context.Channel.SendMessageAsync(newMessage);
             }
+            else
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}reverse <message>`", false);
+                return;
+            }
         }
 
         [Command("binary")]
         [Alias("bin")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task BinaryAsync([Remainder] string text)
+        private async Task BinaryAsync([Remainder] string text = null)
         {
             await Context.Message.DeleteAsync();
-            var binary = ToBinary(ConvertToByteArray(text, Encoding.ASCII));
 
-            EmbedBuilder embed = new EmbedBuilder()
+            if (text != null)
             {
-                Title = $"Text to Binary",
-                Description = $"''{text}''\n\n{binary}",
-                Color = Color.DarkPurple
-            };
-            embed.Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." };
-            await Context.Channel.SendMessageAsync(null, false, embed.Build());
+                var binary = ToBinary(ConvertToByteArray(text, Encoding.ASCII));
+
+                EmbedBuilder embed = new EmbedBuilder()
+                {
+                    Title = $"Text to Binary",
+                    Description = $"''{text}''\n\n{binary}",
+                    Color = Color.DarkPurple
+                };
+                embed.Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." };
+                await Context.Channel.SendMessageAsync(null, false, embed.Build());
+            }
+            else
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}binary <message>`", false);
+                return;
+            }
         }
 
         [Command("8ball")]
         [Alias("8b")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task EightBallAsync([Remainder] string question)
+        private async Task EightBallAsync([Remainder] string question = null)
         {
             await Context.Message.DeleteAsync();
 
-            string reply;
 
-            Random rnd = new Random();
-            int random = rnd.Next(0, 3);
-            switch (random)
+            if (question != null)
             {
-                case 0:
-                    int y = rnd.Next(0, YES_REPLIES.Length);
-                    reply = YES_REPLIES[y];
-                    break;
-                case 1:
-                    int n = rnd.Next(0, NO_REPLIES.Length);
-                    reply = NO_REPLIES[n];
-                    break;
-                default:
-                    int m = rnd.Next(0, MAYBE_REPLIES.Length);
-                    reply = MAYBE_REPLIES[m];
-                    break;
+                string reply;
+                Random rnd = new Random();
+                int random = rnd.Next(0, 3);
+                switch (random)
+                {
+                    case 0:
+                        int y = rnd.Next(0, YES_REPLIES.Length);
+                        reply = YES_REPLIES[y];
+                        break;
+                    case 1:
+                        int n = rnd.Next(0, NO_REPLIES.Length);
+                        reply = NO_REPLIES[n];
+                        break;
+                    default:
+                        int m = rnd.Next(0, MAYBE_REPLIES.Length);
+                        reply = MAYBE_REPLIES[m];
+                        break;
+                }
+
+                EmbedBuilder embed = new EmbedBuilder()
+                {
+                    Title = question,
+                    Description = reply + "!",
+                    Color = Color.DarkPurple,
+                    Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
+                };
+
+                await Context.Channel.SendMessageAsync(null, false, embed.Build());
             }
-
-            EmbedBuilder embed = new EmbedBuilder()
+            else
             {
-                Title = question,
-                Description = reply + "!",
-                Color = Color.DarkPurple,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
-            };
-
-            await Context.Channel.SendMessageAsync(null, false, embed.Build());
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}8ball <question>`", false);
+                return;
+            }
         }
 
         [Command("dice")]
@@ -168,9 +205,17 @@ namespace LorisAngel.CommandModules
         [Alias("pickupline", "pickuplines")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task PickupAsync(IUser user)
+        private async Task PickupAsync(IUser user = null)
         {
             await Context.Message.DeleteAsync();
+
+            if (user == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}pickup <@user>`", false);
+                return;
+            }
 
             Random rnd = new Random();
             List<string> pickups = PickupsFile.Load().Pickups;
@@ -183,9 +228,17 @@ namespace LorisAngel.CommandModules
         [Command("kill")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task KillAsync(IUser user)
+        private async Task KillAsync(IUser user = null)
         {
             await Context.Message.DeleteAsync();
+
+            if (user == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}kill <@user>`", false);
+                return;
+            }
 
             Random rnd = new Random();
             List<string> deaths = DeathsFile.Load().Deaths;
@@ -205,7 +258,7 @@ namespace LorisAngel.CommandModules
         [Command("roast")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task RoastAsync(IUser user)
+        private async Task RoastAsync(IUser user = null)
         {
             await Context.Message.DeleteAsync();
             if (user == null) user = Context.User as IUser;
@@ -252,10 +305,16 @@ namespace LorisAngel.CommandModules
         [Command("compliment")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task ComplimentsAsync(IUser user)
+        private async Task ComplimentsAsync(IUser user = null)
         {
             await Context.Message.DeleteAsync();
-            if (user == null) user = Context.User as IUser;
+            if (user == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}compliment <@user>`", false);
+                return;
+            }
 
             Random rnd = new Random();
             if (Context.User.Id != user.Id)
@@ -277,9 +336,17 @@ namespace LorisAngel.CommandModules
         [Command("hug")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task HugAsync(IUser user)
+        private async Task HugAsync(IUser user = null)
         {
             await Context.Message.DeleteAsync();
+
+            if (user == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}hug <@user>`", false);
+                return;
+            }
 
             ComplimentsFile file = ComplimentsFile.Load();
             Random rnd = new Random();
@@ -299,9 +366,17 @@ namespace LorisAngel.CommandModules
         [Command("punish")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task PunishAsync(IUser user)
+        private async Task PunishAsync(IUser user = null)
         {
             await Context.Message.DeleteAsync();
+
+            if (user == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}punish <@user>`", false);
+                return;
+            }
 
             Random rnd = new Random();
             List<string> punishments = PunishFile.Load().Punishments;
@@ -338,9 +413,17 @@ namespace LorisAngel.CommandModules
         [Command("punishme")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task PunishMeAsync(IUser user)
+        private async Task PunishMeAsync(IUser user = null)
         {
             await Context.Message.DeleteAsync();
+
+            if (user == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}punishme <@user>`", false);
+                return;
+            }
 
             Random rnd = new Random();
             List<string> punishments = PunishFile.Load().Punishments;
@@ -383,9 +466,13 @@ namespace LorisAngel.CommandModules
         [RequireBotPermission(ChannelPermission.SendMessages)]
         private async Task ShipAsync(IUser user = null, IUser user1 = null)
         {
+            await Context.Message.DeleteAsync();
+
             if (user == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", "Correct Usage: `{gconf.Prefix}ship <user>` or `{gconf.Prefix}ship <user1> <user2>`", false);
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}ship <user>` or `{gconf.Prefix}ship <user1> <user2>`", false);
                 return;
             }
             if (user1 == null) user1 = (Context.User as IUser);
@@ -398,7 +485,7 @@ namespace LorisAngel.CommandModules
             string name = "";
 
             // Check if entry exists in database
-            var ship = ShipDatabase.DoesExist(user.Id, user1.Id);
+            var ship = RelationshipDatabase.DoesExist(user.Id, user1.Id);
             if (ship != null)
             {
                 score = ship.Percentage;
@@ -407,27 +494,28 @@ namespace LorisAngel.CommandModules
             else
             {
                 Random rnd = new Random();
-                score = rnd.Next(0, 100);
+                score = rnd.Next(10, 10000);
                 name = $"{name1[0].ToString().ToUpper()}{name1[1]}{name2[name2.Length - 3]}{name2[name2.Length - 2]}{name2[name2.Length - 1]}";
 
                 ship = new Relationship(user.Id, user1.Id, name1, name2, name, score);
-                ShipDatabase.SaveShip(ship);
+                RelationshipDatabase.SaveShip(ship);
             }
 
-            if (score > 95)
+            float percentage = (float)score / 100f;
+            if (percentage > 95f)
             {
                 title = $"{name1} 💘 {name2}";
-                message = $"I really ship {name}! They're soul mates, a {score}% match!";
+                message = $"I really ship {name}! They're soul mates, a {percentage}% match!";
             }
-            else if (score > 55)
+            else if (percentage > 55f)
             {
                 title = $"{name1} ❤️ {name2}";
-                message = $"I ship {name}! They get a {score}% match!";
+                message = $"I ship {name}! They get a {percentage}% match!";
             }
             else
             {
                 title = $"{name1} 💔 {name2}";
-                message = $"Can't say I ship {name}! They get a shitty {score}% match!";
+                message = $"Can't say I ship {name}! They get a shitty {percentage}% match!";
             }
 
             EmbedBuilder embed = new EmbedBuilder()

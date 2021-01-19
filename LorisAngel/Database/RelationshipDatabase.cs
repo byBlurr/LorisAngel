@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LorisAngel.Database
 {
-    class ShipDatabase
+    class RelationshipDatabase
     {
         private static bool Saving = false;
 
@@ -18,7 +18,7 @@ namespace LorisAngel.Database
 
             if (dbCon.IsConnect())
             {
-                var cmd = new MySqlCommand($"SELECT * FROM relationships WHERE (`id1` = '{user1}' AND `id2` = '{user2}') OR (`id2` = '{user1}' AND `id1` = '{user2}')", dbCon.Connection);
+                var cmd = new MySqlCommand($"SELECT * FROM relationships WHERE (id1 = '{user1}' AND id2 = '{user2}') OR (id2 = '{user1}' AND id1 = '{user2}')", dbCon.Connection);
                 var reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
@@ -69,10 +69,10 @@ namespace LorisAngel.Database
                         cmd.Dispose();
                     }
 
+                    Saving = false;
                     dbCon.Close();
                 }
 
-                Saving = false;
             });
         }
     }

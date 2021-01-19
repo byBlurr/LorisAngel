@@ -218,9 +218,9 @@ namespace LorisAngel.CommandModules
             }
 
             Random rnd = new Random();
-            List<string> pickups = PickupsFile.Load().Pickups;
+            List<FunObject> pickups = await FunDatabase.GetOfTypeAsync("pickup");
             int p = rnd.Next(0, pickups.Count);
-            string pickup = pickups[p].Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
+            string pickup = pickups[p].Text.Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
 
             await Context.Channel.SendMessageAsync(pickup);
         }
@@ -241,9 +241,9 @@ namespace LorisAngel.CommandModules
             }
 
             Random rnd = new Random();
-            List<string> deaths = DeathsFile.Load().Deaths;
+            List<FunObject> deaths = await FunDatabase.GetOfTypeAsync("deaths");
             int d = rnd.Next(0, deaths.Count);
-            string death = deaths[d].Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
+            string death = deaths[d].Text.Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
 
             EmbedBuilder embed = new EmbedBuilder()
             {
@@ -264,9 +264,9 @@ namespace LorisAngel.CommandModules
             if (user == null) user = Context.User as IUser;
 
             Random rnd = new Random();
-            List<string> roasts = RoastsFile.Load().Roasts;
+            List<FunObject> roasts = await FunDatabase.GetOfTypeAsync("roast");
             int d = rnd.Next(0, roasts.Count);
-            string roast = roasts[d].Replace("USER", Util.ToUppercaseFirst(user.Mention));
+            string roast = roasts[d].Text.Replace("USER", Util.ToUppercaseFirst(user.Mention));
 
             EmbedBuilder embed = new EmbedBuilder()
             {
@@ -287,9 +287,9 @@ namespace LorisAngel.CommandModules
             await Context.Message.DeleteAsync();
 
             Random rnd = new Random();
-            List<string> jokes = JokesFile.Load().Jokes;
+            List<FunObject> jokes = await FunDatabase.GetOfTypeAsync("joke");
             int d = rnd.Next(0, jokes.Count);
-            string joke = jokes[d];
+            string joke = jokes[d].Text;
 
             EmbedBuilder embed = new EmbedBuilder()
             {
@@ -319,16 +319,16 @@ namespace LorisAngel.CommandModules
             Random rnd = new Random();
             if (Context.User.Id != user.Id)
             {
-                List<string> compliments = ComplimentsFile.Load().Compliments;
+                List<FunObject> compliments = await FunDatabase.GetOfTypeAsync("compliment");
                 int d = rnd.Next(0, compliments.Count);
-                string compliment = compliments[d].Replace("USER", Util.ToUppercaseFirst(user.Mention));
+                string compliment = compliments[d].Text.Replace("USER", Util.ToUppercaseFirst(user.Mention));
                 await Context.Channel.SendMessageAsync(compliment);
             }
             else
             {
-                List<string> roasts = RoastsFile.Load().Roasts;
+                List<FunObject> roasts = await FunDatabase.GetOfTypeAsync("roast");
                 int d = rnd.Next(0, roasts.Count);
-                string roast = roasts[d].Replace("USER", Util.ToUppercaseFirst(user.Mention));
+                string roast = roasts[d].Text.Replace("USER", Util.ToUppercaseFirst(user.Mention));
                 await Context.Channel.SendMessageAsync(roast);
             }
         }
@@ -348,10 +348,10 @@ namespace LorisAngel.CommandModules
                 return;
             }
 
-            ComplimentsFile file = ComplimentsFile.Load();
+            List<FunObject> hugs = await FunDatabase.GetOfTypeAsync("hug");
             Random rnd = new Random();
-            int g = rnd.Next(0, file.HugGifs.Count);
-            string GIF = file.HugGifs[g];
+            int g = rnd.Next(0, hugs.Count);
+            string GIF = hugs[g].Extra;
 
             EmbedBuilder embed = new EmbedBuilder()
             {
@@ -379,10 +379,10 @@ namespace LorisAngel.CommandModules
             }
 
             Random rnd = new Random();
-            List<string> punishments = PunishFile.Load().Punishments;
+            List<FunObject> punishments = await FunDatabase.GetOfTypeAsync("roast");
             int r = rnd.Next(0, punishments.Count);
 
-            string punishment = punishments[r].Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
+            string punishment = punishments[r].Text.Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
 
             if (punishment.Contains("RUSER"))
             {
@@ -403,7 +403,7 @@ namespace LorisAngel.CommandModules
                 }
                 else
                 {
-                    punishment = punishments[0].Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
+                    punishment = punishments[0].Text.Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
                 }
             }
 
@@ -426,10 +426,10 @@ namespace LorisAngel.CommandModules
             }
 
             Random rnd = new Random();
-            List<string> punishments = PunishFile.Load().Punishments;
+            List<FunObject> punishments = await FunDatabase.GetOfTypeAsync("roast");
             int r = rnd.Next(0, punishments.Count);
 
-            string punishment = punishments[r].Replace("USER1", Util.ToUppercaseFirst(user.Mention)).Replace("USER2", Util.ToUppercaseFirst(Context.User.Mention));
+            string punishment = punishments[r].Text.Replace("USER1", Util.ToUppercaseFirst(user.Mention)).Replace("USER2", Util.ToUppercaseFirst(Context.User.Mention));
 
             await Context.Channel.SendMessageAsync(punishment);
         }
@@ -530,5 +530,66 @@ namespace LorisAngel.CommandModules
 
         public static byte[] ConvertToByteArray(string str, Encoding encoding) => encoding.GetBytes(str);
         public static String ToBinary(Byte[] data) => string.Join(" ", data.Select(byt => Convert.ToString(byt, 2).PadLeft(8, '0')));
+
+
+        // TODO: REMOVE THIS ONCE DONE
+        [Command("ADDDATA")]
+        private async Task AddDataAsync()
+        {
+            List<FunObject> AllObjects = new List<FunObject>();
+
+            List<string> punish = PunishFile.Load().Punishments;
+            List<string> joke = JokesFile.Load().Jokes;
+            List<string> compliment = ComplimentsFile.Load().Compliments;
+            List<string> hugs = ComplimentsFile.Load().HugGifs;
+            List<string> roast = RoastsFile.Load().Roasts;
+            List<string> death = DeathsFile.Load().Deaths;
+            List<string> pickup = PickupsFile.Load().Pickups;
+
+            foreach (string text in punish)
+            {
+                FunObject f = new FunObject(text);
+                f.DaType = "punish";
+                AllObjects.Add(f);
+            }
+            foreach (string text in joke)
+            {
+                FunObject f = new FunObject(text);
+                f.DaType = "joke";
+                AllObjects.Add(f);
+            }
+            foreach (string text in compliment)
+            {
+                FunObject f = new FunObject(text);
+                f.DaType = "compliment";
+                AllObjects.Add(f);
+            }
+            foreach (string text in hugs)
+            {
+                FunObject f = new FunObject("", text);
+                f.DaType = "punish";
+                AllObjects.Add(f);
+            }
+            foreach (string text in roast)
+            {
+                FunObject f = new FunObject(text);
+                f.DaType = "roast";
+                AllObjects.Add(f);
+            }
+            foreach (string text in death)
+            {
+                FunObject f = new FunObject(text);
+                f.DaType = "death";
+                AllObjects.Add(f);
+            }
+            foreach (string text in pickup)
+            {
+                FunObject f = new FunObject(text);
+                f.DaType = "pickup";
+                AllObjects.Add(f);
+            }
+
+            await FunDatabase.AddAllToDatabase(AllObjects);
+        }
     }
 }

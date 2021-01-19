@@ -1,15 +1,93 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Net.Bot;
+using Discord.Net.Bot.Database.Configs;
+using LorisAngel.Database;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LorisAngel.CommandModules
 {
     public class UserModule : ModuleBase
     {
+        [Command("profile")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task ProfileAsync(IUser user = null)
+        {
+            await Context.Message.DeleteAsync();
+            if (user == null) await ViewProfileAsync(Context, Context.User);
+            else await ViewProfileAsync(Context, user);
+        }
+
+        [Command("profile")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task ProfileAsync(ulong id)
+        {
+            await Context.Message.DeleteAsync();
+
+            var user = CommandHandler.GetBot().GetUser(id);
+
+            if (user != null) await ViewProfileAsync(Context, user);
+            else
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}profile <@user>`", false);
+                return;
+            }
+        }
+
+        private async Task ViewProfileAsync(ICommandContext Context, IUser User)
+        {
+            if (User.IsBot)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Profile Not Found", $"You can not use this command on bots!", false);
+                return;
+            }
+
+            LoriUser profile = ProfileDatabase.GetUser(User.Id);
+            if (profile == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Profile Not Found", $"That users profile could not be found?", false);
+                return;
+            }
+
+            string avatar = User.GetAvatarUrl(size: 2048);
+            string status = "**" + User.Status.ToString() + " for ";
+
+            DateTime now = DateTime.Now;
+            int seconds = (int)((now - profile.LastSeen).TotalSeconds);
+            int minutes = (int)((now - profile.LastSeen).TotalMinutes);
+            int hours = (int)((now - profile.LastSeen).TotalHours);
+            int days = (int)((now - profile.LastSeen).TotalDays);
+
+            if (days > 0) status += $"{days} Days**";
+            else if (hours > 0) status += $"{hours} Hours**";
+            else if (minutes > 0) status += $"{minutes} Minutes**";
+            else status += $"{seconds} Seconds**";
+
+            if (User.Activity != null) status += $"\n {User.Activity.ToString()}";
+
+            EmbedBuilder embed = new EmbedBuilder()
+            {
+                Author = new EmbedAuthorBuilder() { IconUrl = avatar, Name = $"{User.Username}#{User.Discriminator}" },
+                Description = status,
+                Color = Color.DarkPurple,
+                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  This is a temporary look for profiles..." },
+            };
+
+            embed.AddField(new EmbedFieldBuilder() { Name = "Account Created On: ", Value = profile.CreatedOn.ToShortDateString(), IsInline = true });
+            embed.AddField(new EmbedFieldBuilder() { Name = "Profile Created On: ", Value = profile.JoinedOn.ToShortDateString(), IsInline = true });
+            embed.AddField(new EmbedFieldBuilder() { Name = "Last Updated On: ", Value = profile.LastUpdated.ToShortDateString(), IsInline = true });
+            embed.AddField(new EmbedFieldBuilder() { Name = "Unique Identifier: ", Value = profile.Id, IsInline = true });
+            embed.AddField(new EmbedFieldBuilder() { Name = "Username: ", Value = User.Username + "#" + User.Discriminator, IsInline = true });
+            embed.AddField(new EmbedFieldBuilder() { Name = "Lori's Angel Guilds: ", Value = LCommandHandler.GetUserGuildCount(User.Id), IsInline = true });
+
+            await Context.Channel.SendMessageAsync(null, false, embed.Build());
+        }
+
         [Command("avatar")]
         [Alias("av")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]

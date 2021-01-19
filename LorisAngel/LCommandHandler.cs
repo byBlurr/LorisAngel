@@ -27,8 +27,9 @@ namespace LorisAngel
             commands.Add(new BotCommand("changelog", "changelog", "View the bots changelog and see what is coming soon.", CommandCategory.BotRelated));
             
             // User commands (All to be written from scratch)
-            //commands.Add(new BotCommand("profile", "profile <@user>", "View the users profile.", CommandCategory.User));
+            commands.Add(new BotCommand("profile", "profile <@user>", "View the users profile.", CommandCategory.User));
             commands.Add(new BotCommand("av", "av <@user>", "View the users profile picture.", CommandCategory.User));
+            //commands.Add(new BotCommand("requestdata", "requestdata", "Request a copy of your userdata.", CommandCategory.User));
 
             // Guild commands
             commands.Add(new BotCommand("oldest", "oldest", "Check who has the oldest Discord account in the server.", CommandCategory.Server));
@@ -138,6 +139,16 @@ namespace LorisAngel
         private async Task CensorMessageAsync(SocketMessage message)
         {
             await Moderation.CheckMessageAsync(message);
+        }
+
+        public static int GetUserGuildCount(ulong id)
+        {
+            int count = 0;
+            foreach (var guild in bot.Guilds)
+            {
+                if (guild.GetUser(id) != null) count++;
+            }
+            return count;
         }
     }
 }

@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.Net.Bot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,6 +49,32 @@ namespace LorisAngel.CommandModules
         {
             await Context.Message.DeleteAsync();
             await Context.Channel.SendMessageAsync("Guild Region: " + Util.ToUppercaseFirst(Context.Guild.VoiceRegionId));
+        }
+
+        [Command("biggestguild")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task BiggestGuildAsync()
+        {
+            await Context.Message.DeleteAsync();
+
+            var guilds = CommandHandler.GetBot().Guilds.ToList().OrderByDescending(x => x.Users.Count);
+            string list = "";
+            int count = 0;
+            foreach (var g in guilds)
+            {
+                count++;
+                if (count <= 10)
+                {
+                    list += $"\n[{count}] {g.Name} ({g.Id}) - {g.Users.Count} users";
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            await Context.Channel.SendMessageAsync("Biggest Guilds:" + list);
         }
     }
 }

@@ -82,6 +82,15 @@ namespace LorisAngel.Database
             });
         }
 
+        public static LoriUser GetUser(ulong id)
+        {
+            foreach (LoriUser usr in Users)
+            {
+                if (usr.Id == id) return usr;
+            }
+            return null;
+        }
+
         // Get all users
         private static async Task<List<LoriUser>> GetAllUsersAsync()
         {
@@ -255,10 +264,7 @@ namespace LorisAngel.Database
             if (!newStatus.ToString().Equals(Status))
             {
                 Status = newStatus.ToString();
-                if (newStatus == UserStatus.Offline || newStatus == UserStatus.Invisible)
-                {
-                    LastSeen = DateTime.Now;
-                }
+                LastSeen = DateTime.Now;
 
                 HasChanged = true;
                 LastUpdated = DateTime.Now;

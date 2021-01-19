@@ -4,7 +4,6 @@ using Discord.Net.Bot.Database.Sql;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LorisAngel.Database
@@ -31,7 +30,7 @@ namespace LorisAngel.Database
                         {
                             if (!DoesUserExist(u.Id) && !u.IsBot)
                             {
-                                LoriUser newUser = new LoriUser(u.Id, u.Username, u.CreatedAt.DateTime, DateTime.Now, new DateTime(), u.Status.ToString(), "");
+                                LoriUser newUser = new LoriUser(u.Id, u.Username, u.CreatedAt.DateTime, DateTime.Now, new DateTime(), u.Status.ToString(), "", DateTime.Now);
                                 await AddUserToDatabaseAsync(newUser);
                                 newUsers++;
                             }
@@ -47,10 +46,9 @@ namespace LorisAngel.Database
                 while (true)
                 {
                     DateTime startTime = DateTime.Now;
-                    await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", $"Saving users..."));
                     await SaveAllUsersAsync(Users);
                     int timetosave = (int)((DateTime.Now - startTime).TotalSeconds);
-                    /**if (timetosave > 5)**/ await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", $"Saving users took {timetosave} seconds"));
+                    if (timetosave > 5) await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", $"Saving users took {timetosave} seconds"));
                     await Task.Delay(60000); // Save users once a minute
                 }
             });
@@ -106,8 +104,9 @@ namespace LorisAngel.Database
                         DateTime joinedOn = reader.GetDateTime(3);
                         DateTime lastSeen = reader.GetDateTime(4);
                         string status = reader.GetString(5);
+                        DateTime lastUpdated = reader.GetDateTime(7);
 
-                        LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, "");
+                        LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, "", lastUpdated);
                         users.Add(newUser);
                     }
                 }
@@ -131,11 +130,12 @@ namespace LorisAngel.Database
                 {
                     if (user.HasChanged)
                     {
-                        var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status WHERE id = @id", dbCon.Connection);
+                        var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status, lastupdated = @lastupdated WHERE id = @id", dbCon.Connection);
                         cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
                         cmd.Parameters.Add("@name", MySqlDbType.String).Value = "";
                         cmd.Parameters.Add("@lastseen", MySqlDbType.DateTime).Value = user.LastSeen;
                         cmd.Parameters.Add("@status", MySqlDbType.String).Value = user.Status;
+                        cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
 
                         try
                         {
@@ -193,7 +193,7 @@ namespace LorisAngel.Database
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
             if (dbCon.IsConnect())
             {
-                var cmd = new MySqlCommand($"INSERT INTO users (id, name, createdon, joinedon, lastseen, status, badges) VALUES (@id, @name, @createdon, @joinedon, @lastseen, @status, @badges)", dbCon.Connection);
+                var cmd = new MySqlCommand($"INSERT INTO users (id, name, createdon, joinedon, lastseen, status, badges, lastupdated) VALUES (@id, @name, @createdon, @joinedon, @lastseen, @status, @badges, @lastupdated)", dbCon.Connection);
                 cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
                 cmd.Parameters.Add("@name", MySqlDbType.String).Value = "";
                 cmd.Parameters.Add("@createdon", MySqlDbType.DateTime).Value = user.CreatedOn;
@@ -201,6 +201,7 @@ namespace LorisAngel.Database
                 cmd.Parameters.Add("@lastseen", MySqlDbType.DateTime).Value = user.LastSeen;
                 cmd.Parameters.Add("@status", MySqlDbType.String).Value = user.Status;
                 cmd.Parameters.Add("@badges", MySqlDbType.String).Value = "";
+                cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
 
                 try
                 {
@@ -234,8 +235,9 @@ namespace LorisAngel.Database
         public string Status { get; private set; }
         public string Badges { get; private set; } // WILL BE A LIST OF BADGES ONCE BADGES ADDED
         public bool HasChanged { get; set; }
+        public DateTime LastUpdated { get; set; }
 
-        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges = "")
+        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated)
         {
             Id = id;
             Name = name.Normalize() ?? throw new ArgumentNullException(nameof(name));
@@ -245,6 +247,7 @@ namespace LorisAngel.Database
             Status = status ?? throw new ArgumentNullException(nameof(status));
             Badges = badges;
             HasChanged = false;
+            LastUpdated = lastUpdated;
         }
 
         public void UpdateStatus(UserStatus newStatus)
@@ -258,6 +261,7 @@ namespace LorisAngel.Database
                 }
 
                 HasChanged = true;
+                LastUpdated = DateTime.Now;
             }
         }
 
@@ -267,6 +271,7 @@ namespace LorisAngel.Database
             if (newName.Normalize() == Name) return;
             Name = newName.Normalize();
             HasChanged = true;
+            LastUpdated = DateTime.Now;
         }
 
         public override bool Equals(object obj)

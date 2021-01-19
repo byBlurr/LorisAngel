@@ -46,7 +46,7 @@ namespace LorisAngel.Database
                     DateTime startTime = DateTime.Now;
                     await SaveAllUsersAsync(Users);
                     int timetosave = (int)((DateTime.Now - startTime).TotalSeconds);
-                    if (timetosave > 5) await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", $"Saving users took {timetosave} seconds"));
+                    /**if (timetosave > 5)**/ await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", $"Saving users took {timetosave} seconds"));
                     await Task.Delay(60000); // Save users once a minute
                 }
             });
@@ -248,17 +248,18 @@ namespace LorisAngel.Database
             if (!newStatus.ToString().Equals(Status))
             {
                 Status = newStatus.ToString();
-                HasChanged = true;
-            }
-            if (!(newStatus == UserStatus.Offline || newStatus == UserStatus.Invisible))
-            {
-                LastSeen = DateTime.Now;
+                if (newStatus == UserStatus.Offline || newStatus == UserStatus.Invisible)
+                {
+                    LastSeen = DateTime.Now;
+                }
+
                 HasChanged = true;
             }
         }
 
         public void UpdateName(string newName)
         {
+            return; // WE ARENT USING THIS FOR NOW
             if (newName.Normalize() == Name) return;
             Name = newName.Normalize();
             HasChanged = true;

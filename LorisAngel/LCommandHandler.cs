@@ -166,6 +166,7 @@ namespace LorisAngel
             });
 
             await ProfileDatabase.ProcessUsers();
+            await ModerationDatabase.ProcessBansAsync();
         }
 
         private async Task JoinedGuildAsync(SocketGuild guild)

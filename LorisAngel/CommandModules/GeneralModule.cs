@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
+using LorisAngel.Utility;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -10,6 +11,16 @@ namespace LorisAngel.CommandModules
 {
     public class GeneralModule : ModuleBase
     {
+        [Command("help")]
+        [Alias("?")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task HelpAsync(string c = null, int page = 1)
+        {
+            EmbedBuilder embed = Help.GetCommandHelp(Context.Guild.Id, c, page);
+            await Context.Channel.SendMessageAsync(null, false, embed.Build());
+        }
+
         [Command("invite")]
         [Alias("inv")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]

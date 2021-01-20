@@ -19,6 +19,19 @@ namespace LorisAngel.Games
             return false;
         }
 
+        public static Game GetGame(ulong gameId, GameType gamemode)
+        {
+            foreach (Game game in OngoingGames)
+            {
+                if (game.GameId == gameId && game.Gamemode == gamemode)
+                {
+                    return game;
+                }
+            }
+
+            return null;
+        }
+
         public static void AddNewGame(Game game)
         {
             if (!OngoingGames.Contains(game)) OngoingGames.Add(game);

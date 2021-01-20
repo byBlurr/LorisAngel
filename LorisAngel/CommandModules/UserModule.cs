@@ -63,9 +63,9 @@ namespace LorisAngel.CommandModules
             int hours = (int)((now - profile.LastSeen).TotalHours);
             int days = (int)((now - profile.LastSeen).TotalDays);
 
-            if (days > 0) status += $"{days} Days**";
-            else if (hours > 0) status += $"{hours} Hours**";
-            else if (minutes > 0) status += $"{minutes} Minutes**";
+            if (days > 0) status += $"{days} Days and {hours - (days * 24)} Hours**";
+            else if (hours > 0) status += $"{hours} Hours and {minutes - (hours * 60)} Minutes**";
+            else if (minutes > 0) status += $"{minutes} Minutes and {seconds - (minutes * 60)} Seconds**";
             else status += $"{seconds} Seconds**";
 
             if (User.Activity != null) status += $"\n {User.Activity.ToString()}";

@@ -116,10 +116,17 @@ namespace LorisAngel.Utility
                 {
                     Title = "Help: " + Util.ToUppercaseFirst(commandToDisplay.Handle),
                     Color = Color.DarkPurple,
+                    Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  <> - Required argument, [] - Optional argument" }
                 };
 
-                // TODO: THIS WILL BE CHANGED ON NEXT VERSION OF BOT LIBRARY
-                embed.Description = $"{commandToDisplay.Description}\n\n**Usage:**\n{commandToDisplay.Usage}";
+                string desc = $"{commandToDisplay.Description}\n\n**Usage:**";
+
+                foreach (var usage in commandToDisplay.Usage)
+                {
+                    desc += $"\n**{usage.ToString()}** (eg. {usage.ToExample()})";
+                }
+
+                embed.Description = desc;
             }
 
             return embed;

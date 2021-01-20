@@ -1,11 +1,13 @@
 ﻿using Discord;
 using Discord.Net.Bot;
+using Discord.Net.Bot.CommandModules;
 using Discord.Net.Bot.Database.Configs;
 using Discord.WebSocket;
 using LorisAngel.Database;
 using LorisAngel.Utility;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LorisAngel
@@ -18,23 +20,41 @@ namespace LorisAngel
         {
             commands.Clear();
 
+            List<CommandArgument> emptyArguments = new List<CommandArgument>();
+
             // General commands
-            commands.Add(new BotCommand("help", "help", "Get help using Lori's Angel.", CommandCategory.BotRelated));
-            commands.Add(new BotCommand("invite", "invite", "Receive the invite link to add LorisAngel to your server.", CommandCategory.BotRelated));
-            commands.Add(new BotCommand("users", "users", "Check how many guilds the bot is in and how many total users.", CommandCategory.BotRelated));
-            commands.Add(new BotCommand("uptime", "uptime", "Check how long the bot has been live since last restart.", CommandCategory.BotRelated));
-            commands.Add(new BotCommand("settings", "settings", "Adjust the bots settings for this guild.", CommandCategory.BotRelated));
-            commands.Add(new BotCommand("changelog", "changelog", "View the bots changelog and see what is coming soon.", CommandCategory.BotRelated));
-            commands.Add(new BotCommand("webpanel", "webpanel", "Help with accessing the webpanel for setting server/user preferences.", CommandCategory.BotRelated));
-            
+            List<CommandArgument> arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.TEXT, true, "botrelated") };
+            CommandUsage[] helpUsage = { new CommandUsage("help", arguments) };
+            commands.Add(new BotCommand("help", helpUsage, "Get help using Lori's Angel.", CommandCategory.BotRelated));
+            CommandUsage[] inviteUsage = { new CommandUsage("invite", emptyArguments) };
+            commands.Add(new BotCommand("invite", inviteUsage, "Receive the invite link to add LorisAngel to your server.", CommandCategory.BotRelated));
+            CommandUsage[] usersUsage = { new CommandUsage("users", emptyArguments) };
+            commands.Add(new BotCommand("users", usersUsage, "Check how many guilds the bot is in and how many total users.", CommandCategory.BotRelated));
+            CommandUsage[] uptimeUsage = { new CommandUsage("uptime", emptyArguments) };
+            commands.Add(new BotCommand("uptime", uptimeUsage, "Check how long the bot has been live since last restart.", CommandCategory.BotRelated));
+            CommandUsage[] settingsUsage = { new CommandUsage("settings", emptyArguments) };
+            commands.Add(new BotCommand("settings", settingsUsage, "Adjust the bots settings for this guild.", CommandCategory.BotRelated));
+            CommandUsage[] changelogUsage = { new CommandUsage("changelog", emptyArguments) };
+            commands.Add(new BotCommand("changelog", changelogUsage, "View the bots changelog and see what is coming soon.", CommandCategory.BotRelated));
+            CommandUsage[] webpanelUsage = { new CommandUsage("webpanel", emptyArguments) };
+            commands.Add(new BotCommand("webpanel", webpanelUsage, "Help with accessing the webpanel for setting server/user preferences.", CommandCategory.BotRelated));
+
+
             // User commands (All to be written from scratch)
-            commands.Add(new BotCommand("profile", "profile <@user>", "View the users profile.", CommandCategory.User));
-            commands.Add(new BotCommand("av", "av <@user>", "View the users profile picture.", CommandCategory.User));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, true) };
+            CommandUsage[] profileUsage = { new CommandUsage("profile", arguments) };
+            commands.Add(new BotCommand("profile", profileUsage, "View the users profile.", CommandCategory.User));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, true) };
+            CommandUsage[] avUsage = { new CommandUsage("av", arguments) };
+            commands.Add(new BotCommand("av", avUsage, "View the users profile picture.", CommandCategory.User));
 
             // Guild commands
-            commands.Add(new BotCommand("oldest", "oldest", "Check who has the oldest Discord account in the server.", CommandCategory.Server));
-            commands.Add(new BotCommand("region", "region", "Check the region of the server you are currently in.", CommandCategory.Server));
-            commands.Add(new BotCommand("stats", "stats", "View statistics of this server.", CommandCategory.Server));
+            CommandUsage[] oldestUsage = { new CommandUsage("oldest", emptyArguments) };
+            commands.Add(new BotCommand("oldest", oldestUsage, "Check who has the oldest Discord account in the server.", CommandCategory.Server));
+            CommandUsage[] regionUsage = { new CommandUsage("region", emptyArguments) };
+            commands.Add(new BotCommand("region", regionUsage, "Check the region of the server you are currently in.", CommandCategory.Server));
+            CommandUsage[] statsUsage = { new CommandUsage("stats", emptyArguments) };
+            commands.Add(new BotCommand("stats", statsUsage, "View statistics of this server.", CommandCategory.Server));
 
             // Games commands
             //commands.Add(new BotCommand("connect4", "connect4 <@user> or c4 <@user>", "Play a game of Connect 4.", CommandCategory.Games));
@@ -42,25 +62,51 @@ namespace LorisAngel
             //commands.Add(new BotCommand("snakesandladders", "snake <@user> <@user> <@user>", "Play a game of Snakes and Ladders (Minimum of two players).", CommandCategory.Games));
 
             // Fun commands
-            commands.Add(new BotCommand("pickup", "pickup <@user>", "Use a pickup line on the user.", CommandCategory.Fun));
-            commands.Add(new BotCommand("kill", "kill <@user>", "Kill the user.", CommandCategory.Fun));
-            commands.Add(new BotCommand("roast", "roast <@user>", "Roast the user.", CommandCategory.Fun));
-            commands.Add(new BotCommand("joke", "joke", "Have the bot tell a joke.", CommandCategory.Fun));
-            commands.Add(new BotCommand("compliment", "compliment <@user>", "Compliment the user.", CommandCategory.Fun));
-            commands.Add(new BotCommand("hug", "hug <@user>", "Hug the user.", CommandCategory.Fun));
-            commands.Add(new BotCommand("punish", "punish <@user>", "Punish the user.", CommandCategory.Fun));
-            commands.Add(new BotCommand("punishme", "punishme <@user>", "Have the user punish you.", CommandCategory.Fun));
-            commands.Add(new BotCommand("epic", "epic <@user>", "See the users epic rating.", CommandCategory.Fun));
-            commands.Add(new BotCommand("who", "who <question>", "Ask a question such as 'Who is the tallest @Blurr or @Knight?` for the bot to answer.", CommandCategory.Fun));
-            commands.Add(new BotCommand("reverse", "reverse <message>", "The bot will mirror the message.", CommandCategory.Fun));
-            commands.Add(new BotCommand("binary", "binary <message>", "The bot will convert the message into binary.", CommandCategory.Fun));
-            commands.Add(new BotCommand("8ball", "8ball <question>", "Ask the bot a yes/no question.", CommandCategory.Fun));
-            commands.Add(new BotCommand("dice", "dice <amount>", "Roll a 6 sided dice or multiple.", CommandCategory.Fun));
-            commands.Add(new BotCommand("ship", "ship <@user> or ship <@user1> <@user2>", "Check your compatibility together.", CommandCategory.Fun));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false) };
+            CommandUsage[] pickupUsage = { new CommandUsage("pickup", arguments) };
+            commands.Add(new BotCommand("pickup", pickupUsage, "Use a pickup line on the user.", CommandCategory.Fun));
+            CommandUsage[] killUsage = { new CommandUsage("kill", arguments) };
+            commands.Add(new BotCommand("kill", killUsage, "Kill the user.", CommandCategory.Fun));
+            CommandUsage[] roastUsage = { new CommandUsage("roast", arguments) };
+            commands.Add(new BotCommand("roast", roastUsage, "Roast the user.", CommandCategory.Fun));
+            CommandUsage[] jokeUsage = { new CommandUsage("joke", emptyArguments) };
+            commands.Add(new BotCommand("joke", jokeUsage, "Have the bot tell a joke.", CommandCategory.Fun));
+            CommandUsage[] complimentUsage = { new CommandUsage("compliment", arguments) };
+            commands.Add(new BotCommand("compliment", complimentUsage, "Compliment the user.", CommandCategory.Fun));
+            CommandUsage[] hugUsage = { new CommandUsage("hug", arguments) };
+            commands.Add(new BotCommand("hug", hugUsage, "Hug the user.", CommandCategory.Fun));
+            CommandUsage[] punishUsage = { new CommandUsage("punish", arguments) };
+            commands.Add(new BotCommand("punish", punishUsage, "Punish the user.", CommandCategory.Fun));
+            CommandUsage[] punishmeUsage = { new CommandUsage("punishme", arguments) };
+            commands.Add(new BotCommand("punishme", punishmeUsage, "Have the user punish you.", CommandCategory.Fun));
+            CommandUsage[] epicUsage = { new CommandUsage("epic", arguments) };
+            commands.Add(new BotCommand("epic", epicUsage, "See the users epic rating.", CommandCategory.Fun));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.TEXT, false, "Who is the tallest @Blurr or @Knight?") };
+            CommandUsage[] whoUsage = { new CommandUsage("who", arguments) };
+            commands.Add(new BotCommand("who", whoUsage, "Ask a question for the bot to answer.", CommandCategory.Fun));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.TEXT, false) };
+            CommandUsage[] reverseUsage = { new CommandUsage("reverse", arguments) };
+            commands.Add(new BotCommand("reverse", reverseUsage, "The bot will mirror the message.", CommandCategory.Fun));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.TEXT, false) };
+            CommandUsage[] binaryUsage = { new CommandUsage("binary", arguments) };
+            commands.Add(new BotCommand("binary", binaryUsage, "The bot will convert the message into binary.", CommandCategory.Fun));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.TEXT, false, "Is Blurr the best?") };
+            CommandUsage[] ballUsage = { new CommandUsage("8ball", arguments) };
+            commands.Add(new BotCommand("8ball", ballUsage, "Ask the bot a yes/no/maybe question.", CommandCategory.Fun));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.NUMBER, true) };
+            CommandUsage[] diceUsage = { new CommandUsage("dice", arguments) };
+            commands.Add(new BotCommand("dice", diceUsage, "Roll a 6 sided dice or multiple.", CommandCategory.Fun));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.USER, true) };
+            CommandUsage[] shipUsage = { new CommandUsage("ship", arguments) };
+            commands.Add(new BotCommand("ship", shipUsage, "Check your compatibility together.", CommandCategory.Fun));
 
             // Moderation commands
-            commands.Add(new BotCommand("kick", "kick <@user> <reason>", "Kick a member from the server.", CommandCategory.Moderation));
-            commands.Add(new BotCommand("ban", "ban <@user> <reason>", "Ban a member from the server.", CommandCategory.Moderation));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.TEXT, true, "Being mean!") };
+            CommandUsage[] kickUsage = { new CommandUsage("kick", arguments) };
+            commands.Add(new BotCommand("kick", kickUsage, "Kick a member from the server.", CommandCategory.Moderation));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.TEXT, true, "Being mean!") };
+            CommandUsage[] banUsage = { new CommandUsage("ban", arguments) };
+            commands.Add(new BotCommand("ban", banUsage, "Ban a member from the server.", CommandCategory.Moderation));
             //commands.Add(new BotCommand("tempban", "tempban <@user> <minutes> <reason>", "Temp ban a member from the server.", CommandCategory.Moderation));
             //commands.Add(new BotCommand("mute", "mute <@user> <reason>", "Mute a member from the server.", CommandCategory.Moderation));
         }

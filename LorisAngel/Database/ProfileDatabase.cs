@@ -75,7 +75,7 @@ namespace LorisAngel.Database
                     {
                         foreach (var u in CommandHandler.GetBot().GetGuild(g.Id).Users)
                         {
-                            if (!DoesUserExistMemory(u.Id) && !u.IsBot)
+                            if (!DoesUserExistInMemory(u.Id) && !u.IsBot)
                             {
                                 CreateNewUser((u as IUser));
                                 newUsers++;
@@ -185,7 +185,7 @@ namespace LorisAngel.Database
 
 
         // Check if user exists in database
-        private static bool DoesUserExistDatabase(ulong id)
+        private static bool DoesUserExistInDatabase(ulong id)
         {
             var dbCon = DBConnection.Instance();
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
@@ -214,7 +214,7 @@ namespace LorisAngel.Database
         }
 
         // Check if user exists in memory
-        public static bool DoesUserExistMemory(ulong id)
+        public static bool DoesUserExistInMemory(ulong id)
         {
             foreach (LoriUser usr in Users)
             {

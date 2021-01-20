@@ -128,7 +128,7 @@ namespace LorisAngel
 
             foreach (var user in guild.Users)
             {
-                if (!ProfileDatabase.DoesUserExistMemory(user.Id) && !user.IsBot)
+                if (!ProfileDatabase.DoesUserExistInMemory(user.Id) && !user.IsBot)
                 {
                     ProfileDatabase.CreateNewUser((user as IUser));
                 }
@@ -137,7 +137,7 @@ namespace LorisAngel
 
         private async Task UserJoinedAsync(SocketGuildUser user)
         {
-            if (!ProfileDatabase.DoesUserExistMemory(user.Id) && !user.IsBot)
+            if (!ProfileDatabase.DoesUserExistInMemory(user.Id) && !user.IsBot)
             {
                 ProfileDatabase.CreateNewUser((user as IUser));
             }

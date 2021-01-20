@@ -77,9 +77,7 @@ namespace LorisAngel.Database
                         {
                             if (!DoesUserExistMemory(u.Id) && !u.IsBot)
                             {
-                                LoriUser newUser = new LoriUser(u.Id, u.Username, u.CreatedAt.DateTime, DateTime.Now, new DateTime(), u.Status.ToString(), "", DateTime.Now);
-                                newUser.SetNew();
-                                Users.Add(newUser);
+                                CreateNewUser((u as IUser));
                                 newUsers++;
                             }
                         }
@@ -91,6 +89,7 @@ namespace LorisAngel.Database
             });
         }
 
+        // Get a specific user profile
         public static LoriUser GetUser(ulong id)
         {
             foreach (LoriUser usr in Users)
@@ -99,6 +98,7 @@ namespace LorisAngel.Database
             }
             return null;
         }
+
 
         // Get all users
         private static async Task<List<LoriUser>> GetAllUsersAsync()
@@ -254,6 +254,16 @@ namespace LorisAngel.Database
 
                 dbCon.Close();
             }
+        }
+
+        // Create a new user and add it to the Users list
+        public static void CreateNewUser(IUser user)
+        {
+            DateTime lastseen = new DateTime();
+            if (user.Status != UserStatus.Offline && user.Status != UserStatus.Invisible) lastseen = DateTime.Now;
+            LoriUser newUser = new LoriUser(user.Id, "", user.CreatedAt.DateTime, DateTime.Now, lastseen, user.Status.ToString(), "", DateTime.Now);
+            newUser.SetNew();
+            Users.Add(newUser);
         }
 
         // Remove user from database

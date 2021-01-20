@@ -33,8 +33,13 @@ namespace LorisAngel.Rendering
             Graphics graphicImage = Graphics.FromImage(editedBitmap);
             graphicImage.SmoothingMode = SmoothingMode.AntiAlias;
 
-            Bitmap backTexture = new Bitmap(Path.Combine(AppContext.BaseDirectory, $"textures/background_{Name}.png"));
-            graphicImage.DrawImage(backTexture, 0, 0, width, height);
+            // Only render background if the file exists, not all games have background
+            string backgroundPath = Path.Combine(AppContext.BaseDirectory, $"textures/background_{Name}.png");
+            if (File.Exists(backgroundPath))
+            {
+                Bitmap backTexture = new Bitmap(backgroundPath);
+                graphicImage.DrawImage(backTexture, 0, 0, width, height);
+            }
 
             for (int x = 0; x < Grid.GetLength(0); x++)
             {

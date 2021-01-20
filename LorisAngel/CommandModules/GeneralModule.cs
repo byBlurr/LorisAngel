@@ -17,6 +17,7 @@ namespace LorisAngel.CommandModules
         [RequireBotPermission(ChannelPermission.SendMessages)]
         private async Task HelpAsync(string c = null, int page = 1)
         {
+            await Context.Message.DeleteAsync();
             EmbedBuilder embed = Help.GetCommandHelp(Context.Guild.Id, c, page);
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }
@@ -94,6 +95,22 @@ namespace LorisAngel.CommandModules
         {
             await Context.Message.DeleteAsync();
             await Context.Channel.SendMessageAsync("```markdown\n" + File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "changelog.txt")) + "\n```");
+        }
+
+        [Command("webpanel")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task WebpanelAsync()
+        {
+            await Context.Message.DeleteAsync();
+
+            EmbedBuilder embed = new EmbedBuilder()
+            {
+                Author = new EmbedAuthorBuilder() { Name = "Access Webpanel Here", Url = "https://www.bored.com/" },
+                Description = "The webpanel has not yet been implemented. Once implemented you will be able to set server settings (such as toggle moderation commands), set user preferences (such as what data can be shown) and userdata requests (such as request data to be removed)."
+            };
+
+            await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }
     }
 }

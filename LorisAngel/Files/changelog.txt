@@ -4,7 +4,7 @@
 - Added Tic Tac Toe (TODO)
 - Added Snakes and Ladders (TODO)
 - Added mute command (TODO)
-- Added tempban command (TODO)
+- Added tempban command (-help tempban)
 
 # Version 2.0.2 - Minor Tweaks and Fixes
 - Added moderator commands (-help moderation)

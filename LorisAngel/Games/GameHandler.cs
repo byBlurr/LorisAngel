@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace LorisAngel.Games
 {
@@ -8,11 +6,11 @@ namespace LorisAngel.Games
     {
         private static List<Game> OngoingGames = new List<Game>();
 
-        public static bool DoesGameExist(ulong gameId)
+        public static bool DoesGameExist(ulong gameId, GameType gamemode)
         {
             foreach (Game game in OngoingGames)
             {
-                if (game.GameId == gameId)
+                if (game.GameId == gameId && game.Gamemode == gamemode)
                 {
                     return true;
                 }
@@ -31,11 +29,11 @@ namespace LorisAngel.Games
             if (OngoingGames.Contains(game)) OngoingGames.Remove(game);
         }
 
-        public static ulong CheckForWinner(ulong gameId)
+        public static ulong CheckForWinner(ulong gameId, GameType gamemode)
         {
             foreach (Game game in OngoingGames)
             {
-                if (game.GameId == gameId)
+                if (game.GameId == gameId && game.Gamemode == gamemode)
                 {
                     return game.CheckForWinner();
                 }
@@ -44,13 +42,13 @@ namespace LorisAngel.Games
             return 0L;
         }
 
-        public static void TakeTurn(ulong gameId, int param1, int param2)
+        public static void TakeTurn(ulong gameId, GameType gamemode, ulong userid, int param1, int param2)
         {
             foreach (Game game in OngoingGames)
             {
-                if (game.GameId == gameId)
+                if (game.GameId == gameId && game.Gamemode == gamemode)
                 {
-                    game.TakeTurn(param1, param2);
+                    game.TakeTurn(userid, param1, param2);
                 }
             }
         }

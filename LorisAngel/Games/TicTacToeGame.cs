@@ -33,8 +33,10 @@ namespace LorisAngel.Games
             return winningPlayer;
         }
 
-        public override void TakeTurn(int x, int y)
+        public override void TakeTurn(ulong player, int x, int y)
         {
+            if (Players[Turn] != player) return;
+
             GridTile[,] Grid = GameGrid.GetGrid();
 
             x = x - 1;

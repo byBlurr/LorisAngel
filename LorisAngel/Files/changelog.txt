@@ -5,6 +5,7 @@
 - Added moderator commands (-help moderation)
 - Added an error message when an unimplemented game is tried
 - Added webpanel command (-webpanel)
+- Added guild stats command (-stats)
 - Improved user creation
 - Improved help command
 - Updated bot library

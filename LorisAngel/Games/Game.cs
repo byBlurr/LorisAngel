@@ -22,6 +22,7 @@ namespace LorisAngel.Games
 
         public abstract ulong CheckForWinner();
         public abstract void TakeTurn(ulong player, int param1, int param2);
+        public abstract string RenderGame();
 
         public override string ToString() => $"Game: {Gamemode.ToString()}, GameId: {GameId}";
         public override bool Equals(object obj) => obj is Game game && GameId == game.GameId && Gamemode == game.Gamemode;

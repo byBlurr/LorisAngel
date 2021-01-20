@@ -55,7 +55,8 @@ namespace LorisAngel.Games
                     Turn = 0;
                 }
             }
-
         }
+
+        public override string RenderGame() => GameGrid.Render();
     }
 }

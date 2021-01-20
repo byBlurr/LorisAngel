@@ -6,7 +6,7 @@ namespace LorisAngel.Games
 {
     public abstract class Game
     {
-        protected int Turn;
+        public int Turn;
         public ulong[] Players { get; private set; }
         public ulong GameId { get; private set; }
         public ulong RenderId { get; set; }

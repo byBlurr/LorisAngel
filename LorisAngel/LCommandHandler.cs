@@ -203,6 +203,13 @@ namespace LorisAngel
 
         private async Task CensorMessageAsync(SocketMessage message)
         {
+            // Check if user offline
+            if (!message.Author.IsBot && (message.Author.Status == UserStatus.Offline || message.Author.Status == UserStatus.Invisible))
+            {
+                // Mark them as online for a loop, reset their last seen... THEY APPEARING!
+                ProfileDatabase.SetUserOnline(message.Author.Id);
+            }
+
             await Moderation.CheckMessageAsync(message);
         }
 

@@ -26,9 +26,11 @@ namespace LorisAngel.Rendering
 
         public string Render()
         {
+            // Set up image size
             int width = (Grid.GetLength(0) * TileSize) + TileSize;
             int height = (Grid.GetLength(1) * TileSize) + TileSize;
 
+            // Create bitmap and graphics
             Bitmap editedBitmap = new Bitmap(width, height);
             Graphics graphicImage = Graphics.FromImage(editedBitmap);
             graphicImage.SmoothingMode = SmoothingMode.AntiAlias;
@@ -41,6 +43,7 @@ namespace LorisAngel.Rendering
                 graphicImage.DrawImage(backTexture, 0, 0, width, height);
             }
 
+            // Loop through grid, rendering tiles
             for (int x = 0; x < Grid.GetLength(0); x++)
             {
                 for (int y = 0; y < Grid.GetLength(1); y++)
@@ -57,6 +60,7 @@ namespace LorisAngel.Rendering
             string path = Path.Combine(AppContext.BaseDirectory, $"textures/grid_{Name}_{Id}.jpg");
             editedBitmap.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
 
+            // Dispose of what we no longer need
             graphicImage.Dispose();
             editedBitmap.Dispose();
 

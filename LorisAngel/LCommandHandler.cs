@@ -19,7 +19,7 @@ namespace LorisAngel
             commands.Clear();
 
             // General commands
-            //commands.Add(new BotCommand("help", "help", "Get help using Lori's Angel.", CommandCategory.BotRelated));
+            commands.Add(new BotCommand("help", "help", "Get help using Lori's Angel.", CommandCategory.BotRelated));
             commands.Add(new BotCommand("invite", "invite", "Receive the invite link to add LorisAngel to your server.", CommandCategory.BotRelated));
             commands.Add(new BotCommand("users", "users", "Check how many guilds the bot is in and how many total users.", CommandCategory.BotRelated));
             commands.Add(new BotCommand("uptime", "uptime", "Check how long the bot has been live since last restart.", CommandCategory.BotRelated));
@@ -53,7 +53,10 @@ namespace LorisAngel
             commands.Add(new BotCommand("ship", "ship <@user> or ship <@user1> <@user2>", "Check your compatibility together.", CommandCategory.Fun));
 
             // Moderation commands
-            // Not to be added until a webpanel is up
+            commands.Add(new BotCommand("kick", "kick <@user> <reason>", "Kick a member from the server.", CommandCategory.Moderation));
+            commands.Add(new BotCommand("ban", "ban <@user> <reason>", "Ban a member from the server.", CommandCategory.Moderation));
+            // tempban
+            // mute
         }
 
         public override void SetupHandlers(DiscordSocketClient bot)

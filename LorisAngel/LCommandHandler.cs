@@ -161,12 +161,13 @@ namespace LorisAngel
                                 break;
                             }
                     }
-                    await Task.Delay(15000);
+                    await Task.Delay(60000);
                 }
             });
 
             await ProfileDatabase.ProcessUsers();
             await ModerationDatabase.ProcessBansAsync();
+            await Checks.CheckAsync();
         }
 
         private async Task JoinedGuildAsync(SocketGuild guild)

@@ -10,6 +10,7 @@ namespace LorisAngel.Games
         {
             GameGrid = new GridRender(id, "ttt", 3, 3, "free", 128);
             Turn = 0;
+            Gamemode = GameType.TICTACTOE;
         }
 
         public override ulong CheckForWinner()

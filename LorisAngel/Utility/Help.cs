@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
-using System;
 using System.Collections.Generic;
 
 namespace LorisAngel.Utility

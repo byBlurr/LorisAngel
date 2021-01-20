@@ -1,5 +1,4 @@
 ﻿using Discord.Net.Bot;
-using System;
 
 namespace LorisAngel
 {

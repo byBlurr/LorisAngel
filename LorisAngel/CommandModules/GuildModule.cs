@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Net.Bot;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,58 @@ namespace LorisAngel.CommandModules
             }
 
             await Context.Channel.SendMessageAsync("Biggest Guilds:" + list);
+        }
+
+        [Command("stats")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task StatsAsync(ulong id = 0L)
+        {
+            SocketGuild guild = (Context.Guild as SocketGuild);
+            if (id != 0L && Context.User.Id == 211938243535568896) guild = (CommandHandler.GetBot().GetGuild(id) as SocketGuild);
+
+            await Context.Message.DeleteAsync();
+
+            if (guild != null)
+            {
+                int userCount = 0;
+                int botCount = 0;
+                int rolesCount = 0;
+                int textCount = 0;
+                int voiceCount = 0;
+
+                foreach (var u in guild.Users)
+                {
+                    if (u.IsBot) botCount++;
+                    else userCount++;
+                }
+                
+                rolesCount = guild.Roles.Count;
+                textCount = guild.TextChannels.Count;
+                voiceCount = guild.VoiceChannels.Count;
+
+                EmbedBuilder embed = new EmbedBuilder()
+                {
+                    Title = guild.Name + " (" + guild.Id + ") stats",
+                    Description = "Owned by " + guild.Owner.Username + "#" + guild.Owner.Discriminator,
+                    Color = Color.DarkPurple
+                };
+                embed.AddField(new EmbedFieldBuilder() { Name = "Users", Value = userCount, IsInline = true });
+                embed.AddField(new EmbedFieldBuilder() { Name = "Bots", Value = botCount, IsInline = true });
+                embed.AddField(new EmbedFieldBuilder() { Name = "Roles", Value = rolesCount, IsInline = true });
+                embed.AddField(new EmbedFieldBuilder() { Name = "Text Channels", Value = textCount, IsInline = true });
+                embed.AddField(new EmbedFieldBuilder() { Name = "Voice Channels", Value = voiceCount, IsInline = true });
+                embed.AddField(new EmbedFieldBuilder() { Name = "Created On", Value = guild.CreatedAt.DateTime, IsInline = true });
+                embed.AddField(new EmbedFieldBuilder() { Name = "Nitro Level", Value = guild.PremiumTier.ToString(), IsInline = true });
+                embed.AddField(new EmbedFieldBuilder() { Name = "Nitro Boosters", Value = guild.PremiumSubscriptionCount, IsInline = true });
+
+                await Context.Channel.SendMessageAsync(null, false, embed.Build());
+            }
+            else
+            {
+                await Util.SendErrorAsync(Context.Channel as ITextChannel, "Error", "An unknown error has occurred", false);
+                return;
+            }
         }
     }
 }

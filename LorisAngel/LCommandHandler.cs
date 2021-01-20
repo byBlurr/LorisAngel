@@ -34,7 +34,7 @@ namespace LorisAngel
             // Guild commands
             commands.Add(new BotCommand("oldest", "oldest", "Check who has the oldest Discord account in the server.", CommandCategory.Server));
             commands.Add(new BotCommand("region", "region", "Check the region of the server you are currently in.", CommandCategory.Server));
-            //commands.Add(new BotCommand("stats", "stats", "View statistics of this server.", CommandCategory.Server));
+            commands.Add(new BotCommand("stats", "stats", "View statistics of this server.", CommandCategory.Server));
 
             // Games commands
             //commands.Add(new BotCommand("connect4", "connect4 <@user> or c4 <@user>", "Play a game of Connect 4.", CommandCategory.Games));

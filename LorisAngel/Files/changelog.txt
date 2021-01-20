@@ -4,6 +4,7 @@
 # Version 2.0.2 - Minor Tweaks and Fixes
 - Added moderator commands (-help moderation)
 - Added an error message when an unimplemented game is tried
+- Added webpanel command (-webpanel)
 - Improved user creation
 - Improved help command
 - Updated bot library

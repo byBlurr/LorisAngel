@@ -60,19 +60,13 @@ namespace LorisAngel
         {
             bot.Ready += ReadyAsync;
             bot.JoinedGuild += JoinedGuildAsync;
+            bot.UserJoined += UserJoinedAsync;
             bot.LeftGuild += LeftGuildAsync;
             bot.MessageReceived += CensorMessageAsync;
         }
 
         private async Task ReadyAsync()
         {
-            PickupsFile.Exists();
-            DeathsFile.Exists();
-            RoastsFile.Exists();
-            JokesFile.Exists();
-            ComplimentsFile.Exists();
-            PunishFile.Exists();
-
             await bot.SetStatusAsync(UserStatus.Online);
 
             var status = Task.Run(async () => {
@@ -128,6 +122,22 @@ namespace LorisAngel
 
             var sg = bot.GetGuild(730573219374825523);
             await sg.GetTextChannel(739308321655226469).SendMessageAsync("[" + bot.Guilds.Count + "] Joined guild " + guild.Name);
+
+            foreach (var user in guild.Users)
+            {
+                if (!ProfileDatabase.DoesUserExistMemory(user.Id) && !user.IsBot)
+                {
+                    ProfileDatabase.CreateNewUser((user as IUser));
+                }
+            }
+        }
+
+        private async Task UserJoinedAsync(SocketGuildUser user)
+        {
+            if (!ProfileDatabase.DoesUserExistMemory(user.Id) && !user.IsBot)
+            {
+                ProfileDatabase.CreateNewUser((user as IUser));
+            }
         }
 
         private async Task LeftGuildAsync(SocketGuild guild)

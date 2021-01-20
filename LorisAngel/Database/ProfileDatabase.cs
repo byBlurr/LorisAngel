@@ -214,7 +214,7 @@ namespace LorisAngel.Database
         }
 
         // Check if user exists in memory
-        private static bool DoesUserExistMemory(ulong id)
+        public static bool DoesUserExistMemory(ulong id)
         {
             foreach (LoriUser usr in Users)
             {

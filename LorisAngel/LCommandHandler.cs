@@ -25,15 +25,21 @@ namespace LorisAngel
             commands.Add(new BotCommand("uptime", "uptime", "Check how long the bot has been live since last restart.", CommandCategory.BotRelated));
             commands.Add(new BotCommand("settings", "settings", "Adjust the bots settings for this guild.", CommandCategory.BotRelated));
             commands.Add(new BotCommand("changelog", "changelog", "View the bots changelog and see what is coming soon.", CommandCategory.BotRelated));
+            commands.Add(new BotCommand("webpanel", "webpanel", "Help with accessing the webpanel for setting server/user preferences.", CommandCategory.BotRelated));
             
             // User commands (All to be written from scratch)
             commands.Add(new BotCommand("profile", "profile <@user>", "View the users profile.", CommandCategory.User));
             commands.Add(new BotCommand("av", "av <@user>", "View the users profile picture.", CommandCategory.User));
-            //commands.Add(new BotCommand("requestdata", "requestdata", "Request a copy of your userdata.", CommandCategory.User));
 
             // Guild commands
             commands.Add(new BotCommand("oldest", "oldest", "Check who has the oldest Discord account in the server.", CommandCategory.Server));
             commands.Add(new BotCommand("region", "region", "Check the region of the server you are currently in.", CommandCategory.Server));
+            //commands.Add(new BotCommand("stats", "stats", "View statistics of this server.", CommandCategory.Server));
+
+            // Games commands
+            //commands.Add(new BotCommand("connect4", "connect4 <@user> or c4 <@user>", "Play a game of Connect 4.", CommandCategory.Games));
+            //commands.Add(new BotCommand("tictactoe", "ttt <@user>", "Play a game of Tic Tac Toe.", CommandCategory.Games));
+            //commands.Add(new BotCommand("snakesandladders", "snake <@user> <@user> <@user>", "Play a game of Snakes and Ladders (Minimum of two players).", CommandCategory.Games));
 
             // Fun commands
             commands.Add(new BotCommand("pickup", "pickup <@user>", "Use a pickup line on the user.", CommandCategory.Fun));
@@ -55,8 +61,8 @@ namespace LorisAngel
             // Moderation commands
             commands.Add(new BotCommand("kick", "kick <@user> <reason>", "Kick a member from the server.", CommandCategory.Moderation));
             commands.Add(new BotCommand("ban", "ban <@user> <reason>", "Ban a member from the server.", CommandCategory.Moderation));
-            // tempban
-            // mute
+            //commands.Add(new BotCommand("tempban", "tempban <@user> <minutes> <reason>", "Temp ban a member from the server.", CommandCategory.Moderation));
+            //commands.Add(new BotCommand("mute", "mute <@user> <reason>", "Mute a member from the server.", CommandCategory.Moderation));
         }
 
         public override void SetupHandlers(DiscordSocketClient bot)

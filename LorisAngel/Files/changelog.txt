@@ -1,10 +1,12 @@
-﻿# Version 2.1.0 - Fully Rewritten
-- Coming soon... Check below.
+﻿# Version 2.1.0 - Coming soon...
+- Check Future Updates
 
 # Version 2.0.2 - Minor Tweaks and Fixes
 - Added moderator commands (-help moderation)
+- Added an error message when an unimplemented game is tried
 - Improved user creation
 - Improved help command
+- Updated bot library
 
 # Version 2.0.1 - Mostly Rewritten
 - Added improved relationship command (-ship user)

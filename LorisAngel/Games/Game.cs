@@ -6,11 +6,12 @@ namespace LorisAngel.Games
 {
     public abstract class Game
     {
-        private int Turn;
-        private ulong[] Players;
+        protected int Turn;
+        public ulong[] Players { get; private set; }
         public ulong GameId { get; private set; }
         public ulong RenderId { get; set; }
         private GameType Gamemode = GameType.UNSET;
+
 
         public Game(ulong id, ulong[] players)
         {

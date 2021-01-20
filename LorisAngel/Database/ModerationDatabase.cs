@@ -98,7 +98,7 @@ namespace LorisAngel.Database
 
             if (dbCon.IsConnect())
             {
-                var cmd = new MySqlCommand($"INSERT INTO users (guildid, userid, bannedtill) VALUES (@guildid, @userid, @bannedtill)", dbCon.Connection);
+                var cmd = new MySqlCommand($"INSERT INTO tempbans (guildid, userid, bannedtill) VALUES (@guildid, @userid, @bannedtill)", dbCon.Connection);
                 cmd.Parameters.Add("@guildid", MySqlDbType.UInt64).Value = guildId;
                 cmd.Parameters.Add("@userid", MySqlDbType.UInt64).Value = userId;
                 cmd.Parameters.Add("@bannedtill", MySqlDbType.DateTime).Value = bannedTill;

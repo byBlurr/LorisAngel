@@ -20,7 +20,6 @@
 - Added command to add censored words (-settings addcensor <word>)
 - Added userdata
 - Added profile command (-profile <@user>)
-- Fixed SQL error on relationship command
 - Fixed issues with server settings
 - Minor tweaks
 - Optimised bot restarts

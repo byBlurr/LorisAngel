@@ -1,4 +1,4 @@
-﻿# Version 2.1 - Fully Rewritten
+﻿# Version 2.1.0 - Fully Rewritten
 - Coming soon... Check below.
 
 # Version 2.0.1 - Mostly Rewritten
@@ -13,7 +13,7 @@
 - Optimised bot restarts
 - Optimised fun commands (roast, compliment, punish, punishme, joke, pickup and kill)
 
-# Version 2.0 - The Rewrite
+# Version 2.0.0 - The Rewrite
 - Rewrote Lori's Angel from Scratch (Lori's Angel v2)
 - Added moderation features (Enable/Disable for your guild, default: disabled)
 - Added all new user commands (-help user)
@@ -26,6 +26,6 @@
 - Removed games to be rewritten
 
 # Future Updates
-- (v2.1) Return of connect4, tictactoe, snakes&ladders and blackjack
-- (v2.1) Currency and Leaderboards
-- (v2.2) Webpanel
+- (v2.1.0) Return of connect4, tictactoe, snakes&ladders and blackjack
+- (v2.1.1) Currency and Leaderboards
+- (v2.2.0) Webpanel

@@ -21,29 +21,6 @@ namespace LorisAngel.Database
                 await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of SaveUsers thread."));
                 await Task.Delay(5000);
 
-                /*  MOVING INTO OWN FUNCTION AND PLACING IN OWN THREAD.
-                    ALSO COMPARING TO USERS LIST INSTEAD TO HELP SPEED IT UP.
-
-                int newUsers = 0;
-                foreach (var g in CommandHandler.GetBot().Guilds)
-                {
-                    if (g.Id != 264445053596991498 && g.Id != 110373943822540800 && g.Id != 446425626988249089) // Don't include the bot servers
-                    {
-                        foreach (var u in CommandHandler.GetBot().GetGuild(g.Id).Users)
-                        {
-                            if (!DoesUserExist(u.Id) && !u.IsBot)
-                            {
-                                LoriUser newUser = new LoriUser(u.Id, u.Username, u.CreatedAt.DateTime, DateTime.Now, new DateTime(), u.Status.ToString(), "", DateTime.Now);
-                                await AddUserToDatabaseAsync(newUser);
-                                newUsers++;
-                            }
-                        }
-                    }
-                }
-
-                if (newUsers > 0) await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", $"Added {newUsers} new users."));
-                */
-
                 Users = await GetAllUsersAsync();
                 ReadyToUpdate = true;
 

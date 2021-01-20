@@ -1,7 +1,7 @@
 ﻿# Version 2.1.0 - Coming soon...
 - Added data cleanup
 - Added Connect 4 (TODO)
-- Added Tic Tac Toe (TODO)
+- Added Tic Tac Toe (-help tictactoe)
 - Added Snakes and Ladders (TODO)
 - Added tempban command (-help tempban)
 

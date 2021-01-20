@@ -91,16 +91,14 @@ namespace LorisAngel.CommandModules
                 {
                     if (game.Players[0] == Context.User.Id || game.Players[1] == Context.User.Id || (Context.User as IGuildUser).GuildPermissions.Administrator)
                     {
+                        IMessage msg = await Context.Channel.GetMessageAsync(game.RenderId);
+                        await msg.DeleteAsync();
+
+                        string render = game.RenderGame();
+                        await Context.Channel.SendFileAsync(render, $"**TicTacToe**\n" +
+                            $"Game Ended By " + Context.User.Mention);
+
                         GameHandler.EndGame(game);
-
-                        EmbedBuilder embed = new EmbedBuilder()
-                        {
-                            Title = "TicTacToe",
-                            Description = "The game was ended.",
-                            Color = Color.DarkPurple
-                        };
-
-                        await Context.Channel.SendMessageAsync(null, false, embed.Build());
                     }
                 }
                 else

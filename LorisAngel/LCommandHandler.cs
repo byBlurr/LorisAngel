@@ -56,9 +56,14 @@ namespace LorisAngel
             commands.Add(new BotCommand("stats", statsUsage, "View statistics of this server.", CommandCategory.Server));
 
             // Games commands
-            //commands.Add(new BotCommand("connect4", "connect4 <@user> or c4 <@user>", "Play a game of Connect 4.", CommandCategory.Games));
-            //commands.Add(new BotCommand("tictactoe", "ttt <@user>", "Play a game of Tic Tac Toe.", CommandCategory.Games));
-            //commands.Add(new BotCommand("snakesandladders", "snake <@user> <@user> <@user>", "Play a game of Snakes and Ladders (Minimum of two players).", CommandCategory.Games));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false) };
+            CommandUsage[] connectUsage = { new CommandUsage("connect4", arguments), new CommandUsage("c4", arguments) };
+            commands.Add(new BotCommand("connect4", connectUsage, "Play a game of Connect 4.", CommandCategory.Games));
+            CommandUsage[] tttUsage = { new CommandUsage("tictactoe", arguments), new CommandUsage("ttt", arguments) };
+            commands.Add(new BotCommand("tictactoe", tttUsage, "Play a game of Tic Tac Toe.", CommandCategory.Games));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.USER, true, "@Knight"), new CommandArgument(CommandArgumentType.USER, true, "@Lydia") };
+            CommandUsage[] snakesUsage = { new CommandUsage("snakes", arguments), new CommandUsage("snakesandladders", arguments) };
+            commands.Add(new BotCommand("snakesandladders", snakesUsage, "Play a game of Snakes and Ladders (Minimum of two players).", CommandCategory.Games));
 
             // Fun commands
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false) };

@@ -114,9 +114,9 @@ namespace LorisAngel
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.NUMBER, false), new CommandArgument(CommandArgumentType.TEXT, true, "Being mean!") };
             CommandUsage[] tempbanUsage = { new CommandUsage("tempban", arguments) };
             commands.Add(new BotCommand("tempban", tempbanUsage, "Temp ban a member from the server.", CommandCategory.Moderation));
-            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.TEXT, true, "Being mean!") };
-            CommandUsage[] muteUsage = { new CommandUsage("mute", arguments) };
-            commands.Add(new BotCommand("mute", muteUsage, "Mute a member from the server.", CommandCategory.Moderation));
+            //arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.TEXT, true, "Being mean!") };
+            //CommandUsage[] muteUsage = { new CommandUsage("mute", arguments) };
+            //commands.Add(new BotCommand("mute", muteUsage, "Mute a member from the server.", CommandCategory.Moderation));
         }
 
         public override void SetupHandlers(DiscordSocketClient bot)

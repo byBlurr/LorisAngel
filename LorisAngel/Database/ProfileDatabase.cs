@@ -10,6 +10,7 @@ namespace LorisAngel.Database
 {
     public class ProfileDatabase
     {
+        private static readonly int DAYS_TILL_DELETE = 7; // How many days of no activity until theyre user is wiped...
         private static List<LoriUser> Users;
         private static bool ReadyToUpdate = false;
 
@@ -86,6 +87,25 @@ namespace LorisAngel.Database
 
                 if (newUsers > 0) await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", $"Added {newUsers} new users."));
                 else await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", $"No new users found."));
+                await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "End of CheckForNewUsers thread."));
+            });
+
+            var CheckForLostUsers = Task.Run(async () =>
+            {
+                await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of CheckForLostUsers thread."));
+                while (!ReadyToUpdate) await Task.Delay(500);
+
+                foreach (LoriUser user in Users)
+                {
+                    int daysSinceUpdate = (int)((DateTime.Now - user.LastUpdated).TotalDays);
+                    if (daysSinceUpdate > DAYS_TILL_DELETE)
+                    {
+                        Users.Remove(user);
+                        await RemoveUserAsync(user.Id);
+                    }
+                }
+
+                await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "End of CheckForLostUsers thread."));
             });
         }
 
@@ -269,7 +289,36 @@ namespace LorisAngel.Database
         // Remove user from database
         private static async Task RemoveUserAsync(ulong id)
         {
+            var dbCon = DBConnection.Instance();
+            dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand($"DELETE FROM users WHERE id = '{id}'", dbCon.Connection);
 
+                try
+                {
+                    await cmd.ExecuteNonQueryAsync();
+                    cmd.Dispose();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Failed to delete user: {e.Message}");
+                    cmd.Dispose();
+                }
+
+                dbCon.Close();
+            }
+        }
+
+        public static void SetUserOnline(ulong id)
+        {
+            foreach (LoriUser user in Users)
+            {
+                if (user.Id == id)
+                {
+                    user.UpdateStatus(UserStatus.Online);
+                }
+            }
         }
     }
 

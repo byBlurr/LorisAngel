@@ -1,5 +1,5 @@
 ﻿# Version 2.1.0 - Coming soon...
-- Check Future Updates
+- Added data cleanup
 
 # Version 2.0.2 - Minor Tweaks and Fixes
 - Added moderator commands (-help moderation)

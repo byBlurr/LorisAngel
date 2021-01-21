@@ -323,6 +323,17 @@ namespace LorisAngel.Database
                 }
             }
         }
+
+        public static void SetUserMotto(ulong id, string motto)
+        {
+            foreach (LoriUser user in Users)
+            {
+                if (user.Id == id)
+                {
+                    user.UpdateMotto(motto);
+                }
+            }
+        }
     }
 
     public class LoriUser

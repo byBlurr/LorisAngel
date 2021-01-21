@@ -39,6 +39,27 @@ namespace LorisAngel.CommandModules
             }
         }
 
+        [Command("setmotto")]
+        [Alias("motto")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task SetMottoAsync([Remainder] string motto = null)
+        {
+            await Context.Message.DeleteAsync();
+
+            LoriUser profile = ProfileDatabase.GetUser(Context.User.Id);
+            if (profile == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Profile Not Found", $"That users profile could not be found?", false);
+                return;
+            }
+
+            if (motto == null) motto = "";
+
+            ProfileDatabase.SetUserMotto(Context.User.Id, motto);
+            await ViewProfileAsync(Context, user);
+        }
+
         private async Task ViewProfileAsync(ICommandContext Context, IUser User)
         {
             if (User.IsBot)

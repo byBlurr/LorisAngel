@@ -57,7 +57,7 @@ namespace LorisAngel.CommandModules
             if (motto == null) motto = "";
 
             ProfileDatabase.SetUserMotto(Context.User.Id, motto);
-            await ViewProfileAsync(Context, user);
+            await ViewProfileAsync(Context, (Context.User as IUser));
         }
 
         private async Task ViewProfileAsync(ICommandContext Context, IUser User)

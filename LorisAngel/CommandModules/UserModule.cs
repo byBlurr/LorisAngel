@@ -57,6 +57,32 @@ namespace LorisAngel.CommandModules
             string avatar = User.GetAvatarUrl(size: 2048);
             string status = "**" + User.Status.ToString() + " for ";
 
+            Color color;
+            switch (User.Status)
+            {
+                case UserStatus.Offline:
+                    color = Color.LightGrey;
+                    break;
+                case UserStatus.Online:
+                    color = Color.Green;
+                    break;
+                case UserStatus.Idle:
+                    color = Color.Orange;
+                    break;
+                case UserStatus.AFK:
+                    color = Color.Orange;
+                    break;
+                case UserStatus.DoNotDisturb:
+                    color = Color.Red;
+                    break;
+                case UserStatus.Invisible:
+                    color = Color.LightGrey;
+                    break;
+                default:
+                    color = Color.LightGrey;
+                    break;
+            }
+
             DateTime now = DateTime.Now;
             int seconds = (int)((now - profile.LastSeen).TotalSeconds);
             int minutes = (int)((now - profile.LastSeen).TotalMinutes);
@@ -74,7 +100,7 @@ namespace LorisAngel.CommandModules
             {
                 Author = new EmbedAuthorBuilder() { IconUrl = avatar, Name = $"{User.Username}#{User.Discriminator}" },
                 Description = status,
-                Color = Color.DarkPurple,
+                Color = color,
                 Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  This is a temporary look for profiles..." },
             };
 

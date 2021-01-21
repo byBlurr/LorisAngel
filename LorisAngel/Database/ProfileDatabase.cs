@@ -361,9 +361,8 @@ namespace LorisAngel.Database
             {
                 Status = newStatus.ToString();
                 LastSeen = DateTime.Now;
-
-                HasChanged = true;
                 LastUpdated = DateTime.Now;
+                HasChanged = true;
             }
         }
 

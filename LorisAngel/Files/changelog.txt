@@ -5,6 +5,7 @@
 - Added Tic Tac Toe (-help tictactoe)
 - Added tempban command (-help tempban)
 - Adjusted status timer
+- Adjusted user profiles
 
 # Version 2.0.2 - Minor Tweaks and Fixes
 - Added moderator commands (-help moderation)

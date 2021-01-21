@@ -7,6 +7,7 @@ using LorisAngel.Database;
 using LorisAngel.Utility;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace LorisAngel
@@ -132,6 +133,18 @@ namespace LorisAngel
         {
             await bot.SetStatusAsync(UserStatus.Online);
 
+            // Clear up any old game renders...
+            var clearGames = Task.Run(async () =>
+            {
+                var files = Directory.GetFiles(Path.Combine("textures", "games"));
+                foreach (string p in files)
+                {
+                    File.Delete(p);
+                }
+                
+            });
+
+            // Set the custom status once a minute
             var status = Task.Run(async () => {
                 int i = 0;
                 while (true)
@@ -166,7 +179,7 @@ namespace LorisAngel
             });
 
             await ProfileDatabase.ProcessUsers();
-            await ModerationDatabase.ProcessBansAsync();
+            //await ModerationDatabase.ProcessBansAsync();
             await Checks.CheckAsync();
         }
 

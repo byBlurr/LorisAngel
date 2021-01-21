@@ -330,6 +330,7 @@ namespace LorisAngel.Database
         public DateTime JoinedOn { get; private set; }
         public DateTime LastSeen { get; private set; }
         public string Status { get; private set; }
+        public string Motto { get; private set; }
         public string Badges { get; private set; } // WILL BE A LIST OF BADGES ONCE BADGES ADDED
         public bool HasChanged { get; set; }
         public DateTime LastUpdated { get; set; }
@@ -360,6 +361,19 @@ namespace LorisAngel.Database
             if (!newStatus.ToString().Equals(Status))
             {
                 Status = newStatus.ToString();
+                LastSeen = DateTime.Now;
+                LastUpdated = DateTime.Now;
+                HasChanged = true;
+            }
+        }
+
+        public void UpdateMotto(string newMotto)
+        {
+            string motto = newMotto.Normalize();
+
+            if (motto.IsNormalized())
+            {
+                Motto = motto;
                 LastSeen = DateTime.Now;
                 LastUpdated = DateTime.Now;
                 HasChanged = true;

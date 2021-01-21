@@ -117,6 +117,8 @@ namespace LorisAngel.CommandModules
 
             if (User.Activity != null) status += $"\n {User.Activity.ToString()}";
 
+            if (profile.Motto.Length > 0) status += $"\n**Motto:** {profile.Motto}";
+
             EmbedBuilder embed = new EmbedBuilder()
             {
                 Author = new EmbedAuthorBuilder() { IconUrl = avatar, Name = $"{User.Username}#{User.Discriminator}" },

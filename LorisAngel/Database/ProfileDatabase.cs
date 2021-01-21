@@ -143,8 +143,9 @@ namespace LorisAngel.Database
                         DateTime lastSeen = reader.GetDateTime(4);
                         string status = reader.GetString(5);
                         DateTime lastUpdated = reader.GetDateTime(7);
+                        string motto = reader.GetString(8);
 
-                        LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, "", lastUpdated);
+                        LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, "", lastUpdated, motto);
                         users.Add(newUser);
                     }
                 }
@@ -176,12 +177,13 @@ namespace LorisAngel.Database
                         }
                         else
                         {
-                            var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status, lastupdated = @lastupdated WHERE id = @id", dbCon.Connection);
+                            var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status, lastupdated = @lastupdated, motto = @motto WHERE id = @id", dbCon.Connection);
                             cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
                             cmd.Parameters.Add("@name", MySqlDbType.String).Value = "";
                             cmd.Parameters.Add("@lastseen", MySqlDbType.DateTime).Value = user.LastSeen;
                             cmd.Parameters.Add("@status", MySqlDbType.String).Value = user.Status;
                             cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
+                            cmd.Parameters.Add("@motto", MySqlDbType.String).Value = user.Motto;
 
                             try
                             {
@@ -251,7 +253,7 @@ namespace LorisAngel.Database
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
             if (dbCon.IsConnect())
             {
-                var cmd = new MySqlCommand($"INSERT INTO users (id, name, createdon, joinedon, lastseen, status, badges, lastupdated) VALUES (@id, @name, @createdon, @joinedon, @lastseen, @status, @badges, @lastupdated)", dbCon.Connection);
+                var cmd = new MySqlCommand($"INSERT INTO users (id, name, createdon, joinedon, lastseen, status, badges, lastupdated, motto) VALUES (@id, @name, @createdon, @joinedon, @lastseen, @status, @badges, @lastupdated, @motto)", dbCon.Connection);
                 cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
                 cmd.Parameters.Add("@name", MySqlDbType.String).Value = "";
                 cmd.Parameters.Add("@createdon", MySqlDbType.DateTime).Value = user.CreatedOn;
@@ -260,6 +262,7 @@ namespace LorisAngel.Database
                 cmd.Parameters.Add("@status", MySqlDbType.String).Value = user.Status;
                 cmd.Parameters.Add("@badges", MySqlDbType.String).Value = "";
                 cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
+                cmd.Parameters.Add("@motto", MySqlDbType.String).Value = user.Motto;
 
                 try
                 {
@@ -336,7 +339,7 @@ namespace LorisAngel.Database
         public DateTime LastUpdated { get; set; }
         public bool IsNew { get; set; }
 
-        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated)
+        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated, string motto = "")
         {
             Id = id;
             Name = name.Normalize() ?? throw new ArgumentNullException(nameof(name));
@@ -348,6 +351,7 @@ namespace LorisAngel.Database
             HasChanged = false;
             LastUpdated = lastUpdated;
             IsNew = false;
+            Motto = motto;
         }
 
         public void SetNew()

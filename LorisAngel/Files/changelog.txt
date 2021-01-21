@@ -5,6 +5,7 @@
 - Added Snakes and Ladders (TODO) <- Derive from Game, might need to make tweaks to Game, Not sure how to render players...
 - Added Tic Tac Toe (-help tictactoe)
 - Added tempban command (-help tempban)
+- Added motto command (-help setmotto)
 - Adjusted status timer
 - Adjusted user profiles
 

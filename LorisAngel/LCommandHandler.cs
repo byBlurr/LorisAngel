@@ -44,6 +44,9 @@ namespace LorisAngel
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, true) };
             CommandUsage[] profileUsage = { new CommandUsage("profile", arguments) };
             commands.Add(new BotCommand("profile", profileUsage, "View the users profile.", CommandCategory.User));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.TEXT, true, "Life is like a box of chocolates.") };
+            CommandUsage[] mottoUsage = { new CommandUsage("setmotto", arguments), new CommandUsage("motto", arguments) };
+            commands.Add(new BotCommand("motto", mottoUsage, "Set a new motto on your profile", CommandCategory.User));
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, true) };
             CommandUsage[] avUsage = { new CommandUsage("av", arguments) };
             commands.Add(new BotCommand("av", avUsage, "View the users profile picture.", CommandCategory.User));

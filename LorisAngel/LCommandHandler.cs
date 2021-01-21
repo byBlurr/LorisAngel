@@ -168,12 +168,13 @@ namespace LorisAngel
                             break;
                         default:
                             {
-                                Random rnd = new Random();
-                                BotConfig conf = BotConfig.Load();
-                                int j = rnd.Next(0, conf.Commands.Count);
+                                //Random rnd = new Random();
+                                //BotConfig conf = BotConfig.Load();
+                                // int j = rnd.Next(0, conf.Commands.Count);
 
-                                await bot.SetGameAsync($"try -{conf.Commands[j].Handle.ToLower()} {Util.GetRandomHeartEmoji()}", type: ActivityType.Playing);
+                                //await bot.SetGameAsync($"try -{conf.Commands[j].Handle.ToLower()} {Util.GetRandomHeartEmoji()}", type: ActivityType.Playing);
                                 i = 0;
+                                await bot.SetGameAsync($"use -help", type: ActivityType.Playing);
                                 break;
                             }
                     }

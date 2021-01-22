@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
+using LorisAngel.Database;
 using LorisAngel.Games;
 using System.Threading.Tasks;
 
@@ -121,7 +122,10 @@ namespace LorisAngel.CommandModules
                     await Context.Channel.SendFileAsync(render, $"**Connect 4**\n" +
                         $"DRAW ({(await Context.Guild.GetUserAsync(game.Players[0])).Mention} v {(await Context.Guild.GetUserAsync(game.Players[1])).Mention})");
 
+                    if (ProfileDatabase.GetUser(game.Players[0]) != null) ProfileDatabase.AddCurrency(game.Players[0], 100);
+                    if (ProfileDatabase.GetUser(game.Players[1]) != null) ProfileDatabase.AddCurrency(game.Players[1], 100);
                     GameHandler.EndGame(game);
+
                 }
             }
             else
@@ -130,6 +134,7 @@ namespace LorisAngel.CommandModules
                 await Context.Channel.SendFileAsync(render, $"**Connect 4**\n" +
                     $"Game Won by " + (await Context.Guild.GetUserAsync(winner)).Mention);
 
+                if (ProfileDatabase.GetUser(winner != null) ProfileDatabase.AddCurrency(winner, 250);
                 GameHandler.EndGame(game);
             }
         }
@@ -282,6 +287,7 @@ namespace LorisAngel.CommandModules
                 await Context.Channel.SendFileAsync(render, $"**TicTacToe**\n" +
                     $"Game Won by " + (await Context.Guild.GetUserAsync(winner)).Mention);
 
+                if (ProfileDatabase.GetUser(winner) != null) ProfileDatabase.AddCurrency(winner, 100);
                 GameHandler.EndGame(game);
             }
         }

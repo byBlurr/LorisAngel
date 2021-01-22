@@ -128,9 +128,9 @@ namespace LorisAngel
             // NSFW
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false) };
             CommandUsage[] punishUsage = { new CommandUsage("punish", arguments) };
-            commands.Add(new BotCommand("punish", punishUsage, "Punish the user.", CommandCategory.Fun));
+            commands.Add(new BotCommand("punish", punishUsage, "Punish the user.", CommandCategory.NSFW));
             CommandUsage[] punishmeUsage = { new CommandUsage("punishme", arguments) };
-            commands.Add(new BotCommand("punishme", punishmeUsage, "Have the user punish you.", CommandCategory.Fun));
+            commands.Add(new BotCommand("punishme", punishmeUsage, "Have the user punish you.", CommandCategory.NSFW));
         }
 
         public override void SetupHandlers(DiscordSocketClient bot)

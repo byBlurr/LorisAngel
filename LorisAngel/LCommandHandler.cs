@@ -82,10 +82,6 @@ namespace LorisAngel
             commands.Add(new BotCommand("compliment", complimentUsage, "Compliment the user.", CommandCategory.Fun));
             CommandUsage[] hugUsage = { new CommandUsage("hug", arguments) };
             commands.Add(new BotCommand("hug", hugUsage, "Hug the user.", CommandCategory.Fun));
-            CommandUsage[] punishUsage = { new CommandUsage("punish", arguments) };
-            commands.Add(new BotCommand("punish", punishUsage, "Punish the user.", CommandCategory.Fun));
-            CommandUsage[] punishmeUsage = { new CommandUsage("punishme", arguments) };
-            commands.Add(new BotCommand("punishme", punishmeUsage, "Have the user punish you.", CommandCategory.Fun));
             CommandUsage[] epicUsage = { new CommandUsage("epic", arguments) };
             commands.Add(new BotCommand("epic", epicUsage, "See the users epic rating.", CommandCategory.Fun));
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.TEXT, false, "Who is the tallest @Blurr or @Knight?") };
@@ -122,8 +118,19 @@ namespace LorisAngel
             //commands.Add(new BotCommand("mute", muteUsage, "Mute a member from the server.", CommandCategory.Moderation));
 
             // Currency
+            arguments = new List<CommandArgument>();
+            CommandUsage[] bankUsage = { new CommandUsage("bank", arguments) };
+            commands.Add(new BotCommand("bank", bankUsage, "Check your balance.", CommandCategory.Moderation));
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.NUMBER, false, "12.99") };
+            CommandUsage[] transferUsage = { new CommandUsage("bank transfer", arguments) };
+            commands.Add(new BotCommand("bank transfer", transferUsage, "Transfer some money to another user.", CommandCategory.Moderation));
 
             // NSFW
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false) };
+            CommandUsage[] punishUsage = { new CommandUsage("punish", arguments) };
+            commands.Add(new BotCommand("punish", punishUsage, "Punish the user.", CommandCategory.Fun));
+            CommandUsage[] punishmeUsage = { new CommandUsage("punishme", arguments) };
+            commands.Add(new BotCommand("punishme", punishmeUsage, "Have the user punish you.", CommandCategory.Fun));
         }
 
         public override void SetupHandlers(DiscordSocketClient bot)

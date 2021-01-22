@@ -1,7 +1,10 @@
 ﻿# Version 2.1.1 - Currency and Leaderboards
+- Added command categories currency & nsfw
 - Added currency commands (-help currency)
 - Added more info to profiles
+- NSFW commands must now be used inside an nsfw channel
 - Fixed some command messages not being deleted
+- Updated help command
 
 # Version 2.1.0 - Return of Games
 - Added data cleanup

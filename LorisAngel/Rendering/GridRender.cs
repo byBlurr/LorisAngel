@@ -62,8 +62,8 @@ namespace LorisAngel.Rendering
             }
 
             // Save board
-            string path = Path.Combine(AppContext.BaseDirectory, $"textures/games/grid_{Name}_{Id}.jpg");
-            editedBitmap.Save(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+            string path = Path.Combine(AppContext.BaseDirectory, $"textures/games/grid_{Name}_{Id}.png");
+            editedBitmap.Save(path, System.Drawing.Imaging.ImageFormat.Png);
 
             // Dispose of what we no longer need
             graphicImage.Dispose();

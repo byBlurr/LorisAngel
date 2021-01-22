@@ -16,7 +16,22 @@ namespace LorisAngel.CommandModules
         {
             await Context.Message.DeleteAsync();
 
+            LoriUser profile = ProfileDatabase.GetUser(Context.User.Id);
+            if (profile == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"We could not find your bank account.");
+                return;
+            }
 
+            float amount = profile.GetCurrency();
+            EmbedBuilder embed = new EmbedBuilder()
+            {
+                Color = Color.DarkPurple,
+                Title = "Transfer successful",
+                Description = $"Bank balance: ${amount}"
+            };
+
+            await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }
 
         [Command("bank transfer")]

@@ -128,7 +128,7 @@ namespace LorisAngel.Utility
 
                 foreach (var usage in commandToDisplay.Usage)
                 {
-                    desc += $"\n**{usage.ToString()}** (eg. {usage.ToExample()})";
+                    desc += $"\n**{gconf.Prefix}{usage.ToString()}** (eg. {gconf.Prefix}{usage.ToExample()})";
                 }
 
                 embed.Description = desc;

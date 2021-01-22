@@ -120,10 +120,10 @@ namespace LorisAngel
             // Currency
             arguments = new List<CommandArgument>();
             CommandUsage[] bankUsage = { new CommandUsage("bank", arguments) };
-            commands.Add(new BotCommand("bank", bankUsage, "Check your balance.", CommandCategory.Moderation));
+            commands.Add(new BotCommand("bank", bankUsage, "Check your balance.", CommandCategory.Currency));
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.NUMBER, false, "12.99") };
             CommandUsage[] transferUsage = { new CommandUsage("bank transfer", arguments) };
-            commands.Add(new BotCommand("bank transfer", transferUsage, "Transfer some money to another user.", CommandCategory.Moderation));
+            commands.Add(new BotCommand("bank transfer", transferUsage, "Transfer some money to another user.", CommandCategory.Currency));
 
             // NSFW
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false) };

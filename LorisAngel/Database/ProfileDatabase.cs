@@ -372,11 +372,12 @@ namespace LorisAngel.Database
         public string Activity { get; private set; }
         public string Motto { get; private set; }
         public string Badges { get; private set; } // WILL BE A LIST OF BADGES ONCE BADGES ADDED
+        public int Currency;
         public bool HasChanged { get; set; }
         public DateTime LastUpdated { get; set; }
         public bool IsNew { get; set; }
 
-        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated, string activity = "", string motto = "")
+        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated, string activity = "", string motto = "", int currency = 0)
         {
             Id = id;
             Name = name.Normalize() ?? throw new ArgumentNullException(nameof(name));
@@ -387,6 +388,8 @@ namespace LorisAngel.Database
             Activity = activity;
             Motto = motto;
             Badges = badges;
+            Currency = currency;
+
             HasChanged = false;
             LastUpdated = lastUpdated;
             IsNew = false;
@@ -394,8 +397,20 @@ namespace LorisAngel.Database
 
         public void SetNew()
         {
+            Currency = 0;
             IsNew = true;
             HasChanged = true;
+        }
+
+        public float GetCurrency()
+        {
+            return (Currency / 100);
+        }
+
+        public void AddCurrency(float amt)
+        {
+            int amount = (int)(amt * 100);
+            Currency += amount;
         }
 
         public void UpdateStatus(UserStatus newStatus)

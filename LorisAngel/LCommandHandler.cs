@@ -64,9 +64,9 @@ namespace LorisAngel
             commands.Add(new BotCommand("connect4", connectUsage, "Play a game of Connect 4.", CommandCategory.Games));
             CommandUsage[] tttUsage = { new CommandUsage("tictactoe", arguments), new CommandUsage("ttt", arguments) };
             commands.Add(new BotCommand("tictactoe", tttUsage, "Play a game of Tic Tac Toe.", CommandCategory.Games));
-            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.USER, true, "@Knight"), new CommandArgument(CommandArgumentType.USER, true, "@Lydia") };
-            CommandUsage[] snakesUsage = { new CommandUsage("snakes", arguments), new CommandUsage("snakesandladders", arguments) };
-            commands.Add(new BotCommand("snakesandladders", snakesUsage, "Play a game of Snakes and Ladders (Minimum of two players).", CommandCategory.Games));
+            //arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.USER, true, "@Knight"), new CommandArgument(CommandArgumentType.USER, true, "@Lydia") };
+            //CommandUsage[] snakesUsage = { new CommandUsage("snakes", arguments), new CommandUsage("snakesandladders", arguments) };
+            //commands.Add(new BotCommand("snakesandladders", snakesUsage, "Play a game of Snakes and Ladders (Minimum of two players).", CommandCategory.Games));
 
             // Fun commands
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false) };
@@ -120,6 +120,10 @@ namespace LorisAngel
             //arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.TEXT, true, "Being mean!") };
             //CommandUsage[] muteUsage = { new CommandUsage("mute", arguments) };
             //commands.Add(new BotCommand("mute", muteUsage, "Mute a member from the server.", CommandCategory.Moderation));
+
+            // Currency
+
+            // NSFW
         }
 
         public override void SetupHandlers(DiscordSocketClient bot)

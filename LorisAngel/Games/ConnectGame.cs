@@ -139,10 +139,11 @@ namespace LorisAngel.Games
 
         public override void TakeTurn(ulong player, int slot, int _)
         {
+            slot--;
             var Board = GameGrid.GetGrid();
             if (slot >= 0 && slot < Board.GetLength(0))
             {
-                int currentY = Board.GetLength(1) - 1;
+                int currentY = 0;
                 if (Board[slot, currentY].State.Equals(FREE_STATE))
                 {
                     string newState = PLAYER1_STATE;
@@ -156,9 +157,9 @@ namespace LorisAngel.Games
                     bool foundPosition = false;
                     while (!foundPosition)
                     {
-                        if (currentY - 1 < 0) break;
+                        if (currentY + 1 >= Board.GetLength(1)) break;
 
-                        if (Board[slot, currentY - 1].State == FREE_STATE) currentY--;
+                        if (Board[slot, currentY + 1].State == FREE_STATE) currentY++;
                         else foundPosition = true;
                     }
 

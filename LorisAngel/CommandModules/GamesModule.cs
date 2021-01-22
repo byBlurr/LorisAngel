@@ -31,7 +31,7 @@ namespace LorisAngel.CommandModules
             if (playerTwo.IsBot || playerOne.Id == playerTwo.Id)
             {
                 await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "You can not play against yourself or a bot.", false);
-                //return;
+                return;
             }
 
             if (GameHandler.DoesGameExist(Context.Guild.Id, GameType.CONNECT))

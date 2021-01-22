@@ -96,7 +96,7 @@ namespace LorisAngel.CommandModules
 
             GameHandler.TakeTurn(Context.Guild.Id, GameType.CONNECT, Context.User.Id, column);
             ulong winner = GameHandler.CheckForWinner(Context.Guild.Id, GameType.CONNECT);
-            //bool draw = GameHandler.CheckForDraw(Context.Guild.Id, GameType.CONNECT);
+            bool draw = GameHandler.CheckForDraw(Context.Guild.Id, GameType.CONNECT);
 
             if (winner == 0L)
             {

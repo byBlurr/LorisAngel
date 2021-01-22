@@ -34,6 +34,11 @@ namespace LorisAngel.Games
             return winningPlayer;
         }
 
+        public override bool CheckForDraw()
+        {
+            return false;
+        }
+
         public override void TakeTurn(ulong player, int x, int y)
         {
             if (Players[Turn] != player) return;

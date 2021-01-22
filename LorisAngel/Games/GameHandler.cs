@@ -55,6 +55,19 @@ namespace LorisAngel.Games
             return 0L;
         }
 
+        public static bool CheckForDraw(ulong gameId, GameType gamemode)
+        {
+            foreach (Game game in OngoingGames)
+            {
+                if (game.GameId == gameId && game.Gamemode == gamemode)
+                {
+                    return game.CheckForDraw();
+                }
+            }
+
+            return false;
+        }
+
         public static void TakeTurn(ulong gameId, GameType gamemode, ulong userid, int param1, int param2 = 0)
         {
             foreach (Game game in OngoingGames)

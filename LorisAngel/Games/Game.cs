@@ -19,6 +19,7 @@ namespace LorisAngel.Games
         }
 
         public abstract ulong CheckForWinner();
+        public abstract bool CheckForDraw();
         public abstract void TakeTurn(ulong player, int param1, int param2);
         public abstract string RenderGame();
 

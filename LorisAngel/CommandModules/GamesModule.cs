@@ -13,6 +13,7 @@ namespace LorisAngel.CommandModules
         [Alias("c4")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
+        [RequireBotPermission(ChannelPermission.AttachFiles)]
         private async Task ConnectAsync(IUser playerTwo = null)
         {
             await Context.Message.DeleteAsync();
@@ -56,6 +57,7 @@ namespace LorisAngel.CommandModules
         [Alias("ttt")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
+        [RequireBotPermission(ChannelPermission.AttachFiles)]
         private async Task TicTacToeAsync(IUser playerTwo = null)
         {
             await Context.Message.DeleteAsync();
@@ -97,6 +99,7 @@ namespace LorisAngel.CommandModules
         [Command("t")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
+        [RequireBotPermission(ChannelPermission.AttachFiles)]
         private async Task TicTacToeTurnAsync(int x = -1, int y = -1)
         {
             await Context.Message.DeleteAsync();
@@ -165,6 +168,7 @@ namespace LorisAngel.CommandModules
         [Command("t end")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
+        [RequireBotPermission(ChannelPermission.AttachFiles)]
         private async Task TicTacToeEndAsync()
         {
             await Context.Message.DeleteAsync();
@@ -204,6 +208,7 @@ namespace LorisAngel.CommandModules
         [Alias("snakes", "snakesandladders")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
+        [RequireBotPermission(ChannelPermission.AttachFiles)]
         private async Task SnakesAsync(IUser user = null)
         {
             await Context.Message.DeleteAsync();

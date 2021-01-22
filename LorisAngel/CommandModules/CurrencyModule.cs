@@ -1,5 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Net.Bot;
+using Discord.Net.Bot.Database.Configs;
+using LorisAngel.Database;
 using System.Threading.Tasks;
 
 namespace LorisAngel.CommandModules
@@ -19,11 +22,58 @@ namespace LorisAngel.CommandModules
         [Command("bank transfer")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task BankTransferAsync(IUser user = null, int amount = 0)
+        private async Task BankTransferAsync(IUser user = null, float amount = 0)
         {
             await Context.Message.DeleteAsync();
 
+            BotConfig conf = BotConfig.Load();
+            var gconf = conf.GetConfig(Context.Guild.Id);
 
+            if (user == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}bank transfer <@user> <amount>`", false);
+                return;
+            }
+
+            if (amount <= 0)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"The amount must be greater than 0.");
+                return;
+            }
+
+            LoriUser profile = ProfileDatabase.GetUser(Context.User.Id);
+            if (profile == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"We could not find your bank account.");
+                return;
+            }
+
+            LoriUser profile2 = ProfileDatabase.GetUser(user.Id);
+            if (profile2 == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"We could not find {user.Username}'s bank account.");
+                return;
+            }
+
+            if (profile.GetCurrency() >= amount)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", "You can not afford this transfer.");
+                return;
+            }
+
+            ProfileDatabase.AddCurrency(Context.User.Id, -amount);
+            ProfileDatabase.AddCurrency(user.Id, amount);
+
+            float newAmt = profile.GetCurrency();
+
+            EmbedBuilder embed = new EmbedBuilder()
+            {
+                Color = Color.DarkPurple,
+                Title = "Transfer successful",
+                Description = $"Successfully transferred ${amount} to {user.Username}.\nNew balance: ${newAmt}"
+            };
+
+            await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }
     }
 }

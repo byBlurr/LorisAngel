@@ -30,8 +30,8 @@ namespace LorisAngel.CommandModules
 
             if (playerTwo.IsBot || playerOne.Id == playerTwo.Id)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "You can not play against yourself or a bot.", false);
-                return;
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "You can not play against yourself or a bot.", false);
+                //return;
             }
 
             if (GameHandler.DoesGameExist(Context.Guild.Id, GameType.CONNECT))
@@ -75,7 +75,7 @@ namespace LorisAngel.CommandModules
                 return;
             }
 
-            TicTacToeGame game = (TicTacToeGame)GameHandler.GetGame(Context.Guild.Id, GameType.CONNECT);
+            ConnectGame game = (ConnectGame)GameHandler.GetGame(Context.Guild.Id, GameType.CONNECT);
             if (game == null)
             {
                 await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "The game could not be found.", false);

@@ -119,7 +119,8 @@ namespace LorisAngel.CommandModules
             else if (minutes > 0) status += $"{minutes} Minutes and {seconds - (minutes * 60)} Seconds**";
             else status += $"{seconds} Seconds**";
 
-            if (User.Activity != null) status += $"\n {User.Activity.ToString()}";
+            if (User.Status == UserStatus.Offline || User.Status == UserStatus.Invisible) status += $"\n *{profile.Activity}*";
+            else status += $"\n {profile.Activity}";
 
             if (profile.Motto.Length > 0) status += $"\n**Motto:** {profile.Motto}";
 

@@ -328,6 +328,17 @@ namespace LorisAngel.Database
             }
         }
 
+        public static void AddCurrency(ulong id, float amt)
+        {
+            foreach (LoriUser user in Users)
+            {
+                if (user.Id == id)
+                {
+                    user.AddCurrency(amt);
+                }
+            }
+        }
+
         public static void SetUserOnline(ulong id)
         {
             foreach (LoriUser user in Users)
@@ -411,6 +422,8 @@ namespace LorisAngel.Database
         {
             int amount = (int)(amt * 100);
             Currency += amount;
+            LastUpdated = DateTime.Now;
+            HasChanged = true;
         }
 
         public void UpdateStatus(UserStatus newStatus)

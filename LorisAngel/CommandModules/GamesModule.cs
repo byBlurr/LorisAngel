@@ -61,6 +61,8 @@ namespace LorisAngel.CommandModules
         [RequireBotPermission(ChannelPermission.AttachFiles)]
         private async Task ConnectTurnAsunc(int column = -1)
         {
+            await Context.Message.DeleteAsync();
+
             if (column < 1 || column > 7)
             {
                 BotConfig conf = BotConfig.Load();

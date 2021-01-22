@@ -1,8 +1,10 @@
-﻿# Version 2.1.0 - Coming soon...
+﻿# Version 2.1.1 - 
+- Fixed some command messages not being deleted
+
+# Version 2.1.0 - Return of Games
 - Added data cleanup
 - Added resource cleanup
 - Added Connect 4 (-help connect4)
-- Added Snakes and Ladders (TODO) <- Derive from Game, might need to make tweaks to Game, Not sure how to render players...
 - Added Tic Tac Toe (-help tictactoe)
 - Added tempban command (-help tempban)
 - Added motto command (-help setmotto)
@@ -43,6 +45,5 @@
 - Removed games to be rewritten
 
 # Future Updates
-- (v2.1.0) Return of connect4, tictactoe and snakes&ladders
 - (v2.1.1) Currency and Leaderboards
 - (v2.2.0) Webpanel and BlackJack

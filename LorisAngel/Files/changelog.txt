@@ -1,7 +1,7 @@
 ﻿# Version 2.1.0 - Coming soon...
 - Added data cleanup
 - Added resource cleanup
-- Added Connect 4 (TODO) <- Derive from Game, move logic from old Connect4
+- Added Connect 4 (-help connect4)
 - Added Snakes and Ladders (TODO) <- Derive from Game, might need to make tweaks to Game, Not sure how to render players...
 - Added Tic Tac Toe (-help tictactoe)
 - Added tempban command (-help tempban)

@@ -133,7 +133,7 @@ namespace LorisAngel.Games
             return 0L;
         }
 
-        public bool CheckForDraw() => Filled;
+        public override bool CheckForDraw() => Filled;
 
         public override string RenderGame() => GameGrid.Render();
 

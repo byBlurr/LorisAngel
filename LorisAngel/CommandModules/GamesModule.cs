@@ -53,6 +53,77 @@ namespace LorisAngel.CommandModules
             newGame.RenderId = msg.Id;
         }
 
+
+        [Command("connect4")]
+        [Alias("c4")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        [RequireBotPermission(ChannelPermission.AttachFiles)]
+        private async Task ConnectTurnAsunc(int column = -1)
+        {
+            if (column < 1 || column > 7)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}c4 <column>` - Column must be 1 - 7", false);
+                return;
+            }
+
+            if (!GameHandler.DoesGameExist(Context.Guild.Id, GameType.CONNECT))
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "There is not a game in this guild.", false);
+                return;
+            }
+
+            TicTacToeGame game = (TicTacToeGame)GameHandler.GetGame(Context.Guild.Id, GameType.CONNECT);
+            if (game == null)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "The game could not be found.", false);
+                return;
+            }
+
+            if (game.Players[0] != Context.User.Id && game.Players[1] != Context.User.Id)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "You are not part of this game...");
+                return;
+            }
+
+            if (game.Players[game.Turn] != Context.User.Id)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "It is not your turn...");
+                return;
+            }
+
+            GameHandler.TakeTurn(Context.Guild.Id, GameType.CONNECT, Context.User.Id, column);
+            ulong winner = GameHandler.CheckForWinner(Context.Guild.Id, GameType.CONNECT);
+            //bool draw = GameHandler.CheckForDraw(Context.Guild.Id, GameType.CONNECT);
+
+            if (winner == 0L)
+            {
+                var oldMsg = await Context.Channel.GetMessageAsync(game.RenderId);
+                await oldMsg.DeleteAsync();
+
+                var nextUp = await Context.Guild.GetUserAsync(game.Players[game.Turn]);
+                string render = game.RenderGame();
+                var msg = await Context.Channel.SendFileAsync(render, $"**Connect4**\n" +
+                    $"Next Up: {nextUp.Mention}\n" +
+                    $"`{CommandHandler.GetPrefix(Context.Guild.Id)}c4 <column>` to take your turn\n`{CommandHandler.GetPrefix(Context.Guild.Id)}c4 end` to end the game");
+
+                game.RenderId = msg.Id;
+            }
+            else
+            {
+                IMessage msg = await Context.Channel.GetMessageAsync(game.RenderId);
+                await msg.DeleteAsync();
+
+                string render = game.RenderGame();
+                await Context.Channel.SendFileAsync(render, $"**Connect4**\n" +
+                    $"Game Won by " + (await Context.Guild.GetUserAsync(winner)).Mention);
+
+                GameHandler.EndGame(game);
+            }
+        }
+
         [Command("tictactoe")]
         [Alias("ttt")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]

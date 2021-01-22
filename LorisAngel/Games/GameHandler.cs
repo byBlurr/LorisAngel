@@ -55,7 +55,7 @@ namespace LorisAngel.Games
             return 0L;
         }
 
-        public static void TakeTurn(ulong gameId, GameType gamemode, ulong userid, int param1, int param2)
+        public static void TakeTurn(ulong gameId, GameType gamemode, ulong userid, int param1, int param2 = 0)
         {
             foreach (Game game in OngoingGames)
             {

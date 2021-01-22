@@ -98,24 +98,32 @@ namespace LorisAngel.CommandModules
             ulong winner = GameHandler.CheckForWinner(Context.Guild.Id, GameType.CONNECT);
             bool draw = GameHandler.CheckForDraw(Context.Guild.Id, GameType.CONNECT);
 
+            IMessage oldMsg = await Context.Channel.GetMessageAsync(game.RenderId);
+            await oldMsg.DeleteAsync();
+
             if (winner == 0L)
             {
-                var oldMsg = await Context.Channel.GetMessageAsync(game.RenderId);
-                await oldMsg.DeleteAsync();
+                if (!draw)
+                {
+                    var nextUp = await Context.Guild.GetUserAsync(game.Players[game.Turn]);
+                    string render = game.RenderGame();
+                    var msg = await Context.Channel.SendFileAsync(render, $"**Connect4**\n" +
+                        $"Next Up: {nextUp.Mention}\n" +
+                        $"`{CommandHandler.GetPrefix(Context.Guild.Id)}c4 <column>` to take your turn\n`{CommandHandler.GetPrefix(Context.Guild.Id)}c4 end` to end the game");
 
-                var nextUp = await Context.Guild.GetUserAsync(game.Players[game.Turn]);
-                string render = game.RenderGame();
-                var msg = await Context.Channel.SendFileAsync(render, $"**Connect4**\n" +
-                    $"Next Up: {nextUp.Mention}\n" +
-                    $"`{CommandHandler.GetPrefix(Context.Guild.Id)}c4 <column>` to take your turn\n`{CommandHandler.GetPrefix(Context.Guild.Id)}c4 end` to end the game");
+                    game.RenderId = msg.Id;
+                }
+                else
+                {
+                    string render = game.RenderGame();
+                    await Context.Channel.SendFileAsync(render, $"**Connect4**\n" +
+                        $"DRAW ({(await Context.Guild.GetUserAsync(game.Players[0])).Mention} v {(await Context.Guild.GetUserAsync(game.Players[1])).Mention})");
 
-                game.RenderId = msg.Id;
+                    GameHandler.EndGame(game);
+                }
             }
             else
             {
-                IMessage msg = await Context.Channel.GetMessageAsync(game.RenderId);
-                await msg.DeleteAsync();
-
                 string render = game.RenderGame();
                 await Context.Channel.SendFileAsync(render, $"**Connect4**\n" +
                     $"Game Won by " + (await Context.Guild.GetUserAsync(winner)).Mention);

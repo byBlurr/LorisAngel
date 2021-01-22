@@ -49,10 +49,15 @@ namespace LorisAngel.Rendering
                 for (int y = 0; y < Grid.GetLength(1); y++)
                 {
                     string tileTexturePath = Path.Combine(AppContext.BaseDirectory, $"textures/tile_{Name}_{Grid[x,y].State}.png");
-                    Bitmap tileTexture = new Bitmap(tileTexturePath);
 
-                    graphicImage.DrawImage(tileTexture, (x * TileSize) + (TileSize / 2), (y * TileSize) + (TileSize / 2), TileSize, TileSize);
-                    tileTexture.Dispose();
+                    // Some tiles dont have textues, such as tile_connect_free
+                    if (File.Exists(tileTexturePath))
+                    {
+                        Bitmap tileTexture = new Bitmap(tileTexturePath);
+
+                        graphicImage.DrawImage(tileTexture, (x * TileSize) + (TileSize / 2), (y * TileSize) + (TileSize / 2), TileSize, TileSize);
+                        tileTexture.Dispose();
+                    }
                 }
             }
 

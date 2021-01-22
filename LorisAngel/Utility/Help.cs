@@ -93,7 +93,7 @@ namespace LorisAngel.Utility
                 {
                     Title = "Help: " + Util.ToUppercaseFirst(category.ToString()),
                     Color = Color.DarkPurple,
-                    Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Page {page} of {pages}" }
+                    Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Server Prefix: {gconf.Prefix}" }
                 };
 
                 if (category == CommandCategory.Main)

@@ -39,6 +39,12 @@ namespace LorisAngel.Utility
                     case "games":
                         category = CommandCategory.Games;
                         break;
+                    case "nsfw":
+                        category = CommandCategory.NSFW;
+                        break;
+                    case "currency":
+                        category = CommandCategory.Currency;
+                        break;
 
                     default:
                         category = CommandCategory.Main;

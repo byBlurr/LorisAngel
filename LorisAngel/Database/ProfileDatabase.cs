@@ -52,6 +52,9 @@ namespace LorisAngel.Database
                             var discUsr = bot.GetUser(usr.Id);
                             if (discUsr != null && !discUsr.IsBot)
                             {
+                                if (discUsr.Activity != null) usr.UpdateActivity(discUsr.Activity.ToString());
+                                else if (discUsr.Status != UserStatus.Offline && discUsr.Status != UserStatus.Invisible) usr.UpdateActivity("");
+
                                 usr.UpdateStatus(discUsr.Status);
                                 usr.UpdateName(discUsr.Username);
                             }
@@ -149,11 +152,13 @@ namespace LorisAngel.Database
                         DateTime lastSeen = reader.GetDateTime(4);
                         string status = reader.GetString(5);
                         DateTime lastUpdated = reader.GetDateTime(7);
-                        string motto = reader.GetString(8);
+                        string activity = reader.GetString(8);
+                        string motto = reader.GetString(9);
 
+                        if (activity == null) activity = "";
                         if (motto == null) motto = "";
 
-                        LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, "", lastUpdated, motto);
+                        LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, "", lastUpdated, motto, activity);
                         users.Add(newUser);
                     }
                 }
@@ -185,12 +190,13 @@ namespace LorisAngel.Database
                         }
                         else
                         {
-                            var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status, lastupdated = @lastupdated, motto = @motto WHERE id = @id", dbCon.Connection);
+                            var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status, lastupdated = @lastupdated, motto = @motto, activity = @activity WHERE id = @id", dbCon.Connection);
                             cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
                             cmd.Parameters.Add("@name", MySqlDbType.String).Value = "";
                             cmd.Parameters.Add("@lastseen", MySqlDbType.DateTime).Value = user.LastSeen;
                             cmd.Parameters.Add("@status", MySqlDbType.String).Value = user.Status;
                             cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
+                            cmd.Parameters.Add("@activity", MySqlDbType.String).Value = user.Activity;
                             cmd.Parameters.Add("@motto", MySqlDbType.String).Value = user.Motto;
 
                             try
@@ -261,7 +267,7 @@ namespace LorisAngel.Database
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
             if (dbCon.IsConnect())
             {
-                var cmd = new MySqlCommand($"INSERT INTO users (id, name, createdon, joinedon, lastseen, status, badges, lastupdated, motto) VALUES (@id, @name, @createdon, @joinedon, @lastseen, @status, @badges, @lastupdated, @motto)", dbCon.Connection);
+                var cmd = new MySqlCommand($"INSERT INTO users (id, name, createdon, joinedon, lastseen, status, badges, lastupdated, motto, activity) VALUES (@id, @name, @createdon, @joinedon, @lastseen, @status, @badges, @lastupdated, @motto, @activity)", dbCon.Connection);
                 cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
                 cmd.Parameters.Add("@name", MySqlDbType.String).Value = "";
                 cmd.Parameters.Add("@createdon", MySqlDbType.DateTime).Value = user.CreatedOn;
@@ -270,6 +276,7 @@ namespace LorisAngel.Database
                 cmd.Parameters.Add("@status", MySqlDbType.String).Value = user.Status;
                 cmd.Parameters.Add("@badges", MySqlDbType.String).Value = "";
                 cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
+                cmd.Parameters.Add("@activity", MySqlDbType.String).Value = user.Activity;
                 cmd.Parameters.Add("@motto", MySqlDbType.String).Value = user.Motto;
 
                 try
@@ -332,6 +339,16 @@ namespace LorisAngel.Database
             }
         }
 
+        public static void SetUserActivity(ulong id, string activity)
+        {
+            foreach (LoriUser user in Users)
+            {
+                if (user.Id == id)
+                {
+                    user.UpdateActivity(activity);
+                }
+            }
+        }
         public static void SetUserMotto(ulong id, string motto)
         {
             foreach (LoriUser user in Users)

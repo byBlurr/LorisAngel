@@ -13,13 +13,43 @@ namespace LorisAngel.CommandModules
         [Alias("c4")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
-        private async Task ConnectAsync(IUser user = null)
+        private async Task ConnectAsync(IUser playerTwo = null)
         {
             await Context.Message.DeleteAsync();
 
-            BotConfig conf = BotConfig.Load();
-            IndividualConfig gconf = conf.GetConfig(Context.Guild.Id);
-            await Util.SendErrorAsync((Context.Channel as ITextChannel), "Unimplemented Game", $"This game has not yet been reimplemented into Lori's Angel v2. Try again in a couple days!\n `{gconf.Prefix}changelog` for more information", false);
+            if (playerTwo == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}c4 <@user>`", false);
+                return;
+            }
+
+            IUser playerOne = Context.User as IUser;
+
+            if (playerTwo.IsBot || playerOne.Id == playerTwo.Id)
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "You can not play against yourself or a bot.", false);
+                return;
+            }
+
+            if (GameHandler.DoesGameExist(Context.Guild.Id, GameType.CONNECT))
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "There is already a game in this guild.", false);
+                return;
+            }
+
+            ulong[] players = { playerOne.Id, playerTwo.Id };
+            ConnectGame newGame = new ConnectGame(Context.Guild.Id, players);
+            GameHandler.AddNewGame(newGame);
+
+            string render = newGame.RenderGame();
+            IUser currentPlayer = await Context.Guild.GetUserAsync(newGame.Players[newGame.Turn]);
+            var msg = await Context.Channel.SendFileAsync(render, $"**Connect 4**\n" +
+                $"Next Up: {currentPlayer.Mention}\n" +
+                $"`{CommandHandler.GetPrefix(Context.Guild.Id)}c4 <column>` to take your turn\n`{CommandHandler.GetPrefix(Context.Guild.Id)}c4 end` to end the game");
+
+            newGame.RenderId = msg.Id;
         }
 
         [Command("tictactoe")]

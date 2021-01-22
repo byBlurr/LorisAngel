@@ -352,13 +352,14 @@ namespace LorisAngel.Database
         public DateTime JoinedOn { get; private set; }
         public DateTime LastSeen { get; private set; }
         public string Status { get; private set; }
+        public string Activity { get; private set; }
         public string Motto { get; private set; }
         public string Badges { get; private set; } // WILL BE A LIST OF BADGES ONCE BADGES ADDED
         public bool HasChanged { get; set; }
         public DateTime LastUpdated { get; set; }
         public bool IsNew { get; set; }
 
-        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated, string motto = "")
+        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated, string activity = "", string motto = "")
         {
             Id = id;
             Name = name.Normalize() ?? throw new ArgumentNullException(nameof(name));
@@ -366,11 +367,12 @@ namespace LorisAngel.Database
             JoinedOn = joinedOn;
             LastSeen = lastSeen;
             Status = status ?? throw new ArgumentNullException(nameof(status));
+            Activity = activity;
+            Motto = motto;
             Badges = badges;
             HasChanged = false;
             LastUpdated = lastUpdated;
             IsNew = false;
-            Motto = motto;
         }
 
         public void SetNew()
@@ -384,6 +386,19 @@ namespace LorisAngel.Database
             if (!newStatus.ToString().Equals(Status))
             {
                 Status = newStatus.ToString();
+                LastSeen = DateTime.Now;
+                LastUpdated = DateTime.Now;
+                HasChanged = true;
+            }
+        }
+
+        public void UpdateActivity(string newActivity)
+        {
+            string activity = newActivity.Normalize();
+
+            if (activity.IsNormalized())
+            {
+                Activity = activity;
                 LastSeen = DateTime.Now;
                 LastUpdated = DateTime.Now;
                 HasChanged = true;

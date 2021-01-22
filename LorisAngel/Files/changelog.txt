@@ -3,6 +3,7 @@
 - Added currency commands (-help currency)
 - Added more info to profiles
 - NSFW commands must now be used inside an nsfw channel
+- Games reward money
 - Fixed some command messages not being deleted
 - Updated help command
 

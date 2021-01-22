@@ -8,6 +8,7 @@
 - Added motto command (-help setmotto)
 - Adjusted status timer
 - Adjusted user profiles
+- Fixed unhandled exception when trying to access profiles on start up
 
 # Version 2.0.2 - Minor Tweaks and Fixes
 - Added moderator commands (-help moderation)

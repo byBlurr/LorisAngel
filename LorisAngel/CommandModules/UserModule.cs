@@ -47,6 +47,8 @@ namespace LorisAngel.CommandModules
         {
             await Context.Message.DeleteAsync();
 
+            while (!ProfileDatabase.Ready()) await Task.Delay(50);
+
             LoriUser profile = ProfileDatabase.GetUser(Context.User.Id);
             if (profile == null)
             {
@@ -67,6 +69,8 @@ namespace LorisAngel.CommandModules
                 await Util.SendErrorAsync((Context.Channel as ITextChannel), "Profile Not Found", $"You can not use this command on bots!", false);
                 return;
             }
+
+            while (!ProfileDatabase.Ready()) await Task.Delay(50);
 
             LoriUser profile = ProfileDatabase.GetUser(User.Id);
             if (profile == null)

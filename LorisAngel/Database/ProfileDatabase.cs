@@ -12,7 +12,7 @@ namespace LorisAngel.Database
     {
         private static readonly int DAYS_TILL_DELETE = 7; // How many days of no activity until theyre user is wiped...
         private static List<LoriUser> Users;
-        private static bool ReadyToUpdate = false;
+        private static bool ProfilesReady = false;
 
         // Loop through all users
         public static async Task ProcessUsers()
@@ -23,7 +23,7 @@ namespace LorisAngel.Database
                 await Task.Delay(5000);
 
                 Users = await GetAllUsersAsync();
-                ReadyToUpdate = true;
+                ProfilesReady = true;
 
                 await Task.Delay(5000);
                 while (true)
@@ -40,7 +40,7 @@ namespace LorisAngel.Database
             {
                 await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of UpdateUsers thread."));
                 var bot = CommandHandler.GetBot();
-                while (!ReadyToUpdate) await Task.Delay(500);
+                while (!ProfilesReady) await Task.Delay(500);
                 while (true)
                 {
                     if (Users.Count != 0)
@@ -67,7 +67,7 @@ namespace LorisAngel.Database
             var CheckForNewUsers = Task.Run(async () =>
             {
                 await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of CheckForNewUsers thread."));
-                while (!ReadyToUpdate) await Task.Delay(500);
+                while (!ProfilesReady) await Task.Delay(500);
 
                 int newUsers = 0;
                 foreach (var g in CommandHandler.GetBot().Guilds)
@@ -93,7 +93,7 @@ namespace LorisAngel.Database
             var CheckForLostUsers = Task.Run(async () =>
             {
                 await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of CheckForLostUsers thread."));
-                while (!ReadyToUpdate) await Task.Delay(500);
+                while (!ProfilesReady) await Task.Delay(500);
 
                 foreach (LoriUser user in Users)
                 {
@@ -107,6 +107,12 @@ namespace LorisAngel.Database
 
                 await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "End of CheckForLostUsers thread."));
             });
+        }
+
+        // Check if the profiles are ready to use...
+        public static bool Ready()
+        {
+            return ProfilesReady;
         }
 
         // Get a specific user profile
@@ -144,6 +150,8 @@ namespace LorisAngel.Database
                         string status = reader.GetString(5);
                         DateTime lastUpdated = reader.GetDateTime(7);
                         string motto = reader.GetString(8);
+
+                        if (motto == null) motto = "";
 
                         LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, "", lastUpdated, motto);
                         users.Add(newUser);

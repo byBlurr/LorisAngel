@@ -5,7 +5,6 @@ using Discord.Net.Bot.Database.Configs;
 using Discord.WebSocket;
 using LorisAngel.Database;
 using LorisAngel.Utility;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -202,6 +201,8 @@ namespace LorisAngel
                 }
             }
 
+            while (!ProfileDatabase.Ready()) await Task.Delay(50);
+
             var sg = bot.GetGuild(730573219374825523);
             await sg.GetTextChannel(739308321655226469).SendMessageAsync("[" + bot.Guilds.Count + "] Joined guild " + guild.Name);
 
@@ -216,6 +217,8 @@ namespace LorisAngel
 
         private async Task UserJoinedAsync(SocketGuildUser user)
         {
+            while (!ProfileDatabase.Ready()) await Task.Delay(100);
+
             if (!ProfileDatabase.DoesUserExistInMemory(user.Id) && !user.IsBot)
             {
                 ProfileDatabase.CreateNewUser((user as IUser));
@@ -230,11 +233,17 @@ namespace LorisAngel
 
         private async Task CensorMessageAsync(SocketMessage message)
         {
-            // Check if user offline
-            if (!message.Author.IsBot && (message.Author.Status == UserStatus.Offline || message.Author.Status == UserStatus.Invisible))
+            if (message == null) return;
+            if (message.Author.IsBot) return;
+
+            if (ProfileDatabase.Ready())
             {
-                // Mark them as online for a loop, reset their last seen... THEY APPEARING!
-                ProfileDatabase.SetUserOnline(message.Author.Id);
+                // Check if user offline
+                if (!message.Author.IsBot && (message.Author.Status == UserStatus.Offline || message.Author.Status == UserStatus.Invisible))
+                {
+                    // Mark them as online for a loop, reset their last seen... THEY APPEARING!
+                    ProfileDatabase.SetUserOnline(message.Author.Id);
+                }
             }
 
             await Moderation.CheckMessageAsync(message);

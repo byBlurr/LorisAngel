@@ -107,7 +107,7 @@ namespace LorisAngel.CommandModules
                 {
                     var nextUp = await Context.Guild.GetUserAsync(game.Players[game.Turn]);
                     string render = game.RenderGame();
-                    var msg = await Context.Channel.SendFileAsync(render, $"**Connect4**\n" +
+                    var msg = await Context.Channel.SendFileAsync(render, $"**Connect 4**\n" +
                         $"Next Up: {nextUp.Mention}\n" +
                         $"`{CommandHandler.GetPrefix(Context.Guild.Id)}c4 <column>` to take your turn\n`{CommandHandler.GetPrefix(Context.Guild.Id)}c4 end` to end the game");
 
@@ -116,7 +116,7 @@ namespace LorisAngel.CommandModules
                 else
                 {
                     string render = game.RenderGame();
-                    await Context.Channel.SendFileAsync(render, $"**Connect4**\n" +
+                    await Context.Channel.SendFileAsync(render, $"**Connect 4**\n" +
                         $"DRAW ({(await Context.Guild.GetUserAsync(game.Players[0])).Mention} v {(await Context.Guild.GetUserAsync(game.Players[1])).Mention})");
 
                     GameHandler.EndGame(game);
@@ -125,10 +125,50 @@ namespace LorisAngel.CommandModules
             else
             {
                 string render = game.RenderGame();
-                await Context.Channel.SendFileAsync(render, $"**Connect4**\n" +
+                await Context.Channel.SendFileAsync(render, $"**Connect 4**\n" +
                     $"Game Won by " + (await Context.Guild.GetUserAsync(winner)).Mention);
 
                 GameHandler.EndGame(game);
+            }
+        }
+
+        [Command("connect4 end")]
+        [Alias("c4 end")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        [RequireBotPermission(ChannelPermission.AttachFiles)]
+        private async Task ConnectEndAsync()
+        {
+            await Context.Message.DeleteAsync();
+
+            if (GameHandler.DoesGameExist(Context.Guild.Id, GameType.CONNECT))
+            {
+                Games.Game game = GameHandler.GetGame(Context.Guild.Id, GameType.CONNECT);
+
+                if (game != null)
+                {
+                    if (game.Players[0] == Context.User.Id || game.Players[1] == Context.User.Id || (Context.User as IGuildUser).GuildPermissions.Administrator)
+                    {
+                        IMessage msg = await Context.Channel.GetMessageAsync(game.RenderId);
+                        await msg.DeleteAsync();
+
+                        string render = game.RenderGame();
+                        await Context.Channel.SendFileAsync(render, $"**Connect 4**\n" +
+                            $"Game Ended By " + Context.User.Mention);
+
+                        GameHandler.EndGame(game);
+                    }
+                }
+                else
+                {
+                    await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "No game could be found here...", false);
+                    return;
+                }
+            }
+            else
+            {
+                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "No game could be found here...", false);
+                return;
             }
         }
 

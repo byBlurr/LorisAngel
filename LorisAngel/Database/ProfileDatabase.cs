@@ -413,10 +413,9 @@ namespace LorisAngel.Database
         {
             string activity = newActivity.Normalize();
 
-            if (activity.IsNormalized())
+            if (activity.IsNormalized() && !activity.Equals(Activity))
             {
                 Activity = activity;
-                LastSeen = DateTime.Now;
                 LastUpdated = DateTime.Now;
                 HasChanged = true;
             }

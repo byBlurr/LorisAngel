@@ -1,4 +1,5 @@
 ﻿# Version 2.1.1 - Currency and Leaderboards
+- Added currency commands (-help currency)
 - Added more info to profiles
 - Fixed some command messages not being deleted
 

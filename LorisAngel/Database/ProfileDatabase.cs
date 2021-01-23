@@ -474,7 +474,6 @@ namespace LorisAngel.Database
             if (motto.IsNormalized())
             {
                 Motto = motto;
-                LastSeen = DateTime.Now;
                 LastUpdated = DateTime.Now;
                 HasChanged = true;
             }
@@ -482,11 +481,14 @@ namespace LorisAngel.Database
 
         public void UpdateName(string newName)
         {
-            return; // WE ARENT USING THIS FOR NOW
-            if (newName.Normalize() == Name) return;
-            Name = newName.Normalize();
-            HasChanged = true;
-            LastUpdated = DateTime.Now;
+            string name = Fix(newName);
+
+            if (!name.Equals(Name))
+            {
+                Name = name;
+                HasChanged = true;
+                LastUpdated = DateTime.Now;
+            }
         }
 
         private string Fix(string text)

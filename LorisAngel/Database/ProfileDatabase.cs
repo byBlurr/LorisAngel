@@ -194,7 +194,7 @@ namespace LorisAngel.Database
                         {
                             var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status, lastupdated = @lastupdated, motto = @motto, activity = @activity, currency = @currency WHERE id = @id", dbCon.Connection);
                             cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
-                            cmd.Parameters.Add("@name", MySqlDbType.String).Value = "";
+                            cmd.Parameters.Add("@name", MySqlDbType.String).Value = user.Name;
                             cmd.Parameters.Add("@lastseen", MySqlDbType.DateTime).Value = user.LastSeen;
                             cmd.Parameters.Add("@status", MySqlDbType.String).Value = user.Status;
                             cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
@@ -279,7 +279,7 @@ namespace LorisAngel.Database
             {
                 var cmd = new MySqlCommand($"INSERT INTO users (id, name, createdon, joinedon, lastseen, status, badges, lastupdated, motto, activity, currency) VALUES (@id, @name, @createdon, @joinedon, @lastseen, @status, @badges, @lastupdated, @motto, @activity, @currency)", dbCon.Connection);
                 cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
-                cmd.Parameters.Add("@name", MySqlDbType.String).Value = "";
+                cmd.Parameters.Add("@name", MySqlDbType.String).Value = user.Name;
                 cmd.Parameters.Add("@createdon", MySqlDbType.DateTime).Value = user.CreatedOn;
                 cmd.Parameters.Add("@joinedon", MySqlDbType.DateTime).Value = user.JoinedOn;
                 cmd.Parameters.Add("@lastseen", MySqlDbType.DateTime).Value = user.LastSeen;
@@ -482,6 +482,7 @@ namespace LorisAngel.Database
         public void UpdateName(string newName)
         {
             string name = Fix(newName);
+            name = Util.ToUppercaseFirst(name);
 
             if (!name.Equals(Name))
             {

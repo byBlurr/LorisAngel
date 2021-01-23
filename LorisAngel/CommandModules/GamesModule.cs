@@ -134,7 +134,7 @@ namespace LorisAngel.CommandModules
                 await Context.Channel.SendFileAsync(render, $"**Connect 4**\n" +
                     $"Game Won by " + (await Context.Guild.GetUserAsync(winner)).Mention);
 
-                if (ProfileDatabase.GetUser(winner != null) ProfileDatabase.AddCurrency(winner, 250);
+                if (ProfileDatabase.GetUser(winner) != null) ProfileDatabase.AddCurrency(winner, 250);
                 GameHandler.EndGame(game);
             }
         }

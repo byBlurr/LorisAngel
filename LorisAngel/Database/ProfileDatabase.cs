@@ -210,7 +210,14 @@ namespace LorisAngel.Database
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine($"Failed to save user: {e.Message}");
+                                await Util.Logger(new LogMessage(LogSeverity.Error, "Profiles", e.Message, null));
+                                
+                                // Lets see what chars are causing the issue...
+                                if (e.Message.Contains("Incorrect string value"))
+                                {
+                                    await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", user.Activity, null));
+                                }
+
                                 cmd.Dispose();
                             }
                         }
@@ -442,7 +449,7 @@ namespace LorisAngel.Database
 
         public void UpdateActivity(string newActivity)
         {
-            string activity = newActivity.Normalize();
+            string activity = Fix(newActivity);
 
             if (activity.IsNormalized() && !activity.Equals(Activity))
             {
@@ -450,6 +457,13 @@ namespace LorisAngel.Database
                 LastUpdated = DateTime.Now;
                 HasChanged = true;
             }
+        }
+
+        private string Fix(string newActivity)
+        {
+            string activity = newActivity.Normalize();
+
+            return activity;
         }
 
         public void UpdateMotto(string newMotto)

@@ -402,6 +402,8 @@ namespace LorisAngel.Database
         public string Motto { get; private set; }
         public string Badges { get; private set; } // WILL BE A LIST OF BADGES ONCE BADGES ADDED
         public int Currency;
+        public string Avatar { get; private set; } // WILL BE THE AVATAR ON THEIR PROFILE
+        public string ProfileCard { get; private set; } // WILL BE THE PROFILE BACKGROUND
         public bool HasChanged { get; set; }
         public DateTime LastUpdated { get; set; }
         public bool IsNew { get; set; }

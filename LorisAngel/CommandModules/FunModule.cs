@@ -241,7 +241,7 @@ namespace LorisAngel.CommandModules
             }
 
             Random rnd = new Random();
-            List<FunObject> deaths = await FunDatabase.GetOfTypeAsync("deaths");
+            List<FunObject> deaths = await FunDatabase.GetOfTypeAsync("death");
             int d = rnd.Next(0, deaths.Count);
             string death = deaths[d].Text.Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
 

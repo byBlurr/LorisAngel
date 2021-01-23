@@ -19,15 +19,18 @@ namespace LorisAngel.Database
 
             if (dbCon.IsConnect())
             {
-                var cmd = new MySqlCommand($"SELECT * FROM funmessages WHERE (type = '{type}')", dbCon.Connection);
+                var cmd = new MySqlCommand($"SELECT * FROM funmessages WHERE type = '{type}'", dbCon.Connection);
                 var reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        string text = reader.GetString(1);
-                        string extra = reader.GetString(2);;
-                        Objects.Add(new FunObject(text, extra));
+                        if (reader.GetString(0).Equals(type)) // double check that they are the correct type, as I was getting a weird issue...
+                        {
+                            string text = reader.GetString(1);
+                            string extra = reader.GetString(2); ;
+                            Objects.Add(new FunObject(text, extra));
+                        }
                     }
                 }
 

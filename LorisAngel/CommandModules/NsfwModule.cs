@@ -34,7 +34,7 @@ namespace LorisAngel.CommandModules
             }
 
             Random rnd = new Random();
-            List<FunObject> punishments = await FunDatabase.GetOfTypeAsync("roast");
+            List<FunObject> punishments = await FunDatabase.GetOfTypeAsync("punish");
             int r = rnd.Next(0, punishments.Count);
 
             string punishment = punishments[r].Text.Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
@@ -87,7 +87,7 @@ namespace LorisAngel.CommandModules
             }
 
             Random rnd = new Random();
-            List<FunObject> punishments = await FunDatabase.GetOfTypeAsync("roast");
+            List<FunObject> punishments = await FunDatabase.GetOfTypeAsync("punish");
             int r = rnd.Next(0, punishments.Count);
 
             string punishment = punishments[r].Text.Replace("USER1", Util.ToUppercaseFirst(user.Mention)).Replace("USER2", Util.ToUppercaseFirst(Context.User.Mention));

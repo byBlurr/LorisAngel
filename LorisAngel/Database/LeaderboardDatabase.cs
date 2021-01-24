@@ -16,6 +16,43 @@ namespace LorisAngel.Database
         public static async Task CheckAsync(string id, string name, string lbName)
         {
             string tableName;
+            tableName = GetTableName(lbName);
+
+            var dbCon = DBConnection.Instance();
+            dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand($"SELECT 1 FROM {tableName} WHERE id = {id}", dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    var insertCmd = new MySqlCommand($"INSERT INTO {tableName} (id, name, score) VALUES (@id, @name, @score)", dbCon.Connection);
+                    insertCmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = id;
+                    insertCmd.Parameters.Add("@name", MySqlDbType.String).Value = name;
+                    insertCmd.Parameters.Add("@score", MySqlDbType.Int32).Value = 0;
+
+                    try
+                    {
+                        await insertCmd.ExecuteNonQueryAsync();
+                        insertCmd.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.Logger(new LogMessage(LogSeverity.Error, "Leaderboards", ex.Message));
+                        insertCmd.Dispose();
+                    }
+
+                    cmd.Dispose();
+                    reader.Dispose();
+                }
+                dbCon.Close();
+            }
+        }
+
+        private static string GetTableName(string lbName)
+        {
+            string tableName;
             switch (lbName)
             {
                 case "c4":
@@ -29,33 +66,7 @@ namespace LorisAngel.Database
                     break;
             }
 
-
-            var dbCon = DBConnection.Instance();
-            dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
-
-            if (dbCon.IsConnect())
-            {
-                var cmd = new MySqlCommand($"SELECT 1 FROM {tableName} WHERE id = {id}", dbCon.Connection);
-                var reader = cmd.ExecuteReader();
-                if (!reader.HasRows)
-                {
-                    var insertCmd = new MySqlCommand($"INSERT INTO {tableName} (id, name, score) VALUES (@id, @name, @score)", dbCon.Connection);
-                    cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = id;
-                    cmd.Parameters.Add("@name", MySqlDbType.String).Value = name;
-                    cmd.Parameters.Add("@score", MySqlDbType.Int32).Value = 0;
-
-                    try
-                    {
-                        await cmd.ExecuteNonQueryAsync();
-                        cmd.Dispose();
-                    }
-                    catch (Exception ex)
-                    {
-                        await Util.Logger(new LogMessage(LogSeverity.Error, "Leaderboards", ex.Message));
-                        cmd.Dispose();
-                    }
-                }
-            }
+            return tableName;
         }
 
         // Add score

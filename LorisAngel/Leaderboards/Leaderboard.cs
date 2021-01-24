@@ -1,13 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace LorisAngel.Leaderboards
 {
-    public abstract class Leaderboard
+    public class Leaderboard
     {
-        private static List<LeaderboardRow> Rows;
+        public string Name { get; private set; }
+        private List<LeaderboardRow> Rows;
 
+        public Leaderboard(string name, List<LeaderboardRow> rows)
+        {
+            Name = name;
+            Rows = rows;
+        }
+
+        public List<LeaderboardRow> GetTop(int count = 10)
+        {
+            List<LeaderboardRow> top = Rows.OrderByDescending(x => x.Score).ToList();
+            if (top.Count > count) top.RemoveRange(count, top.Count - count);
+            return top;
+        }
+
+        public List<LeaderboardRow> GetBottom(int count = 10)
+        {
+            List<LeaderboardRow> top = Rows.OrderBy(x => x.Score).ToList();
+            if (top.Count > count) top.RemoveRange(count, top.Count - count);
+            return top;
+        }
+
+        public LeaderboardRow GetUser(ulong user)
+        {
+            foreach (LeaderboardRow row in Rows) if (row.Id == user) return row;
+            return null;
+        }
     }
 
     public class LeaderboardRow

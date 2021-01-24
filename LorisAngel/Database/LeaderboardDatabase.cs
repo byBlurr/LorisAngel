@@ -13,7 +13,7 @@ namespace LorisAngel.Database
     public class LeaderboardDatabase
     {
         // Check if user is on scoreboard
-        public static async Task CheckAsync(string id, string name, string lbName)
+        public static async Task CheckAsync(ulong id, string name, string lbName)
         {
             string tableName;
             tableName = GetTableName(lbName);
@@ -50,28 +50,49 @@ namespace LorisAngel.Database
             }
         }
 
-        private static string GetTableName(string lbName)
-        {
-            string tableName;
-            switch (lbName)
-            {
-                case "c4":
-                    tableName = "connect_leaderboard";
-                    break;
-                case "ttt":
-                    tableName = "tictactoe_leaderboard";
-                    break;
-                default:
-                    tableName = "bot_leaderboard";
-                    break;
-            }
-
-            return tableName;
-        }
-
         // Add score
         public static async Task AddScoreAsync(ulong userId, string lbName)
         {
+            var user = CommandHandler.GetBot().GetUser(userId);
+            string username = user.Username;
+            await CheckAsync(userId, username, lbName);
+
+            string tableName;
+            tableName = GetTableName(lbName);
+
+            var dbCon = DBConnection.Instance();
+            dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand($"SELECT 1 FROM {tableName} WHERE id = {userId}", dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int newScore = reader.GetInt32(2) + 1;
+
+                        var updateCmd = new MySqlCommand($"UPDATE {tableName} SET score = @score WHERE id = @id", dbCon.Connection);
+                        updateCmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = userId;
+                        updateCmd.Parameters.Add("@score", MySqlDbType.Int32).Value = newScore;
+
+                        try
+                        {
+                            await updateCmd.ExecuteNonQueryAsync();
+                            updateCmd.Dispose();
+                        }
+                        catch (Exception ex)
+                        {
+                            await Util.Logger(new LogMessage(LogSeverity.Error, "Leaderboards", ex.Message));
+                            updateCmd.Dispose();
+                        }
+                    }
+                    cmd.Dispose();
+                    reader.Dispose();
+                }
+                dbCon.Close();
+            }
         }
 
         // Get leaderboard
@@ -80,6 +101,26 @@ namespace LorisAngel.Database
 
 
             return null;
+        }
+
+        // Helper method for getting table name from leaderboard name
+        private static string GetTableName(string lbName)
+        {
+            string tableName;
+            switch (lbName)
+            {
+                case "Connect 4":
+                    tableName = "connect_leaderboard";
+                    break;
+                case "Tic Tac Toe":
+                    tableName = "tictactoe_leaderboard";
+                    break;
+                default:
+                    tableName = "bot_leaderboard";
+                    break;
+            }
+
+            return tableName;
         }
     }
 }

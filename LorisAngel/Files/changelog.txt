@@ -3,11 +3,12 @@
 - Added currency commands (-help currency)
 - Added command categories currency & nsfw
 - Added more info to profiles
-- NSFW commands must now be used inside an nsfw channel
-- Games reward money
 - Fixed some command messages not being deleted
 - Fixed some SQL errors
 - Fixed some errors with Fun commands
+- Games reward money
+- NSFW commands must now be used inside an nsfw channel
+- Reworked LoriUser update method to be more optimised
 - Updated help command
 
 # Version 2.1.0 - Return of Games

@@ -36,6 +36,7 @@ namespace LorisAngel.Database
                 }
             });
 
+            /*
             var UpdateUsers = Task.Run(async () =>
             {
                 await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of UpdateUsers thread."));
@@ -66,6 +67,7 @@ namespace LorisAngel.Database
                     await Task.Delay(500);
                 }
             });
+            */
 
             var CheckForNewUsers = Task.Run(async () =>
             {
@@ -353,6 +355,23 @@ namespace LorisAngel.Database
                 {
                     user.AddCurrency(amt);
                 }
+            }
+        }
+
+        public static async Task UpdateUser(ulong id)
+        {
+            while (!ProfilesReady) await Task.Delay(500);
+            var bot = CommandHandler.GetBot();
+
+            var discUsr = bot.GetUser(id);
+            var loriUsr = GetUser(id);
+
+            if (loriUsr != null && !discUsr.IsBot)
+            {
+                if (discUsr.Activity != null) loriUsr.UpdateActivity(discUsr.Activity.ToString());
+                else if (discUsr.Status != UserStatus.Offline && discUsr.Status != UserStatus.Invisible) loriUsr.UpdateActivity("");
+                loriUsr.UpdateStatus(discUsr.Status);
+                loriUsr.UpdateName(discUsr.Username);
             }
         }
 

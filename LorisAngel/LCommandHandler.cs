@@ -5,6 +5,7 @@ using Discord.Net.Bot.Database.Configs;
 using Discord.WebSocket;
 using LorisAngel.Database;
 using LorisAngel.Utility;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -136,6 +137,7 @@ namespace LorisAngel
         public override void SetupHandlers(DiscordSocketClient bot)
         {
             bot.Ready += ReadyAsync;
+            bot.GuildMemberUpdated += UpdateUserAsync;
             bot.JoinedGuild += JoinedGuildAsync;
             bot.UserJoined += UserJoinedAsync;
             bot.LeftGuild += LeftGuildAsync;
@@ -194,6 +196,20 @@ namespace LorisAngel
 
             await ProfileDatabase.ProcessUsers();
             //await ModerationDatabase.ProcessBansAsync();
+        }
+        private async Task UpdateUserAsync(SocketGuildUser oldUser, SocketGuildUser updatedUser)
+        {
+            _ = Task.Run(async () =>
+            {
+                string old = "";
+                string updated = "";
+                if (oldUser.Activity != null) old = oldUser.Activity.ToString();
+                if (updatedUser.Activity != null) updated = updatedUser.Activity.ToString();
+
+                // if username, status or activity has changed...
+                if (oldUser.Status != updatedUser.Status || !old.Equals(updated) || !oldUser.Username.Equals(updatedUser.Username)) 
+                    await ProfileDatabase.UpdateUser(oldUser.Id);
+            });
         }
 
         private async Task JoinedGuildAsync(SocketGuild guild)

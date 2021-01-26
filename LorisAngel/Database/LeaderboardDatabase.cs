@@ -39,7 +39,7 @@ namespace LorisAngel.Database
                     }
                     catch (Exception ex)
                     {
-                        await Util.Logger(new LogMessage(LogSeverity.Error, "Leaderboards", ex.Message));
+                        await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Leaderboards", ex.Message));
                         insertCmd.Dispose();
                     }
 
@@ -84,7 +84,7 @@ namespace LorisAngel.Database
                         }
                         catch (Exception ex)
                         {
-                            await Util.Logger(new LogMessage(LogSeverity.Error, "Leaderboards", ex.Message));
+                            await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Leaderboards", ex.Message));
                             updateCmd.Dispose();
                         }
                     }

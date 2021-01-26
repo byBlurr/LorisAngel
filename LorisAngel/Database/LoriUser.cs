@@ -128,5 +128,10 @@ namespace LorisAngel.Database
             return obj is LoriUser user &&
                    Id == user.Id;
         }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id);
+        }
     }
 }

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net.Bot" Version="2.2.0.9" />
+    <PackageReference Include="Discord.Net.Bot" Version="2.2.0.10" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
 

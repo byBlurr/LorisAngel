@@ -19,7 +19,7 @@ namespace LorisAngel.Database
         {
             var SaveUsers = Task.Run(async () =>
             {
-                await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of SaveUsers thread."));
+                await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "Start of SaveUsers thread."));
                 await Task.Delay(5000);
 
                 Users = await GetAllUsersAsync();
@@ -31,7 +31,7 @@ namespace LorisAngel.Database
                     DateTime startTime = DateTime.Now;
                     await SaveAllUsersAsync(Users);
                     int timetosave = (int)((DateTime.Now - startTime).TotalSeconds);
-                    if (timetosave > 5) await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", $"Saving users took {timetosave} seconds"));
+                    if (timetosave > 5) await Util.LoggerAsync(new LogMessage(LogSeverity.Warning, "Profiles", $"Saving users took {timetosave} seconds"));
                     await Task.Delay(60000); // Save users once a minute
                 }
             });
@@ -39,7 +39,7 @@ namespace LorisAngel.Database
             /*
             var UpdateUsers = Task.Run(async () =>
             {
-                await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of UpdateUsers thread."));
+                await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "Start of UpdateUsers thread."));
                 var bot = CommandHandler.GetBot();
                 while (!ProfilesReady) await Task.Delay(500);
                 while (true)
@@ -62,7 +62,7 @@ namespace LorisAngel.Database
                         }
 
                         int timetoupdate = (int)((DateTime.Now - startTime).TotalSeconds);
-                        if (timetoupdate > 5) await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", $"Updating users took {timetoupdate} seconds"));
+                        if (timetoupdate > 5) await Util.LoggerAsync(new LogMessage(LogSeverity.Warning, "Profiles", $"Updating users took {timetoupdate} seconds"));
                     }
                     await Task.Delay(500);
                 }
@@ -71,7 +71,7 @@ namespace LorisAngel.Database
 
             var CheckForNewUsers = Task.Run(async () =>
             {
-                await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of CheckForNewUsers thread."));
+                await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "Start of CheckForNewUsers thread."));
                 while (!ProfilesReady) await Task.Delay(500);
 
                 int newUsers = 0;
@@ -90,14 +90,14 @@ namespace LorisAngel.Database
                     }
                 }
 
-                if (newUsers > 0) await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", $"Added {newUsers} new users."));
-                else await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", $"No new users found."));
-                await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "End of CheckForNewUsers thread."));
+                if (newUsers > 0) await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", $"Added {newUsers} new users."));
+                else await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", $"No new users found."));
+                await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "End of CheckForNewUsers thread."));
             });
 
             var CheckForLostUsers = Task.Run(async () =>
             {
-                await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "Start of CheckForLostUsers thread."));
+                await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "Start of CheckForLostUsers thread."));
                 while (!ProfilesReady) await Task.Delay(500);
 
                 foreach (LoriUser user in Users)
@@ -110,7 +110,7 @@ namespace LorisAngel.Database
                     }
                 }
 
-                await Util.Logger(new LogMessage(LogSeverity.Info, "Profiles", "End of CheckForLostUsers thread."));
+                await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "End of CheckForLostUsers thread."));
             });
         }
 
@@ -212,12 +212,12 @@ namespace LorisAngel.Database
                             }
                             catch (Exception e)
                             {
-                                await Util.Logger(new LogMessage(LogSeverity.Error, "Profiles", e.Message, null));
+                                await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Profiles", e.Message, null));
                                 
                                 // Lets see what chars are causing the issue...
                                 if (e.Message.Contains("Incorrect string value"))
                                 {
-                                    await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", user.Activity, null));
+                                    await Util.LoggerAsync(new LogMessage(LogSeverity.Warning, "Profiles", user.Activity, null));
                                 }
 
                                 cmd.Dispose();
@@ -298,12 +298,12 @@ namespace LorisAngel.Database
                 }
                 catch (Exception e)
                 {
-                    await Util.Logger(new LogMessage(LogSeverity.Error, "Profiles", e.Message, null));
+                    await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Profiles", e.Message, null));
 
                     // Lets see what chars are causing the issue...
                     if (e.Message.Contains("Incorrect string value"))
                     {
-                        await Util.Logger(new LogMessage(LogSeverity.Warning, "Profiles", user.Activity, null));
+                        await Util.LoggerAsync(new LogMessage(LogSeverity.Warning, "Profiles", user.Activity, null));
                     }
 
                     cmd.Dispose();

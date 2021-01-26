@@ -4,6 +4,7 @@ using Discord.Net.Bot.Database.Sql;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LorisAngel.Database
@@ -212,12 +213,50 @@ namespace LorisAngel.Database
                             }
                             catch (Exception e)
                             {
-                                await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Profiles", e.Message, null));
-                                
-                                // Lets see what chars are causing the issue...
-                                if (e.Message.Contains("Incorrect string value"))
+                                if (e.Message.StartsWith("Duplicate entry"))
                                 {
-                                    await Util.LoggerAsync(new LogMessage(LogSeverity.Warning, "Profiles", user.Activity, null));
+                                    List<LoriUser> usersToRemove;
+                                    List<LoriUser> usersWithId = new List<LoriUser>();
+
+                                    foreach (LoriUser usr in Users)
+                                    {
+                                        if (usr.Id == user.Id)
+                                        {
+                                            usersWithId.Add(usr);
+                                        }
+                                    }
+
+                                    usersToRemove = usersWithId.OrderBy(x => x.JoinedOn).ToList();
+                                    usersToRemove.RemoveAt(0);
+
+                                    foreach (LoriUser userToRemove in usersToRemove)
+                                    {
+                                        for (int i = 0; i < Users.Count; i++)
+                                        {
+                                            LoriUser usr = Users[i];
+                                            if (usr.Id == user.Id)
+                                            {
+                                                if (usr.Name.Equals(user.Name) && usr.Motto.Equals(user.Motto) && usr.JoinedOn == user.JoinedOn && usr.Status == user.Status)
+                                                {
+                                                    Users.RemoveAt(i);
+                                                }
+                                            }
+                                        }
+
+                                        userToRemove.HasChanged = true;
+                                    }
+
+                                    await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Profiles", $"Duplicate entry ({user.Id}) - removed duplicate user", null));
+                                }
+                                else
+                                {
+                                    await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Profiles", e.Message, null));
+
+                                    // Lets see what chars are causing the issue...
+                                    if (e.Message.Contains("Incorrect string value"))
+                                    {
+                                        await Util.LoggerAsync(new LogMessage(LogSeverity.Warning, "Profiles", user.Activity, null));
+                                    }
                                 }
 
                                 cmd.Dispose();

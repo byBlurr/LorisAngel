@@ -134,7 +134,13 @@ namespace LorisAngel.CommandModules
                 await Context.Channel.SendFileAsync(render, $"**Connect 4**\n" +
                     $"Game Won by " + (await Context.Guild.GetUserAsync(winner)).Mention);
 
-                if (ProfileDatabase.GetUser(winner) != null) ProfileDatabase.AddCurrency(winner, 250);
+                var winwin = ProfileDatabase.GetUser(winner);
+                if (winwin != null)
+                {
+                    ProfileDatabase.AddCurrency(winner, 250);
+                    await LeaderboardDatabase.CheckAsync(winner, winwin.Name, "Connect 4");
+                    await LeaderboardDatabase.AddScoreAsync(winner, "Connect 4");
+                }
                 GameHandler.EndGame(game);
             }
         }
@@ -287,7 +293,13 @@ namespace LorisAngel.CommandModules
                 await Context.Channel.SendFileAsync(render, $"**TicTacToe**\n" +
                     $"Game Won by " + (await Context.Guild.GetUserAsync(winner)).Mention);
 
-                if (ProfileDatabase.GetUser(winner) != null) ProfileDatabase.AddCurrency(winner, 100);
+                var winwin = ProfileDatabase.GetUser(winner);
+                if (winwin != null)
+                {
+                    ProfileDatabase.AddCurrency(winner, 100);
+                    await LeaderboardDatabase.CheckAsync(winner, winwin.Name, "Tic Tac Toe");
+                    await LeaderboardDatabase.AddScoreAsync(winner, "Tic Tac Toe");
+                }
                 GameHandler.EndGame(game);
             }
         }

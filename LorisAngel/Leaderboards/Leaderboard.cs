@@ -33,6 +33,21 @@ namespace LorisAngel.Leaderboards
             foreach (LeaderboardRow row in Rows) if (row.Id == user) return row;
             return null;
         }
+
+        public int GetPosition(ulong user)
+        {
+            List<LeaderboardRow> top = Rows.OrderByDescending(x => x.Score).ToList();
+            for (int i = 0; i < top.Count; i++)
+            {
+                if (top[i].Id == user) return i + 1;
+            }
+            return -1;
+        }
+
+        public int GetSize()
+        {
+            return Rows.Count;
+        }
     }
 
     public class LeaderboardRow

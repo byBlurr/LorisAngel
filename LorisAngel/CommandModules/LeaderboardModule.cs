@@ -36,11 +36,11 @@ namespace LorisAngel.CommandModules
 
             Leaderboard fullLb = await LeaderboardDatabase.GetLeaderboardAsync(leaderboard, 10);
             var top10 = fullLb.GetTop(10);
-            string board = "";
+            string board = $"`{"pos", 5} {"Name", 30}   {"score",5}`";
 
             for (int i = 0; i < top10.Count; i++)
             {
-                board += $"\n[{i+1,3}] {top10[i].Name, 15} - {top10[i].Score}";
+                board += $"\n`[{i+1,3}] {top10[i].Name,30} - {top10[i].Score,5}`";
             }
 
             EmbedBuilder embed = new EmbedBuilder()

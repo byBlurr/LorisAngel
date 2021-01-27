@@ -1,5 +1,5 @@
 ﻿# Version 2.1.1 - Currency and Leaderboards
-- Added game leaderboards (TODO)
+- Added game leaderboards (-help games)
 - Added currency commands (-help currency)
 - Added command categories currency & nsfw
 - Added more info to profiles
@@ -56,8 +56,8 @@
 - Removed games to be rewritten
 
 # Future Updates
-- (v2.1.1) Currency and Leaderboards
-- (v2.1.2) NSFW command category
+- (v2.1.2) NSFW Commands
 - (v2.2.0) Webpanel 
 - (v2.2.1) Better profile appearance
+- (v2.2.2) Customisable profile and online shop
 - (v2.3.0) Blackjack and Snakes&Ladders

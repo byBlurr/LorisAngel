@@ -94,7 +94,7 @@ namespace LorisAngel.CommandModules
         private async Task ChangelogAsync()
         {
             await Context.Message.DeleteAsync();
-            await Context.Channel.SendMessageAsync("```markdown\n" + File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "changelog.txt")) + "\n```");
+            await Context.Channel.SendMessageAsync("```markdown\n" + File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "changelog.txt")) + "\n\nFull Changelog: https://raw.githubusercontent.com/byBlurr/LorisAngel/master/changelog.md \n```");
         }
 
         [Command("webpanel")]

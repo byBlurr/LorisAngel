@@ -6,6 +6,7 @@
 - Fixed some command messages not being deleted
 - Fixed some SQL errors
 - Fixed some errors with Fun commands
+- Fixed possibility of duplicate userdata
 - Games reward money
 - NSFW commands must now be used inside an nsfw channel
 - Reworked LoriUser update method to be more optimised

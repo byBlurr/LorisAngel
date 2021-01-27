@@ -98,9 +98,36 @@ namespace LorisAngel.Database
         // Get leaderboard
         public static async Task<Leaderboard> GetLeaderboardAsync(string lbName, int count = 10)
         {
+            Leaderboard lb = null;
 
+            string tableName;
+            tableName = GetTableName(lbName);
 
-            return null;
+            var dbCon = DBConnection.Instance();
+            dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand($"SELECT * FROM {tableName}", dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    List<LeaderboardRow> rows = new List<LeaderboardRow>();
+
+                    while (reader.Read())
+                    {
+                        LeaderboardRow row = new LeaderboardRow(reader.GetUInt64(0), reader.GetString(1), reader.GetInt32(2));
+                        rows.Add(row);
+                    }
+
+                    lb = new Leaderboard(GetLeaderboardName(tableName), rows);
+                    cmd.Dispose();
+                    reader.Dispose();
+                }
+                dbCon.Close();
+            }
+
+            return lb;
         }
 
         // Helper method for getting table name from leaderboard name
@@ -121,6 +148,26 @@ namespace LorisAngel.Database
             }
 
             return tableName;
+        }
+
+        // Helper method for getting leaderboard name from table name
+        private static string GetLeaderboardName(string tableName)
+        {
+            string lbName;
+            switch (tableName)
+            {
+                case "connect_leaderboard":
+                    lbName = "Connect 4";
+                    break;
+                case "tictactoe_leaderboard":
+                    lbName = "Tic Tac Toe";
+                    break;
+                default:
+                    lbName = "Leaderboard";
+                    break;
+            }
+
+            return lbName;
         }
     }
 }

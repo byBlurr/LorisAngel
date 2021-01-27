@@ -226,24 +226,33 @@ namespace LorisAngel.Database
                                         }
                                     }
 
-                                    usersToRemove = usersWithId.OrderBy(x => x.JoinedOn).ToList();
-                                    usersToRemove.RemoveAt(0);
-
-                                    foreach (LoriUser userToRemove in usersToRemove)
+                                    if (usersWithId.Count > 1)
                                     {
-                                        for (int i = 0; i < Users.Count; i++)
+                                        usersToRemove = usersWithId.OrderBy(x => x.JoinedOn).ToList();
+                                        usersToRemove.RemoveAt(0);
+
+                                        ulong id = user.Id;
+                                        string name = user.Name;
+                                        string motto = user.Motto;
+                                        string status = user.Status;
+                                        DateTime joinedOn = user.JoinedOn;
+
+                                        foreach (LoriUser userToRemove in usersToRemove)
                                         {
-                                            LoriUser usr = Users[i];
-                                            if (usr.Id == user.Id)
+                                            for (int i = 0; i < Users.Count; i++)
                                             {
-                                                if (usr.Name.Equals(user.Name) && usr.Motto.Equals(user.Motto) && usr.JoinedOn == user.JoinedOn && usr.Status == user.Status)
+                                                LoriUser usr = Users[i];
+                                                if (usr.Id == id)
                                                 {
-                                                    Users.RemoveAt(i);
+                                                    if (usr.Name.Equals(name) && usr.Motto.Equals(motto) && usr.JoinedOn == joinedOn && usr.Status == status)
+                                                    {
+                                                        Users.RemoveAt(i);
+                                                    }
                                                 }
                                             }
                                         }
 
-                                        userToRemove.HasChanged = true;
+                                        await UpdateUser(id);
                                     }
 
                                     await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Profiles", $"Duplicate entry ({user.Id}) - removed duplicate user", null));

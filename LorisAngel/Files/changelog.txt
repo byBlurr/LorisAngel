@@ -59,5 +59,6 @@
 - (v2.1.2) NSFW Commands
 - (v2.2.0) Webpanel 
 - (v2.2.1) Better profile appearance
-- (v2.2.2) Customisable profile and online shop
-- (v2.3.0) Blackjack and Snakes&Ladders
+- (v2.2.2) Customisable profile & Shop
+- (v2.3.0) Snakes and Ladders
+- (V2.3.1) Trivia & Blackjack

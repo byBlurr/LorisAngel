@@ -41,7 +41,12 @@ namespace LorisAngel.Leaderboards
             {
                 if (top[i].Id == user) return i + 1;
             }
-            return -1;
+            return Rows.Count + 1;
+        }
+
+        public string GetPositionAsString(ulong user)
+        {
+            return $"#{GetPosition(user)} of {GetSize()}";
         }
 
         public int GetSize()

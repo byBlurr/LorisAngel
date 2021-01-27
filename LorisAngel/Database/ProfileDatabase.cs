@@ -252,7 +252,7 @@ namespace LorisAngel.Database
                                             }
                                         }
 
-                                        await UpdateUser(id);
+                                        await UpdateUserAsync(id);
                                     }
 
                                     await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Profiles", $"Duplicate entry ({user.Id}) - removed duplicate user", null));
@@ -406,7 +406,7 @@ namespace LorisAngel.Database
             }
         }
 
-        public static async Task UpdateUser(ulong id)
+        public static async Task UpdateUserAsync(ulong id)
         {
             while (!ProfilesReady) await Task.Delay(500);
             var bot = CommandHandler.GetBot();

@@ -208,7 +208,7 @@ namespace LorisAngel
 
                 // if username, status or activity has changed...
                 if (oldUser.Status != updatedUser.Status || !old.Equals(updated) || !oldUser.Username.Equals(updatedUser.Username)) 
-                    await ProfileDatabase.UpdateUser(oldUser.Id);
+                    await ProfileDatabase.UpdateUserAsync(oldUser.Id);
             });
         }
 

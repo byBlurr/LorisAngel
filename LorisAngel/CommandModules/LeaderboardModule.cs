@@ -11,6 +11,7 @@ namespace LorisAngel.CommandModules
     public class LeaderboardModule : ModuleBase
     {
         [Command("leaderboard")]
+        [Alias("lb")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
         private async Task LeaderboardAsync([Remainder] string lb = "")

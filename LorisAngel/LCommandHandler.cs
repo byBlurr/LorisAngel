@@ -69,6 +69,10 @@ namespace LorisAngel
             //CommandUsage[] snakesUsage = { new CommandUsage("snakes", arguments), new CommandUsage("snakesandladders", arguments) };
             //commands.Add(new BotCommand("snakesandladders", snakesUsage, "Play a game of Snakes and Ladders (Minimum of two players).", CommandCategory.Games));
 
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.TEXT, false, "ttt") };
+            CommandUsage[] lbUsage = { new CommandUsage("leaderboard", arguments), new CommandUsage("lb", arguments) };
+            commands.Add(new BotCommand("leaderboard", lbUsage, "View who has the most bragging rights.", CommandCategory.Games));
+
             // Fun commands
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false) };
             CommandUsage[] pickupUsage = { new CommandUsage("pickup", arguments) };

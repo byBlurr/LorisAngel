@@ -5,7 +5,6 @@ using Discord.Net.Bot.Database.Configs;
 using Discord.WebSocket;
 using LorisAngel.Database;
 using LorisAngel.Utility;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;

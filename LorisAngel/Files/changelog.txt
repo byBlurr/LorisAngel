@@ -1,5 +1,6 @@
 ﻿# Version 2.1.2 - NSFW Commands
 - Added link to full changelog
+- Updated library version to v2.2.0.11
 
 # Version 2.1.1 - Currency and Leaderboards
 - Added game leaderboards (-help games)

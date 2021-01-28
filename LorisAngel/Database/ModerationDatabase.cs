@@ -54,7 +54,7 @@ namespace LorisAngel.Database
                                                     Title = "User Unbanned",
                                                     Description = $"A users temp ban was removed. Check audit log for more info.",
                                                     Color = Color.DarkPurple,
-                                                    Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Edit moderation settings on the webpanel." }
+                                                    Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Edit moderation settings on the webpanel." }
                                                 };
                                                 await logs.SendMessageAsync(null, false, embed.Build());
                                             }

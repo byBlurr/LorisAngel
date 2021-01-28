@@ -21,7 +21,7 @@ namespace LorisAngel.CommandModules
 
             if (!(Context.Channel as ITextChannel).IsNsfw)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "NSFW Error", $"This command can only be used inside channels marked as nsfw...", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "NSFW Error", $"This command can only be used inside channels marked as nsfw...", false);
                 return;
             }
 
@@ -29,7 +29,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}punish <@user>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}punish <@user>`", false);
                 return;
             }
 
@@ -37,7 +37,7 @@ namespace LorisAngel.CommandModules
             List<FunObject> punishments = await FunDatabase.GetOfTypeAsync("punish");
             int r = rnd.Next(0, punishments.Count);
 
-            string punishment = punishments[r].Text.Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
+            string punishment = punishments[r].Text.Replace("USER1", StringUtil.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", StringUtil.ToUppercaseFirst(user.Mention));
 
             if (punishment.Contains("RUSER"))
             {
@@ -54,11 +54,11 @@ namespace LorisAngel.CommandModules
                         if (Context.User.Id != rndUser.Id && user.Id != rndUser.Id) ruser = rndUser;
                     }
 
-                    punishment = punishment.Replace("RUSER", Util.ToUppercaseFirst(ruser.Mention));
+                    punishment = punishment.Replace("RUSER", StringUtil.ToUppercaseFirst(ruser.Mention));
                 }
                 else
                 {
-                    punishment = punishments[0].Text.Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
+                    punishment = punishments[0].Text.Replace("USER1", StringUtil.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", StringUtil.ToUppercaseFirst(user.Mention));
                 }
             }
 
@@ -74,7 +74,7 @@ namespace LorisAngel.CommandModules
 
             if (!(Context.Channel as ITextChannel).IsNsfw)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "NSFW Error", $"This command can only be used inside channels marked as nsfw...", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "NSFW Error", $"This command can only be used inside channels marked as nsfw...", false);
                 return;
             }
 
@@ -82,7 +82,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}punishme <@user>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}punishme <@user>`", false);
                 return;
             }
 
@@ -90,7 +90,7 @@ namespace LorisAngel.CommandModules
             List<FunObject> punishments = await FunDatabase.GetOfTypeAsync("punish");
             int r = rnd.Next(0, punishments.Count);
 
-            string punishment = punishments[r].Text.Replace("USER1", Util.ToUppercaseFirst(user.Mention)).Replace("USER2", Util.ToUppercaseFirst(Context.User.Mention));
+            string punishment = punishments[r].Text.Replace("USER1", StringUtil.ToUppercaseFirst(user.Mention)).Replace("USER2", StringUtil.ToUppercaseFirst(Context.User.Mention));
 
             await Context.Channel.SendMessageAsync(punishment);
         }

@@ -91,9 +91,9 @@ namespace LorisAngel.Utility
 
                 embed = new EmbedBuilder()
                 {
-                    Title = "Help: " + Util.ToUppercaseFirst(category.ToString()),
+                    Title = "Help: " + StringUtil.ToUppercaseFirst(category.ToString()),
                     Color = Color.DarkPurple,
-                    Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Server Prefix: {gconf.Prefix}" }
+                    Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Server Prefix: {gconf.Prefix}" }
                 };
 
                 if (category == CommandCategory.Main)
@@ -102,7 +102,7 @@ namespace LorisAngel.Utility
 
                     foreach (var cat in cats)
                     {
-                        embed.AddField(new EmbedFieldBuilder() { Name = Util.ToUppercaseFirst(cat.ToString()), Value = "category description", IsInline = true });
+                        embed.AddField(new EmbedFieldBuilder() { Name = StringUtil.ToUppercaseFirst(cat.ToString()), Value = "category description", IsInline = true });
                     }
                 }
                 else
@@ -111,7 +111,7 @@ namespace LorisAngel.Utility
 
                     foreach (var command in commandsToShow)
                     {
-                        embed.AddField(new EmbedFieldBuilder() { Name = Util.ToUppercaseFirst(command.Handle), Value = command.Description, IsInline = true });
+                        embed.AddField(new EmbedFieldBuilder() { Name = StringUtil.ToUppercaseFirst(command.Handle), Value = command.Description, IsInline = true });
                     }
                 }
             }
@@ -119,9 +119,9 @@ namespace LorisAngel.Utility
             {
                 embed = new EmbedBuilder()
                 {
-                    Title = "Help: " + Util.ToUppercaseFirst(commandToDisplay.Handle),
+                    Title = "Help: " + StringUtil.ToUppercaseFirst(commandToDisplay.Handle),
                     Color = Color.DarkPurple,
-                    Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  <> - Required argument, [] - Optional argument" }
+                    Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  <> - Required argument, [] - Optional argument" }
                 };
 
                 string desc = $"{commandToDisplay.Description}\n\n**Usage:**";

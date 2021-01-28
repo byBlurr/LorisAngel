@@ -24,7 +24,7 @@ namespace LorisAngel.CommandModules
 
             if (user == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}kick <user> <reason>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}kick <user> <reason>`", false);
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace LorisAngel.CommandModules
                 Title = user.Username + " was kicked",
                 Description = reason,
                 Color = Color.DarkPurple,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Edit moderation settings on the webpanel." }
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Edit moderation settings on the webpanel." }
             };
 
             await CreateLogAsync(gconf, embed);
@@ -58,7 +58,7 @@ namespace LorisAngel.CommandModules
 
             if (user == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}ban <user> <reason>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}ban <user> <reason>`", false);
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace LorisAngel.CommandModules
                 Title = user.Username + " was banned",
                 Description = reason,
                 Color = Color.DarkPurple,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Edit moderation settings on the webpanel." }
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Edit moderation settings on the webpanel." }
             };
 
             await CreateLogAsync(gconf, embed);
@@ -92,7 +92,7 @@ namespace LorisAngel.CommandModules
 
             if (user == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}ban <user> <time> [reason]`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}ban <user> <time> [reason]`", false);
                 return;
             }
 
@@ -107,7 +107,7 @@ namespace LorisAngel.CommandModules
                 Title = user.Username + " was temp banned",
                 Description = reason,
                 Color = Color.DarkPurple,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Edit moderation settings on the webpanel." }
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Edit moderation settings on the webpanel." }
             };
 
             await CreateLogAsync(gconf, embed);
@@ -124,7 +124,7 @@ namespace LorisAngel.CommandModules
                 }
                 else
                 {
-                    await Util.SendErrorAsync((Context.Channel as ITextChannel), "Log Channel Error", $"The log channel for this guild could not be found. Make sure the logging settings are set correctly on the webpanel.", false);
+                    await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Log Channel Error", $"The log channel for this guild could not be found. Make sure the logging settings are set correctly on the webpanel.", false);
                 }
             }
             await Context.Channel.SendMessageAsync(null, false, embed.Build());

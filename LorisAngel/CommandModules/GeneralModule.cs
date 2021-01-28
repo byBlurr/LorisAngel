@@ -29,8 +29,8 @@ namespace LorisAngel.CommandModules
         private async Task InviteAsync()
         {
             await Context.Message.DeleteAsync();
-            await Context.User.SendMessageAsync($"Invite Loris Angel to your server: {Util.GetInviteLink(729696788097007717)}");
-            await Context.Channel.SendMessageAsync($"Invite Loris Angel to your server: {Util.GetInviteLink(729696788097007717)}");
+            await Context.User.SendMessageAsync($"Invite Loris Angel to your server: {StringUtil.GetInviteLink(729696788097007717)}");
+            await Context.Channel.SendMessageAsync($"Invite Loris Angel to your server: {StringUtil.GetInviteLink(729696788097007717)}");
         }
 
         [Command("users")]
@@ -51,7 +51,7 @@ namespace LorisAngel.CommandModules
                 Title = "Lori's Angels Statistics",
                 Color = Color.DarkPurple,
                 Description = $"Out of the {guilds} guilds I am watching {total} total users, {users} of which are from this guild!",
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Id}" }
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Id}" }
             };
 
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
@@ -82,7 +82,7 @@ namespace LorisAngel.CommandModules
                 Title = "Lori's Angels Statistics",
                 Color = Color.DarkPurple,
                 Description = $"Lori's Angel has been online since {time}, thats an uptime of {uptime} {m}!",
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Id}" }
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Id}" }
             };
 
             await Context.Channel.SendMessageAsync(null, false, embed.Build());

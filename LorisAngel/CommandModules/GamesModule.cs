@@ -23,7 +23,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}c4 <@user>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}c4 <@user>`", false);
                 return;
             }
 
@@ -31,13 +31,13 @@ namespace LorisAngel.CommandModules
 
             if (playerTwo.IsBot || playerOne.Id == playerTwo.Id)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "You can not play against yourself or a bot.", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "You can not play against yourself or a bot.", false);
                 return;
             }
 
             if (GameHandler.DoesGameExist(Context.Guild.Id, GameType.CONNECT))
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "There is already a game in this guild.", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "There is already a game in this guild.", false);
                 return;
             }
 
@@ -68,32 +68,32 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}c4 <column>` - Column must be 1 - 7", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}c4 <column>` - Column must be 1 - 7", false);
                 return;
             }
 
             if (!GameHandler.DoesGameExist(Context.Guild.Id, GameType.CONNECT))
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "There is not a game in this guild.", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "There is not a game in this guild.", false);
                 return;
             }
 
             ConnectGame game = (ConnectGame)GameHandler.GetGame(Context.Guild.Id, GameType.CONNECT);
             if (game == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "The game could not be found.", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "The game could not be found.", false);
                 return;
             }
 
             if (game.Players[0] != Context.User.Id && game.Players[1] != Context.User.Id)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "You are not part of this game...");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "You are not part of this game...");
                 return;
             }
 
             if (game.Players[game.Turn] != Context.User.Id)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "It is not your turn...");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "It is not your turn...");
                 return;
             }
 
@@ -174,13 +174,13 @@ namespace LorisAngel.CommandModules
                 }
                 else
                 {
-                    await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "No game could be found here...", false);
+                    await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "No game could be found here...", false);
                     return;
                 }
             }
             else
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "No game could be found here...", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Connect4 Error", "No game could be found here...", false);
                 return;
             }
         }
@@ -198,7 +198,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}ttt <@user>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}ttt <@user>`", false);
                 return;
             }
 
@@ -206,13 +206,13 @@ namespace LorisAngel.CommandModules
 
             if (playerTwo.IsBot || playerOne.Id == playerTwo.Id)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "You can not play against yourself or a bot.", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "You can not play against yourself or a bot.", false);
                 return;
             }
 
             if (GameHandler.DoesGameExist(Context.Guild.Id, GameType.TICTACTOE))
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "There is already a game in this guild.", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "There is already a game in this guild.", false);
                 return;
             }
 
@@ -238,7 +238,7 @@ namespace LorisAngel.CommandModules
 
             if (!GameHandler.DoesGameExist(Context.Guild.Id, GameType.TICTACTOE))
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "No game could be found here...");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "No game could be found here...");
                 return;
             }
 
@@ -246,25 +246,25 @@ namespace LorisAngel.CommandModules
 
             if (game == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "No game could be found here...");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "No game could be found here...");
                 return;
             }
 
             if (game.Players[0] != Context.User.Id && game.Players[1] != Context.User.Id)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "You are not part of this game...");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "You are not part of this game...");
                 return;
             }
 
             if (game.Players[game.Turn] != Context.User.Id)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "It is not your turn...");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "It is not your turn...");
                 return;
             }
 
             if (x <= 0 || y <= 0 || x > 3 || y > 3)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "You need to choose and x and y between of 1, 2 or 3...");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "You need to choose and x and y between of 1, 2 or 3...");
                 return;
             }
 
@@ -332,13 +332,13 @@ namespace LorisAngel.CommandModules
                 }
                 else
                 {
-                    await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "No game could be found here...", false);
+                    await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "No game could be found here...", false);
                     return;
                 }
             }
             else
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "No game could be found here...", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "TicTacToe Error", "No game could be found here...", false);
                 return;
             }
         }
@@ -354,7 +354,7 @@ namespace LorisAngel.CommandModules
 
             BotConfig conf = BotConfig.Load();
             IndividualConfig gconf = conf.GetConfig(Context.Guild.Id);
-            await Util.SendErrorAsync((Context.Channel as ITextChannel), "Unimplemented Game", $"This game has not yet been reimplemented into Lori's Angel v2. Try again in a couple days!\n `{gconf.Prefix}changelog` for more information", false);
+            await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Unimplemented Game", $"This game has not yet been reimplemented into Lori's Angel v2. Try again in a couple days!\n `{gconf.Prefix}changelog` for more information", false);
         }
     }
 }

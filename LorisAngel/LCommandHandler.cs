@@ -171,11 +171,11 @@ namespace LorisAngel
                     switch (i)
                     {
                         case 0:
-                            await bot.SetGameAsync($"use -invite {Util.GetRandomHeartEmoji()}", type: ActivityType.Playing);
+                            await bot.SetGameAsync($"use -invite {EmojiUtil.GetRandomHeartEmoji()}", type: ActivityType.Playing);
                             i++;
                             break;
                         case 1:
-                            await bot.SetGameAsync($"Lori's Angel v2! { Util.GetRandomHeartEmoji()}", type: ActivityType.Playing);
+                            await bot.SetGameAsync($"Lori's Angel v2! { EmojiUtil.GetRandomHeartEmoji()}", type: ActivityType.Playing);
                             i++;
                             break;
                         case 2:

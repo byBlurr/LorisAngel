@@ -99,7 +99,7 @@ namespace LorisAngel.Database
         public void UpdateName(string newName)
         {
             string name = Fix(newName);
-            name = Util.ToUppercaseFirst(name);
+            name = StringUtil.ToUppercaseFirst(name);
 
             if (!name.Equals(Name))
             {

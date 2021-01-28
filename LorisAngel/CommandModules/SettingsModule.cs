@@ -53,7 +53,7 @@ namespace LorisAngel.CommandModules
 
             if (prefix == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings prefix <prefix>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings prefix <prefix>`", false);
                 return;
             }
 
@@ -76,7 +76,7 @@ namespace LorisAngel.CommandModules
 
             if (censor == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings censor <True/False>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings censor <True/False>`", false);
                 return;
             }
 
@@ -112,7 +112,7 @@ namespace LorisAngel.CommandModules
 
             if (censor == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings addcensor <word>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings addcensor <word>`", false);
                 return;
             }
 
@@ -125,7 +125,7 @@ namespace LorisAngel.CommandModules
             }
             else
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings addcensor <word>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}settings addcensor <word>`", false);
                 return;
             }
         }

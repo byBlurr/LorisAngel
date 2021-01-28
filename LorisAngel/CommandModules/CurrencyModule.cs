@@ -19,7 +19,7 @@ namespace LorisAngel.CommandModules
             LoriUser profile = ProfileDatabase.GetUser(Context.User.Id);
             if (profile == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"We could not find your bank account.");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"We could not find your bank account.");
                 return;
             }
 
@@ -46,33 +46,33 @@ namespace LorisAngel.CommandModules
 
             if (user == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}bank transfer <@user> <amount>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}bank transfer <@user> <amount>`", false);
                 return;
             }
 
             if (amount <= 0)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"The amount must be greater than 0.");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"The amount must be greater than 0.");
                 return;
             }
 
             LoriUser profile = ProfileDatabase.GetUser(Context.User.Id);
             if (profile == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"We could not find your bank account.");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"We could not find your bank account.");
                 return;
             }
 
             LoriUser profile2 = ProfileDatabase.GetUser(user.Id);
             if (profile2 == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"We could not find {user.Username}'s bank account.");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"We could not find {user.Username}'s bank account.");
                 return;
             }
 
             if (profile.GetCurrency() >= amount)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", "You can not afford this transfer.");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", "You can not afford this transfer.");
                 return;
             }
 

@@ -22,7 +22,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}leaderboard <game name>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}leaderboard <game name>`", false);
                 return;
             }
 
@@ -31,7 +31,7 @@ namespace LorisAngel.CommandModules
             else if (lb.ToLower().Equals("tic tac toe") || lb.ToLower().Equals("tictactoe") || lb.ToLower().Equals("ttt")) leaderboard = "Tic Tac Toe";
             else
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Leaderboard Error", $"Leaderboard with name '{lb}' could not be found.");
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Leaderboard Error", $"Leaderboard with name '{lb}' could not be found.");
                 return;
             }
 

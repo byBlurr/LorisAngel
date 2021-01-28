@@ -35,7 +35,7 @@ namespace LorisAngel.CommandModules
                 embed.WithAuthor(new EmbedAuthorBuilder() { Name = oldest.Username + "#" + oldest.Discriminator, IconUrl = oldest.GetAvatarUrl() });
                 embed.WithDescription($"The oldest account in the server, first registered {oldest.CreatedAt.Date}!");
                 embed.WithColor(Color.DarkPurple);
-                embed.Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." };
+                embed.Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." };
                 await Context.Channel.SendMessageAsync(null, false, embed.Build());
             }
         }
@@ -46,7 +46,7 @@ namespace LorisAngel.CommandModules
         private async Task RegionAsync()
         {
             await Context.Message.DeleteAsync();
-            await Context.Channel.SendMessageAsync("Guild Region: " + Util.ToUppercaseFirst(Context.Guild.VoiceRegionId));
+            await Context.Channel.SendMessageAsync("Guild Region: " + StringUtil.ToUppercaseFirst(Context.Guild.VoiceRegionId));
         }
 
         [Command("biggestguild")]
@@ -122,7 +122,7 @@ namespace LorisAngel.CommandModules
             }
             else
             {
-                await Util.SendErrorAsync(Context.Channel as ITextChannel, "Error", "An unknown error has occurred", false);
+                await MessageUtil.SendErrorAsync(Context.Channel as ITextChannel, "Error", "An unknown error has occurred", false);
                 return;
             }
         }

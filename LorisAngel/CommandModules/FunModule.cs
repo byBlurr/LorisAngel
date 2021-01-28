@@ -28,7 +28,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}who <question>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}who <question>`", false);
                 return;
             }
 
@@ -51,10 +51,10 @@ namespace LorisAngel.CommandModules
 
             EmbedBuilder embed = new EmbedBuilder()
             {
-                Title = $"Who {await Util.GetReadableMentionsAsync(Context.Guild as IGuild, question.ToLower())}",
+                Title = $"Who {await StringUtil.GetReadableMentionsAsync(Context.Guild as IGuild, question.ToLower())}",
                 Description = $"The answer to that would be {answerUser.Username}.",
                 Color = Color.DarkPurple,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}" }
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}" }
             };
 
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
@@ -82,7 +82,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}reverse <message>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}reverse <message>`", false);
                 return;
             }
         }
@@ -105,14 +105,14 @@ namespace LorisAngel.CommandModules
                     Description = $"''{text}''\n\n{binary}",
                     Color = Color.DarkPurple
                 };
-                embed.Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." };
+                embed.Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." };
                 await Context.Channel.SendMessageAsync(null, false, embed.Build());
             }
             else
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}binary <message>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}binary <message>`", false);
                 return;
             }
         }
@@ -152,7 +152,7 @@ namespace LorisAngel.CommandModules
                     Title = question,
                     Description = reply + "!",
                     Color = Color.DarkPurple,
-                    Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
+                    Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
                 };
 
                 await Context.Channel.SendMessageAsync(null, false, embed.Build());
@@ -161,7 +161,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}8ball <question>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}8ball <question>`", false);
                 return;
             }
         }
@@ -195,7 +195,7 @@ namespace LorisAngel.CommandModules
                 Title = "Dice Roll",
                 Description = $"You rolled **{amount}** dice for **{total}**! Dice: [{text}]",
                 Color = Color.DarkPurple,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}" }
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}" }
             };
 
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
@@ -213,14 +213,14 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}pickup <@user>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}pickup <@user>`", false);
                 return;
             }
 
             Random rnd = new Random();
             List<FunObject> pickups = await FunDatabase.GetOfTypeAsync("pickup");
             int p = rnd.Next(0, pickups.Count);
-            string pickup = pickups[p].Text.Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
+            string pickup = pickups[p].Text.Replace("USER1", StringUtil.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", StringUtil.ToUppercaseFirst(user.Mention));
 
             await Context.Channel.SendMessageAsync(pickup);
         }
@@ -236,14 +236,14 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}kill <@user>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}kill <@user>`", false);
                 return;
             }
 
             Random rnd = new Random();
             List<FunObject> deaths = await FunDatabase.GetOfTypeAsync("death");
             int d = rnd.Next(0, deaths.Count);
-            string death = deaths[d].Text.Replace("USER1", Util.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", Util.ToUppercaseFirst(user.Mention));
+            string death = deaths[d].Text.Replace("USER1", StringUtil.ToUppercaseFirst(Context.User.Mention)).Replace("USER2", StringUtil.ToUppercaseFirst(user.Mention));
 
             EmbedBuilder embed = new EmbedBuilder()
             {
@@ -266,7 +266,7 @@ namespace LorisAngel.CommandModules
             Random rnd = new Random();
             List<FunObject> roasts = await FunDatabase.GetOfTypeAsync("roast");
             int d = rnd.Next(0, roasts.Count);
-            string roast = roasts[d].Text.Replace("USER", Util.ToUppercaseFirst(user.Mention));
+            string roast = roasts[d].Text.Replace("USER", StringUtil.ToUppercaseFirst(user.Mention));
 
             EmbedBuilder embed = new EmbedBuilder()
             {
@@ -312,7 +312,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}compliment <@user>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}compliment <@user>`", false);
                 return;
             }
 
@@ -321,14 +321,14 @@ namespace LorisAngel.CommandModules
             {
                 List<FunObject> compliments = await FunDatabase.GetOfTypeAsync("compliment");
                 int d = rnd.Next(0, compliments.Count);
-                string compliment = compliments[d].Text.Replace("USER", Util.ToUppercaseFirst(user.Mention));
+                string compliment = compliments[d].Text.Replace("USER", StringUtil.ToUppercaseFirst(user.Mention));
                 await Context.Channel.SendMessageAsync(compliment);
             }
             else
             {
                 List<FunObject> roasts = await FunDatabase.GetOfTypeAsync("roast");
                 int d = rnd.Next(0, roasts.Count);
-                string roast = roasts[d].Text.Replace("USER", Util.ToUppercaseFirst(user.Mention));
+                string roast = roasts[d].Text.Replace("USER", StringUtil.ToUppercaseFirst(user.Mention));
                 await Context.Channel.SendMessageAsync(roast);
             }
         }
@@ -344,7 +344,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}hug <@user>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}hug <@user>`", false);
                 return;
             }
 
@@ -358,7 +358,7 @@ namespace LorisAngel.CommandModules
                 Title = $"{Context.User.Username} hugged {user.Username}",
                 ImageUrl = GIF,
                 Color = Color.DarkPurple,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.ToString()}" }
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.ToString()}" }
             };
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }
@@ -383,7 +383,7 @@ namespace LorisAngel.CommandModules
                 Author = new EmbedAuthorBuilder() { IconUrl = user.GetAvatarUrl(), Name = user.Username },
                 Description = $"You are {rating}% EPIC!",
                 Color = Color.DarkPurple,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}" }
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}" }
             };
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }
@@ -401,13 +401,13 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}ship <user>` or `{gconf.Prefix}ship <user1> <user2>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}ship <user>` or `{gconf.Prefix}ship <user1> <user2>`", false);
                 return;
             }
             if (user1 == null) user1 = (Context.User as IUser);
 
-            string name1 = Util.ToUppercaseFirst(user.Username);
-            string name2 = Util.ToUppercaseFirst(user1.Username);
+            string name1 = StringUtil.ToUppercaseFirst(user.Username);
+            string name2 = StringUtil.ToUppercaseFirst(user1.Username);
             string title = "";
             string message = "";
             int score = 0;
@@ -452,7 +452,7 @@ namespace LorisAngel.CommandModules
                 Color = Color.DarkPurple,
                 Title = title,
                 Description = message,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
             };
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }

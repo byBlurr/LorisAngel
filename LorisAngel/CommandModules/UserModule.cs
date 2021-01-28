@@ -34,7 +34,7 @@ namespace LorisAngel.CommandModules
             {
                 BotConfig conf = BotConfig.Load();
                 var gconf = conf.GetConfig(Context.Guild.Id);
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}profile <@user>`", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}profile <@user>`", false);
                 return;
             }
         }
@@ -52,7 +52,7 @@ namespace LorisAngel.CommandModules
             LoriUser profile = ProfileDatabase.GetUser(Context.User.Id);
             if (profile == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Profile Not Found", $"That users profile could not be found?", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Profile Not Found", $"That users profile could not be found?", false);
                 return;
             }
 
@@ -66,7 +66,7 @@ namespace LorisAngel.CommandModules
         {
             if (User.IsBot)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Profile Not Found", $"You can not use this command on bots!", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Profile Not Found", $"You can not use this command on bots!", false);
                 return;
             }
 
@@ -75,7 +75,7 @@ namespace LorisAngel.CommandModules
             LoriUser profile = ProfileDatabase.GetUser(User.Id);
             if (profile == null)
             {
-                await Util.SendErrorAsync((Context.Channel as ITextChannel), "Profile Not Found", $"That users profile could not be found?", false);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Profile Not Found", $"That users profile could not be found?", false);
                 return;
             }
 
@@ -129,7 +129,7 @@ namespace LorisAngel.CommandModules
                 Author = new EmbedAuthorBuilder() { IconUrl = avatar, Name = $"{User.Username}#{User.Discriminator}" },
                 Description = status,
                 Color = color,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  This is a temporary look for profiles..." },
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  This is a temporary look for profiles..." },
             };
 
             embed.AddField(new EmbedFieldBuilder() { Name = "Account Created On: ", Value = profile.CreatedOn.ToShortDateString(), IsInline = true });
@@ -158,7 +158,7 @@ namespace LorisAngel.CommandModules
                 Title = $"{user.Username}#{user.Discriminator}",
                 Color = Color.DarkPurple,
                 ImageUrl = avatar,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
             };
 
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
@@ -192,7 +192,7 @@ namespace LorisAngel.CommandModules
                 Title = $"{user.Username}#{user.Discriminator}",
                 Color = Color.DarkPurple,
                 ImageUrl = avatar,
-                Footer = new EmbedFooterBuilder() { Text = $"{Util.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
+                Footer = new EmbedFooterBuilder() { Text = $"{EmojiUtil.GetRandomEmoji()}  Requested by {Context.User.Username}#{Context.User.Discriminator}." },
             };
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }

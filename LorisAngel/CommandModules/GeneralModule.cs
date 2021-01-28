@@ -13,11 +13,9 @@ namespace LorisAngel.CommandModules
     {
         [Command("help")]
         [Alias("?")]
-        [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]
         private async Task HelpAsync(string c = null, int page = 1)
         {
-            await Context.Message.DeleteAsync();
             EmbedBuilder embed = Help.GetCommandHelp(Context.Guild.Id, c, page);
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }

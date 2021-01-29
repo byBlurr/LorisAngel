@@ -1,5 +1,6 @@
-﻿# Version 2.1.2 - NSFW Commands
+﻿# Version 2.1.2 - Add Intergration
 - Added link to full changelog
+- Added daily rewards for voting (TODO)
 - Updated library version to v2.2.0.11
 
 # Version 2.1.1 - Currency and Leaderboards
@@ -60,6 +61,7 @@
 - Removed games to be rewritten
 
 # Future Updates
+- (v2.1.3) NSFW Commands
 - (v2.2.0) Webpanel 
 - (v2.2.1) Better profile appearance
 - (v2.2.2) Customisable profile & Shop

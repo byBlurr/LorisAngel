@@ -1,0 +1,2 @@
+Lori's Angel v2
+Lori's Angel started its life as an example project for a .NET library, however, the bot is becoming its own project. Rewritten from scratch to be cleaner, faster and better than ever, Lori's Angel v2 is here.

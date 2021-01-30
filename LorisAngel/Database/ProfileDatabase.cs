@@ -101,16 +101,19 @@ namespace LorisAngel.Database
                 await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "Start of CheckForLostUsers thread."));
                 while (!ProfilesReady) await Task.Delay(500);
 
+                int remCount = 0;
                 foreach (LoriUser user in Users)
                 {
                     int daysSinceUpdate = (int)((DateTime.Now - user.LastUpdated).TotalDays);
                     if (daysSinceUpdate > DAYS_TILL_DELETE)
                     {
-                        Users.Remove(user);
                         await RemoveUserAsync(user.Id);
+                        Users.Remove(user);
+                        remCount++;
                     }
                 }
 
+                await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", $"Removed {remCount} users."));
                 await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "End of CheckForLostUsers thread."));
             });
         }

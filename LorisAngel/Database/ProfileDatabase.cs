@@ -383,11 +383,12 @@ namespace LorisAngel.Database
                 try
                 {
                     await cmd.ExecuteNonQueryAsync();
+                    await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "Deleted old/lost user."));
                     cmd.Dispose();
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Failed to delete user: {e.Message}");
+                    await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Profiles", "Failed to delete user: " + e.Message));
                     cmd.Dispose();
                 }
 

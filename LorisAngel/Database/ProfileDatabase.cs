@@ -78,7 +78,7 @@ namespace LorisAngel.Database
                 int newUsers = 0;
                 foreach (var g in CommandHandler.GetBot().Guilds)
                 {
-                    if (g.Id != 264445053596991498 && g.Id != 110373943822540800 && g.Id != 446425626988249089) // Don't include the bot servers
+                    if (g.Id != 264445053596991498 && g.Id != 110373943822540800 && g.Id != 446425626988249089 && g.Id != 679338357884715035) // Don't include the bot servers
                     {
                         foreach (var u in CommandHandler.GetBot().GetGuild(g.Id).Users)
                         {

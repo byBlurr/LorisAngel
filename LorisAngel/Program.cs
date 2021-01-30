@@ -7,7 +7,7 @@ namespace LorisAngel
         static void Main(string[] args)
         {
             CommandHandler handler = new LCommandHandler();
-            handler.ExecutableName = "LorisAngelBot";
+            handler.ExecutableName = "LorisAngel";
             handler.RestartEveryMs = 21600000; // Every 6 hours
             StartBot(handler);
         }

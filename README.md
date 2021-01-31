@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/Invite%20to%20server-68-blue)](https://discordapp.com/oauth2/authorize?client_id=729696788097007717&scope=bot&permissions=44032)
+[![](https://img.shields.io/badge/Invite%20to%20server-75+-blue)](https://discordapp.com/oauth2/authorize?client_id=729696788097007717&scope=bot&permissions=44032)
 [![](https://img.shields.io/github/sponsors/byBlurr?style=flat)](https://github.com/sponsors/byBlurr)
 
 # LorisAngel

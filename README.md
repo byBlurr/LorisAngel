@@ -1,3 +1,5 @@
+Invite Lori's Angel: https://discordapp.com/oauth2/authorize?client_id=729696788097007717&scope=bot&permissions=44032
+
 # LorisAngel
 Lori's Angel v2 is a rework of the original Lori's Angel bot. Full of fun commands and board games.
 

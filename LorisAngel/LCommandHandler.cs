@@ -17,7 +17,7 @@ namespace LorisAngel
     public class LCommandHandler : CommandHandler
     {
         public const string DATABASE_NAME = "lorisangel";
-        public static string TOPGG_TOKEN { get; set; }
+        private static string TOPGG_TOKEN { get; set; }
 
         public override void RegisterCommands(List<BotCommand> commands)
         {

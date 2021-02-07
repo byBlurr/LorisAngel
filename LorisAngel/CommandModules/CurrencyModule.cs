@@ -3,12 +3,48 @@ using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
 using LorisAngel.Database;
+using System;
 using System.Threading.Tasks;
 
 namespace LorisAngel.CommandModules
 {
     public class CurrencyModule : ModuleBase
     {
+        [Command("daily")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task DailyAsync()
+        {
+            await Context.Message.DeleteAsync();
+
+            LoriUser profile = ProfileDatabase.GetUser(Context.User.Id);
+            if (profile == null)
+            {
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Transfer Error", $"We could not find your bank account.");
+                return;
+            }
+
+            var tgg = LCommandHandler.GetTopGGClient();
+            bool hasVoted = await tgg.HasVoted(Context.User.Id);
+
+            if (hasVoted)
+            {
+                // check if already claimed
+                
+            }
+            else
+            {
+                EmbedBuilder embed = new EmbedBuilder()
+                {
+                    Color = Color.DarkPurple,
+                    Author = new EmbedAuthorBuilder() { Name = "Click here to vote!", Url = "https://top.gg/bot/729696788097007717/vote" },
+                    Description = $"Vote on TopGG to claim your daily!",
+                    Footer = new EmbedFooterBuilder() { Text = "If you can't click above, head to this url https://top.gg/bot/729696788097007717/vote" }
+                };
+                await Context.Channel.SendMessageAsync(null, false, embed.Build());
+            }
+        }
+
         [Command("bank")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireBotPermission(ChannelPermission.SendMessages)]

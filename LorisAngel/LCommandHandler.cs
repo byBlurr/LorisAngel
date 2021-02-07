@@ -3,6 +3,8 @@ using Discord.Net.Bot;
 using Discord.Net.Bot.CommandModules;
 using Discord.Net.Bot.Database.Configs;
 using Discord.WebSocket;
+using DiscordBotsList.Api;
+using DiscordBotsList.Api.Objects;
 using LorisAngel.Database;
 using LorisAngel.Utility;
 using System;
@@ -15,7 +17,7 @@ namespace LorisAngel
     public class LCommandHandler : CommandHandler
     {
         public const string DATABASE_NAME = "lorisangel";
-        public string TOPGG_TOKEN = string.Empty;
+        public static string TOPGG_TOKEN { get; set; }
 
         public override void RegisterCommands(List<BotCommand> commands)
         {
@@ -153,10 +155,25 @@ namespace LorisAngel
         {
             await bot.SetStatusAsync(UserStatus.Online);
 
-            // Create an instance of the TOPGG API Client
+            // Load the TopGG API Token
             string tokenLoc = Path.Combine(AppContext.BaseDirectory, "config/topgg.token");
             if (File.Exists(tokenLoc)) TOPGG_TOKEN = File.ReadAllText(tokenLoc);
             else await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "TopGG", $"TopGG Token does not exist at {tokenLoc}."));
+
+            // Set the guild count for the bot
+            var updateCounts = Task.Run(async () =>
+            {
+                while (true)
+                {
+                    if (bot.CurrentUser.Id == 729696788097007717) // make sure we are only setting this on the main bot, not test bot!
+                    {
+                        AuthDiscordBotListApi DblApi = GetTopGGClient();
+                        IDblSelfBot me = await DblApi.GetMeAsync();
+                        await me.UpdateStatsAsync(bot.Guilds.Count);
+                    }
+                    await Task.Delay((1000*60)*15); // update every 15 minutes
+                }
+            });
 
             // Clear up any old game renders...
             var clearGames = Task.Run(async () =>
@@ -206,6 +223,13 @@ namespace LorisAngel
             await ProfileDatabase.ProcessUsers();
             //await ModerationDatabase.ProcessBansAsync();
         }
+
+        public static AuthDiscordBotListApi GetTopGGClient()
+        {
+            if (String.IsNullOrEmpty(TOPGG_TOKEN) || String.IsNullOrWhiteSpace(TOPGG_TOKEN)) throw new Exception("Invalid TopGG Token.");
+            return new AuthDiscordBotListApi(729696788097007717, TOPGG_TOKEN);
+        }
+
         private async Task UpdateUserAsync(SocketGuildUser oldUser, SocketGuildUser updatedUser)
         {
             _ = Task.Run(async () =>

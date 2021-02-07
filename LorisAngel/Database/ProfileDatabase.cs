@@ -447,9 +447,10 @@ namespace LorisAngel.Database
             {
                 if (user.Id == id)
                 {
-                    user.HasClaimedDaily();
+                    return user.HasClaimedDaily();
                 }
             }
+            return false;
         }
 
         public static void SetUserOnline(ulong id)

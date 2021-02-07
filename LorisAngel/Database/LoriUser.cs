@@ -66,7 +66,6 @@ namespace LorisAngel.Database
         public bool HasClaimedDaily()
         {
             var hoursPast = (DateTime.Now - Claimed).TotalHours;
-            Console.WriteLine(hoursPast);
             return (hoursPast < 12.0);
         }
 

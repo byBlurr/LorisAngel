@@ -22,8 +22,9 @@ namespace LorisAngel.Database
         public bool HasChanged { get; set; }
         public DateTime LastUpdated { get; set; }
         public bool IsNew { get; set; }
+        public DateTime Claimed { get; set; }
 
-        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated, string activity = "", string motto = "", int currency = 0)
+        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated, string activity = "", string motto = "", int currency = 0, DateTime claimedAt = new DateTime())
         {
             Id = id;
             Name = name.Normalize() ?? throw new ArgumentNullException(nameof(name));
@@ -39,6 +40,7 @@ namespace LorisAngel.Database
             HasChanged = false;
             LastUpdated = lastUpdated;
             IsNew = false;
+            Claimed = claimedAt;
         }
 
         public void SetNew()
@@ -57,6 +59,20 @@ namespace LorisAngel.Database
         {
             int amount = (int)(amt * 100);
             Currency += amount;
+            LastUpdated = DateTime.Now;
+            HasChanged = true;
+        }
+
+        public bool HasClaimedDaily()
+        {
+            if ((DateTime.Now - Claimed).TotalHours >= 12) return true;
+            else return false;
+        }
+
+        public void ClaimDaily()
+        {
+            Currency += 500;
+            Claimed = DateTime.Now;
             LastUpdated = DateTime.Now;
             HasChanged = true;
         }

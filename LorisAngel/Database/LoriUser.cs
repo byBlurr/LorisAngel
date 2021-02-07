@@ -36,11 +36,11 @@ namespace LorisAngel.Database
             Motto = motto;
             Badges = badges;
             Currency = currency;
+            Claimed = claimedAt;
 
             HasChanged = false;
             LastUpdated = lastUpdated;
             IsNew = false;
-            Claimed = claimedAt;
         }
 
         public void SetNew()
@@ -65,14 +65,15 @@ namespace LorisAngel.Database
 
         public bool HasClaimedDaily()
         {
-            if ((DateTime.Now - Claimed).TotalHours >= 12) return true;
-            else return false;
+            var hoursPast = (DateTime.Now - Claimed).TotalHours;
+            Console.WriteLine(hoursPast);
+            return (hoursPast < 12.0);
         }
 
         public void ClaimDaily()
         {
-            Currency += 500;
             Claimed = DateTime.Now;
+            Currency += 50000;
             LastUpdated = DateTime.Now;
             HasChanged = true;
         }

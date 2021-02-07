@@ -30,7 +30,25 @@ namespace LorisAngel.CommandModules
             if (hasVoted)
             {
                 // check if already claimed
-                
+                if (ProfileDatabase.HasClaimedDaily(Context.User.Id))
+                {
+                    DateTime claimAt = profile.Claimed.AddHours(12.0);
+                    var timeToClaim = claimAt - DateTime.Now;
+                    await MessageUtil.SendErrorAsync(Context.Channel as ITextChannel, "Already Claimed", $"You can claim your daily in {timeToClaim.Hours} hours and {timeToClaim.Minutes} minutes.", false);
+                }
+                else
+                {
+                    ProfileDatabase.ClaimDaily(Context.User.Id);
+
+                    float newAmt = profile.GetCurrency();
+                    EmbedBuilder embed = new EmbedBuilder()
+                    {
+                        Color = Color.DarkPurple,
+                        Title = "Daily Bonus Claimed",
+                        Description = $"Bank balance: ${newAmt}"
+                    };
+                    await Context.Channel.SendMessageAsync(null, false, embed.Build());
+                }
             }
             else
             {

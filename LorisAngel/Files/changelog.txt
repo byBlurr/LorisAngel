@@ -1,6 +1,6 @@
 ﻿# Version 2.1.2 - Add Intergration
 - Added link to full changelog
-- Added daily rewards for voting (TODO)
+- Added daily rewards for voting (-Daily)
 - Updated library version to v2.2.0.11
 
 # Version 2.1.1 - Currency and Leaderboards

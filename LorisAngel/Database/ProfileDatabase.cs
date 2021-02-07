@@ -165,6 +165,7 @@ namespace LorisAngel.Database
 
                         if (activity == null) activity = "";
                         if (motto == null) motto = "";
+                        if (claimedAt == null) claimedAt = new DateTime();
 
                         LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, "", lastUpdated, motto, activity, currency, claimedAt);
                         users.Add(newUser);

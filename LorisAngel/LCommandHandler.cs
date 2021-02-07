@@ -5,6 +5,7 @@ using Discord.Net.Bot.Database.Configs;
 using Discord.WebSocket;
 using LorisAngel.Database;
 using LorisAngel.Utility;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace LorisAngel
     public class LCommandHandler : CommandHandler
     {
         public const string DATABASE_NAME = "lorisangel";
+        public string TOPGG_TOKEN = string.Empty;
 
         public override void RegisterCommands(List<BotCommand> commands)
         {
@@ -151,6 +153,11 @@ namespace LorisAngel
         {
             await bot.SetStatusAsync(UserStatus.Online);
 
+            // Create an instance of the TOPGG API Client
+            string tokenLoc = Path.Combine(AppContext.BaseDirectory, "config/topgg.token");
+            if (File.Exists(tokenLoc)) TOPGG_TOKEN = File.ReadAllText(tokenLoc);
+            else await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "TopGG", $"TopGG Token does not exist at {tokenLoc}."));
+
             // Clear up any old game renders...
             var clearGames = Task.Run(async () =>
             {
@@ -159,7 +166,6 @@ namespace LorisAngel
                 {
                     File.Delete(p);
                 }
-                
             });
 
             // Set the custom status once a minute

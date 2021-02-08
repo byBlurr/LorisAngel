@@ -94,5 +94,104 @@ namespace LorisAngel.CommandModules
 
             await Context.Channel.SendMessageAsync(punishment);
         }
+
+        [Command("tie")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task TieAsync(IUser user = null, [Remainder] string obj = null)
+        {
+            await Context.Message.DeleteAsync();
+
+            if (!(Context.Channel as ITextChannel).IsNsfw)
+            {
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "NSFW Error", $"This command can only be used inside channels marked as nsfw...", false);
+                return;
+            }
+
+            if (user == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}tie <@user>` or `{gconf.Prefix}tie <@user> <object>`", false);
+                return;
+            }
+
+            if (obj == null) obj = "the bed";
+            await Context.Channel.SendMessageAsync($"{Context.User.Mention} tied {user.Mention} to {obj}!");
+        }
+
+        [Command("choke")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task ChokeAsync(IUser user = null)
+        {
+            await Context.Message.DeleteAsync();
+
+            if (!(Context.Channel as ITextChannel).IsNsfw)
+            {
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "NSFW Error", $"This command can only be used inside channels marked as nsfw...", false);
+                return;
+            }
+
+            if (user == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}choke <@user>`", false);
+                return;
+            }
+
+            await Context.Channel.SendMessageAsync($"{Context.User.Mention} choked {user.Mention}!");
+        }
+
+        [Command("cuck")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task CuckAsync(IUser user = null, IUser person = null)
+        {
+            await Context.Message.DeleteAsync();
+
+            if (!(Context.Channel as ITextChannel).IsNsfw)
+            {
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "NSFW Error", $"This command can only be used inside channels marked as nsfw...", false);
+                return;
+            }
+
+            if (user == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}cuck <@user>` or `{gconf.Prefix}cuck <@user> <@secondUser>`", false);
+                return;
+            }
+
+            string with = "";
+            if (person != null) with = $" with {person.Mention}"; 
+            await Context.Channel.SendMessageAsync($"{Context.User.Mention} cucked {user.Mention}{with}!");
+        }
+
+        [Command("peg")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireBotPermission(ChannelPermission.SendMessages)]
+        private async Task PegAsync(IUser user = null)
+        {
+            await Context.Message.DeleteAsync();
+
+            if (!(Context.Channel as ITextChannel).IsNsfw)
+            {
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "NSFW Error", $"This command can only be used inside channels marked as nsfw...", false);
+                return;
+            }
+
+            if (user == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}peg <@user>`", false);
+                return;
+            }
+
+            await Context.Channel.SendMessageAsync($"{Context.User.Mention} pegged {user.Mention}!");
+        }
     }
 }

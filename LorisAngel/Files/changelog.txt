@@ -1,4 +1,8 @@
-﻿# Version 2.1.2 - Add Intergration
+﻿# Version 2.1.3 - NSFW Commands
+- Added new NSFW commands
+- Optimizations
+
+# Version 2.1.2 - Add Intergration
 - Added link to full changelog
 - Added daily rewards for voting (-daily)
 - Added command to request data deletion (-requestdata)

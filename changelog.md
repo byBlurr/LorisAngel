@@ -1,3 +1,16 @@
+# Version 2.1.3 - NSFW Commands
+- Added new NSFW commands (-help nsfw)
+- Added how-to message on join
+- Small tweaks and improvements
+- Optimizations
+
+# Version 2.1.2 - Add Intergration
+- Added link to full changelog
+- Added daily rewards for voting (-daily)
+- Added command to request data deletion (-requestdata)
+- Added command to contact bot owner (-messageowner <message>)
+- Updated library version to v2.2.0.11
+
 # Version 2.1.1 - Currency and Leaderboards
 - Added game leaderboards (-help games)
 - Added currency commands (-help currency)
@@ -56,7 +69,7 @@
 - Removed games to be rewritten
 
 # Future Updates
-- (v2.1.2) NSFW Commands
+- (v2.1.3) NSFW Commands
 - (v2.2.0) Webpanel 
 - (v2.2.1) Better profile appearance
 - (v2.2.2) Customisable profile & Shop

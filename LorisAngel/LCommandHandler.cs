@@ -289,6 +289,17 @@ namespace LorisAngel
                     ProfileDatabase.CreateNewUser((user as IUser));
                 }
             }
+
+            var conf = BotConfig.Load();
+            var gconf = conf.GetConfig(guild.Id);
+            string message = $"```md\n# Hello there!\n" +
+                $"- My prefix here is [{gconf.Prefix}]\n" +
+                $"- See all the commands with [{gconf.Prefix}help]\n" +
+                $"- Change the bot prefix with [{gconf.Prefix}settings prefix <newPrefix>]\n" +
+                $"- Suggest new features with [{gconf.Prefix}messageowner <suggestion>]\n\n" +
+                $"# Enjoy!" +
+                $"\n```";
+            await guild.GetTextChannel((guild as IGuild).DefaultChannelId).SendMessageAsync(message);
         }
 
         private async Task UserJoinedAsync(SocketGuildUser user)

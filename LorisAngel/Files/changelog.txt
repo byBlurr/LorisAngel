@@ -1,5 +1,6 @@
 ﻿# Version 2.1.3 - NSFW Commands
 - Added new NSFW commands (-help nsfw)
+- Added how-to message on join
 - Optimizations
 
 # Version 2.1.2 - Add Intergration

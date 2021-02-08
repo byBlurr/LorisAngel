@@ -190,38 +190,15 @@ namespace LorisAngel
                 }
             });
 
-            // Set the custom status once a minute
+            // Set the custom status once every 5 mins
             var status = Task.Run(async () => {
-                int i = 0;
+                bool flick = true;
                 while (true)
                 {
-                    switch (i)
-                    {
-                        case 0:
-                            await bot.SetGameAsync($"use -invite {EmojiUtil.GetRandomHeartEmoji()}", type: ActivityType.Playing);
-                            i++;
-                            break;
-                        case 1:
-                            await bot.SetGameAsync($"Lori's Angel v2! { EmojiUtil.GetRandomHeartEmoji()}", type: ActivityType.Playing);
-                            i++;
-                            break;
-                        case 2:
-                            await bot.SetGameAsync($"use -changelog", type: ActivityType.Playing);
-                            i++;
-                            break;
-                        default:
-                            {
-                                //Random rnd = new Random();
-                                //BotConfig conf = BotConfig.Load();
-                                // int j = rnd.Next(0, conf.Commands.Count);
-
-                                //await bot.SetGameAsync($"try -{conf.Commands[j].Handle.ToLower()} {Util.GetRandomHeartEmoji()}", type: ActivityType.Playing);
-                                i = 0;
-                                await bot.SetGameAsync($"use -help", type: ActivityType.Playing);
-                                break;
-                            }
-                    }
-                    await Task.Delay(60000);
+                    if (flick) await bot.SetGameAsync($"use -help {EmojiUtil.GetRandomHeartEmoji()}", type: ActivityType.Streaming);
+                    else await bot.SetGameAsync($"use -changelog {EmojiUtil.GetRandomHeartEmoji()}", type: ActivityType.Streaming);
+                    flick = !flick;
+                    await Task.Delay(60000 * 5);
                 }
             });
 
@@ -292,7 +269,8 @@ namespace LorisAngel
 
             var conf = BotConfig.Load();
             var gconf = conf.GetConfig(guild.Id);
-            string message = $"```md\n# Hello there!\n" +
+            string message = $"```md\n" +
+                $"# Hello there!\n" +
                 $"- My prefix here is [{gconf.Prefix}]\n" +
                 $"- See all the commands with [{gconf.Prefix}help]\n" +
                 $"- Change the bot prefix with [{gconf.Prefix}settings prefix <newPrefix>]\n" +

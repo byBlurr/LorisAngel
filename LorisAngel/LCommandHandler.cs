@@ -167,16 +167,7 @@ namespace LorisAngel
             // Set the guild count for the bot
             var updateCounts = Task.Run(async () =>
             {
-                while (true)
-                {
-                    if (bot.CurrentUser.Id == 729696788097007717) // make sure we are only setting this on the main bot, not test bot!
-                    {
-                        AuthDiscordBotListApi DblApi = GetTopGGClient();
-                        IDblSelfBot me = await DblApi.GetMeAsync();
-                        await me.UpdateStatsAsync(bot.Guilds.Count);
-                    }
-                    await Task.Delay((1000*60)*15); // update every 15 minutes
-                }
+                await UpdateTopGGStats();
             });
 
             // Clear up any old game renders...
@@ -228,6 +219,16 @@ namespace LorisAngel
             //await ModerationDatabase.ProcessBansAsync();
         }
 
+        private static async Task UpdateTopGGStats()
+        {
+            if (bot.CurrentUser.Id == 729696788097007717) // make sure we are only setting this on the main bot, not test bot!
+            {
+                AuthDiscordBotListApi DblApi = GetTopGGClient();
+                IDblSelfBot me = await DblApi.GetMeAsync();
+                await me.UpdateStatsAsync(bot.Guilds.Count);
+            }
+        }
+
         public static AuthDiscordBotListApi GetTopGGClient()
         {
             if (String.IsNullOrEmpty(TOPGG_TOKEN) || String.IsNullOrWhiteSpace(TOPGG_TOKEN)) throw new Exception("Invalid TopGG Token.");
@@ -251,6 +252,8 @@ namespace LorisAngel
 
         private async Task JoinedGuildAsync(SocketGuild guild)
         {
+            await Task.Run(async () => await UpdateTopGGStats());
+
             if (guild.Owner.Id != 376841246955667459)
             {
                 bool left = false;

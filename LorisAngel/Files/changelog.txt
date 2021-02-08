@@ -1,6 +1,8 @@
 ﻿# Version 2.1.2 - Add Intergration
 - Added link to full changelog
-- Added daily rewards for voting (-Daily)
+- Added daily rewards for voting (-daily)
+- Added command to request data deletion (-requestdata)
+- Added command to contact bot owner (-messageowner <message>)
 - Updated library version to v2.2.0.11
 
 # Version 2.1.1 - Currency and Leaderboards

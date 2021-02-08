@@ -110,5 +110,21 @@ namespace LorisAngel.CommandModules
 
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }
+
+        [Command("messageowner")]
+        private async Task MessageOwnerAsync([Remainder] string message = null)
+        {
+            if (message == null)
+            {
+                BotConfig conf = BotConfig.Load();
+                var gconf = conf.GetConfig(Context.Guild.Id);
+                await MessageUtil.SendErrorAsync((Context.Channel as ITextChannel), "Incorrect Command Usage", $"Correct Usage: `{gconf.Prefix}messageowner <message>`", false);
+                return;
+            }
+
+            var logChannel = LCommandHandler.GetBot().GetGuild(730573219374825523).GetTextChannel(808283416533270549);
+            await logChannel.SendMessageAsync($"-- -- -- -- --\n**From:** {Context.User.Username}#{Context.User.Discriminator} ({Context.User.Id})\n**Time:** {DateTime.Now}\n\n{message}\n-- -- -- -- --");
+            await Context.Channel.SendMessageAsync("Message sent.");
+        }
     }
 }

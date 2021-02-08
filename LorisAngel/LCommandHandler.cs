@@ -41,7 +41,9 @@ namespace LorisAngel
             commands.Add(new BotCommand("changelog", changelogUsage, "View the bots changelog and see what is coming soon.", CommandCategory.BotRelated));
             CommandUsage[] webpanelUsage = { new CommandUsage("webpanel", emptyArguments) };
             commands.Add(new BotCommand("webpanel", webpanelUsage, "Help with accessing the webpanel for setting server/user preferences.", CommandCategory.BotRelated));
-
+            arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.TEXT, false) };
+            CommandUsage[] moUsage = { new CommandUsage("messageowner", arguments) };
+            commands.Add(new BotCommand("messageowner", moUsage, "Message the owner for support.", CommandCategory.BotRelated));
 
             // User commands (All to be written from scratch)
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, true) };
@@ -53,6 +55,8 @@ namespace LorisAngel
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, true) };
             CommandUsage[] avUsage = { new CommandUsage("av", arguments) };
             commands.Add(new BotCommand("av", avUsage, "View the users profile picture.", CommandCategory.User));
+            CommandUsage[] dataUsage = { new CommandUsage("requestdata", emptyArguments) };
+            commands.Add(new BotCommand("requestdata", dataUsage, "Request for your data to be deleted.", CommandCategory.User));
 
             // Guild commands
             CommandUsage[] oldestUsage = { new CommandUsage("oldest", emptyArguments) };

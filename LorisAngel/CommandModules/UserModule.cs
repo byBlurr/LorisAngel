@@ -196,5 +196,28 @@ namespace LorisAngel.CommandModules
             };
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }
+
+
+        [Command("requestdata")]
+        private async Task RequestDataAsync()
+        {
+            var dm = await Context.User.GetOrCreateDMChannelAsync();
+            await dm.SendMessageAsync("**You have requested your data to be deleted.**\nYour request will be processed and you will receive a message confirming the deletion of your data. You must be in a server with this bot in order to receive the confirmation.\n\nPlease note that your data will be regenerated as needed if you remain in a server with the bot, as it is required for the bot to operate.");
+
+            var logChannel = LCommandHandler.GetBot().GetGuild(730573219374825523).GetTextChannel(808283333623939093);
+            await logChannel.SendMessageAsync($"User {Context.User.Id} has requested their data to be deleted.");
+        }
+
+        [Command("confirmdata")]
+        private async Task ConfirmDataAsync(ulong id = 0L)
+        {
+            if (Context.User.Id != 211938243535568896) return;
+            if (id == 0L) await MessageUtil.SendErrorAsync(Context.Channel as ITextChannel, "Error", "Need an ID");
+
+            var user = LCommandHandler.GetBot().GetUser(id);
+            var dm = await user.GetOrCreateDMChannelAsync();
+            await dm.SendMessageAsync("**Your data has been deleted successfully.**\n\nPlease note that your data will be regenerated as needed if you remain in a server with the bot, as it is required for the bot to operate.");
+            await Context.Channel.SendMessageAsync("Done.");
+        }
     }
 }

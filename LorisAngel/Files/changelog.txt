@@ -1,5 +1,5 @@
 ﻿# Version 2.1.3 - NSFW Commands
-- Added new NSFW commands
+- Added new NSFW commands (-help nsfw)
 - Optimizations
 
 # Version 2.1.2 - Add Intergration

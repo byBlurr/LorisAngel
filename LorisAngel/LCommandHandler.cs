@@ -139,10 +139,20 @@ namespace LorisAngel
 
             // NSFW
             arguments = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false) };
+            List<CommandArgument>  arguments2 = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.USER, true) };
+            List<CommandArgument>  arguments3 = new List<CommandArgument> { new CommandArgument(CommandArgumentType.USER, false), new CommandArgument(CommandArgumentType.TEXT, true) };
             CommandUsage[] punishUsage = { new CommandUsage("punish", arguments) };
             commands.Add(new BotCommand("punish", punishUsage, "Punish the user.", CommandCategory.NSFW));
             CommandUsage[] punishmeUsage = { new CommandUsage("punishme", arguments) };
             commands.Add(new BotCommand("punishme", punishmeUsage, "Have the user punish you.", CommandCategory.NSFW));
+            CommandUsage[] chokeUsage = { new CommandUsage("choke", arguments) };
+            commands.Add(new BotCommand("choke", chokeUsage, "Choke them!", CommandCategory.NSFW));
+            CommandUsage[] tieUsage = { new CommandUsage("tie", arguments), new CommandUsage("tie", arguments3) };
+            commands.Add(new BotCommand("tie", tieUsage, "Tie them up!", CommandCategory.NSFW));
+            CommandUsage[] cuckUsage = { new CommandUsage("cuck", arguments), new CommandUsage("cuck", arguments2) };
+            commands.Add(new BotCommand("cuck", cuckUsage, "Make them watch!", CommandCategory.NSFW));
+            CommandUsage[] pegUsage = { new CommandUsage("peg", arguments) };
+            commands.Add(new BotCommand("peg", pegUsage, "If you know, you know.", CommandCategory.NSFW));
         }
 
         public override void SetupHandlers(DiscordSocketClient bot)

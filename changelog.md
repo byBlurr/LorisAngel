@@ -69,7 +69,6 @@
 - Removed games to be rewritten
 
 # Future Updates
-- (v2.1.3) NSFW Commands
 - (v2.2.0) Webpanel 
 - (v2.2.1) Better profile appearance
 - (v2.2.2) Customisable profile & Shop

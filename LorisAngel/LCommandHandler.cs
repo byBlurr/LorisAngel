@@ -280,7 +280,7 @@ namespace LorisAngel
             while (!ProfileDatabase.Ready()) await Task.Delay(50);
 
             var sg = bot.GetGuild(730573219374825523);
-            await sg.GetTextChannel(739308321655226469).SendMessageAsync("[" + bot.Guilds.Count + "] Joined guild " + guild.Name);
+            await sg.GetTextChannel(739308321655226469).SendMessageAsync($"[{bot.Guilds.Count}] **Joined** guild **{guild.Name}**");
 
             foreach (var user in guild.Users)
             {
@@ -315,7 +315,7 @@ namespace LorisAngel
         private async Task LeftGuildAsync(SocketGuild guild)
         {
             var sg = bot.GetGuild(730573219374825523);
-            await sg.GetTextChannel(739308321655226469).SendMessageAsync("[" + bot.Guilds.Count + "] Left guild " + guild.Name);
+            await sg.GetTextChannel(739308321655226469).SendMessageAsync($"[{bot.Guilds.Count}] **Left** guild **{guild.Name}**");
         }
 
         private async Task CensorMessageAsync(SocketMessage message)

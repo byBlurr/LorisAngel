@@ -45,7 +45,7 @@ namespace LorisAngel.CommandModules
                     {
                         Color = Color.DarkPurple,
                         Title = "Daily Bonus Claimed",
-                        Description = $"Bank balance: ${newAmt}"
+                        Description = $"New bank balance: ${newAmt}"
                     };
                     await Context.Channel.SendMessageAsync(null, false, embed.Build());
                 }
@@ -56,7 +56,7 @@ namespace LorisAngel.CommandModules
                 {
                     Color = Color.DarkPurple,
                     Author = new EmbedAuthorBuilder() { Name = "Click here to vote!", Url = "https://top.gg/bot/729696788097007717/vote" },
-                    Description = $"Vote on TopGG to claim your daily!",
+                    Description = $"Vote on TopGG and then claim your daily!",
                     Footer = new EmbedFooterBuilder() { Text = "If you can't click above, head to this url https://top.gg/bot/729696788097007717/vote" }
                 };
                 await Context.Channel.SendMessageAsync(null, false, embed.Build());

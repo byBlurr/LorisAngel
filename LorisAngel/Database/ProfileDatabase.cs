@@ -37,39 +37,6 @@ namespace LorisAngel.Database
                 }
             });
 
-            /*
-            var UpdateUsers = Task.Run(async () =>
-            {
-                await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "Start of UpdateUsers thread."));
-                var bot = CommandHandler.GetBot();
-                while (!ProfilesReady) await Task.Delay(500);
-                while (true)
-                {
-                    if (Users.Count != 0)
-                    {
-                        DateTime startTime = DateTime.Now;
-
-                        foreach (LoriUser usr in Users)
-                        {
-                            var discUsr = bot.GetUser(usr.Id);
-                            if (discUsr != null && !discUsr.IsBot)
-                            {
-                                if (discUsr.Activity != null) usr.UpdateActivity(discUsr.Activity.ToString());
-                                else if (discUsr.Status != UserStatus.Offline && discUsr.Status != UserStatus.Invisible) usr.UpdateActivity("");
-
-                                usr.UpdateStatus(discUsr.Status);
-                                usr.UpdateName(discUsr.Username);
-                            }
-                        }
-
-                        int timetoupdate = (int)((DateTime.Now - startTime).TotalSeconds);
-                        if (timetoupdate > 5) await Util.LoggerAsync(new LogMessage(LogSeverity.Warning, "Profiles", $"Updating users took {timetoupdate} seconds"));
-                    }
-                    await Task.Delay(500);
-                }
-            });
-            */
-
             var CheckForNewUsers = Task.Run(async () =>
             {
                 await Util.LoggerAsync(new LogMessage(LogSeverity.Info, "Profiles", "Start of CheckForNewUsers thread."));

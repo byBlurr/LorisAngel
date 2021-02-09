@@ -271,10 +271,13 @@ namespace LorisAngel
             var gconf = conf.GetConfig(guild.Id);
             string message = $"```md\n" +
                 $"# Hello there!\n" +
-                $"- My prefix here is [{gconf.Prefix}]\n" +
-                $"- See all the commands with [{gconf.Prefix}help]\n" +
-                $"- Change the bot prefix with [{gconf.Prefix}settings prefix <newPrefix>]\n" +
-                $"- Suggest new features with [{gconf.Prefix}messageowner <suggestion>]\n\n" +
+                $"- My prefix here is <{gconf.Prefix}>\n" +
+                $"- See all the commands with <{gconf.Prefix}help>\n" +
+                $"- Claim daily rewards with <{gconf.Prefix}daily>\n" +
+                $"- View your profile with <{gconf.Prefix}profile>\n" +
+                $"- Suggest new features with <{gconf.Prefix}messageowner [suggestion]>\n" +
+                $"- Change the bot prefix with <{gconf.Prefix}settings prefix [new_prefix]>\n" +
+                $"\n" +
                 $"# Enjoy!" +
                 $"\n```";
             await guild.GetTextChannel((guild as IGuild).DefaultChannelId).SendMessageAsync(message);

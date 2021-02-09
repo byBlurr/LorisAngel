@@ -26,6 +26,9 @@ namespace LorisAngel.Database
                 var reader = cmd.ExecuteReader();
                 if (!reader.HasRows)
                 {
+                    while (LCommandHandler.Saving) await Task.Delay(50);
+                    LCommandHandler.Saving = true;
+
                     var insertCmd = new MySqlCommand($"INSERT INTO {tableName} (id, name, score) VALUES (@id, @name, @score)", dbCon.Connection);
                     insertCmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = id;
                     insertCmd.Parameters.Add("@name", MySqlDbType.String).Value = name;
@@ -41,6 +44,7 @@ namespace LorisAngel.Database
                         await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Leaderboards", ex.Message));
                         insertCmd.Dispose();
                     }
+                    LCommandHandler.Saving = false;
 
                     cmd.Dispose();
                     reader.Dispose();
@@ -70,6 +74,9 @@ namespace LorisAngel.Database
                 {
                     while (reader.Read())
                     {
+                        while (LCommandHandler.Saving) await Task.Delay(50);
+                        LCommandHandler.Saving = true;
+
                         int newScore = reader.GetInt32(2) + 1;
 
                         var updateCmd = new MySqlCommand($"UPDATE {tableName} SET score = @score WHERE id = @id", dbCon.Connection);
@@ -86,6 +93,7 @@ namespace LorisAngel.Database
                             await Util.LoggerAsync(new LogMessage(LogSeverity.Error, "Leaderboards", ex.Message));
                             updateCmd.Dispose();
                         }
+                        LCommandHandler.Saving = false;
                     }
                     cmd.Dispose();
                     reader.Dispose();

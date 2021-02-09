@@ -158,6 +158,9 @@ namespace LorisAngel.Database
                 {
                     if (user.HasChanged)
                     {
+                        while (LCommandHandler.Saving) await Task.Delay(50);
+                        LCommandHandler.Saving = true;
+
                         if (user.IsNew)
                         {
                             await AddUserToDatabaseAsync(user);
@@ -244,6 +247,8 @@ namespace LorisAngel.Database
                                 cmd.Dispose();
                             }
                         }
+
+                        LCommandHandler.Saving = false;
                     }
                 }
 
@@ -299,6 +304,9 @@ namespace LorisAngel.Database
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
             if (dbCon.IsConnect())
             {
+                while (LCommandHandler.Saving) await Task.Delay(50);
+                LCommandHandler.Saving = true;
+
                 var cmd = new MySqlCommand($"INSERT INTO users (id, name, createdon, joinedon, lastseen, status, badges, lastupdated, motto, activity, currency, claimedat) VALUES (@id, @name, @createdon, @joinedon, @lastseen, @status, @badges, @lastupdated, @motto, @activity, @currency, @claimedat)", dbCon.Connection);
                 cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
                 cmd.Parameters.Add("@name", MySqlDbType.String).Value = user.Name;
@@ -331,6 +339,7 @@ namespace LorisAngel.Database
                     cmd.Dispose();
                 }
 
+                LCommandHandler.Saving = false;
                 dbCon.Close();
             }
         }
@@ -352,6 +361,9 @@ namespace LorisAngel.Database
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
             if (dbCon.IsConnect())
             {
+                while (LCommandHandler.Saving) await Task.Delay(50);
+                LCommandHandler.Saving = true;
+
                 var cmd = new MySqlCommand($"DELETE FROM users WHERE id = '{id}'", dbCon.Connection);
 
                 try
@@ -366,6 +378,7 @@ namespace LorisAngel.Database
                     cmd.Dispose();
                 }
 
+                LCommandHandler.Saving = false;
                 dbCon.Close();
             }
         }

@@ -96,6 +96,9 @@ namespace LorisAngel.Database
 
             if (dbCon.IsConnect())
             {
+                while (LCommandHandler.Saving) await Task.Delay(50);
+                LCommandHandler.Saving = true;
+
                 var cmd = new MySqlCommand($"INSERT INTO tempbans (guildid, userid, bannedtill) VALUES (@guildid, @userid, @bannedtill)", dbCon.Connection);
                 cmd.Parameters.Add("@guildid", MySqlDbType.UInt64).Value = guildId;
                 cmd.Parameters.Add("@userid", MySqlDbType.UInt64).Value = userId;
@@ -111,6 +114,8 @@ namespace LorisAngel.Database
                     Console.WriteLine($"Failed to add temp ban: {e.Message}");
                     cmd.Dispose();
                 }
+
+                LCommandHandler.Saving = false;
 
                 dbCon.Close();
             }

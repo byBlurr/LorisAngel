@@ -18,6 +18,7 @@ namespace LorisAngel
     {
         public const string DATABASE_NAME = "lorisangel";
         private static string TOPGG_TOKEN { get; set; }
+        public static bool Saving = false;
 
         public override void RegisterCommands(List<BotCommand> commands)
         {

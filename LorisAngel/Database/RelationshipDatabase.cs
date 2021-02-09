@@ -7,8 +7,6 @@ namespace LorisAngel.Database
 {
     class RelationshipDatabase
     {
-        private static bool Saving = false;
-
         public static Relationship DoesExist(ulong user1, ulong user2)
         {
             Relationship ship = null;
@@ -39,17 +37,14 @@ namespace LorisAngel.Database
         {
             var save = Task.Run(async () =>
             {
-                while (Saving == true)
-                {
-                    await Task.Delay(50);
-                }
-                Saving = true;
-
                 var dbCon = DBConnection.Instance();
                 dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
 
                 if (dbCon.IsConnect())
                 {
+                    while (LCommandHandler.Saving) await Task.Delay(50);
+                    LCommandHandler.Saving = true;
+
                     var cmd = new MySqlCommand("INSERT INTO relationships (id1, id2, name1, name2, shipname, percentage) VALUES (@id1, @id2, @name1, @name2, @shipname, @percentage)", dbCon.Connection);
                     cmd.Parameters.Add("@id1", MySqlDbType.UInt64).Value = ship.User1;
                     cmd.Parameters.Add("@id2", MySqlDbType.UInt64).Value = ship.User2;
@@ -69,7 +64,7 @@ namespace LorisAngel.Database
                         cmd.Dispose();
                     }
 
-                    Saving = false;
+                    LCommandHandler.Saving = false;
                     dbCon.Close();
                 }
 

@@ -1,29 +1,29 @@
-﻿<div style="background-color: #23272A" class="top-row pl-4 navbar navbar-dark">
+﻿<!-- <div style="background-color: #23272F; max-height: 1.5rem; padding: 0px; text-align: center; vertical-align: central;" class="top-row pl-4 navbar navbar-dark">
+    <img style="max-height:75%; padding:0rem; margin: 0rem;" src="images/discord/discord-wordmark-white.png" alt="Discord Logo" />
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
-</div>
-
+</div> -->
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li style="text-align:center" class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span style="color:#793786;" class="oi oi-home" aria-hidden="true"></span>
+    <ul style="margin: 1rem; margin-top: 0rem;" class="nav flex-column">
+        <li style="max-width: 100%;" class="nav-item">
+            <NavLink style="padding: 1rem;" class="nav-link" href="" Match="NavLinkMatch.All">
+                <span style="color:#FFFFFF;" class="oi oi-home" aria-hidden="true"></span>
             </NavLink>
         </li>
-        <li style="text-align:center" class="nav-item px-3">
-            <NavLink class="nav-link" href="profile">
-                <span style="color:#793786;" class="oi oi-person" aria-hidden="true"></span>
+        <li style="max-width: 100%;" class="nav-item">
+            <NavLink style="padding: 1rem;" class="nav-link" href="profile">
+                <span style="color:#FFFFFF;" class="oi oi-person" aria-hidden="true"></span>
             </NavLink>
         </li>
-        <li style="text-align:center" class="nav-item px-3">
-            <NavLink class="nav-link" href="servers">
-                <span style="color:#793786;" class="oi oi-cloud" aria-hidden="true"></span>
+        <li style="max-width: 100%;" class="nav-item">
+            <NavLink style="padding: 1rem;" class="nav-link" href="servers">
+                <span style="color:#FFFFFF;" class="oi oi-cloud" aria-hidden="true"></span>
             </NavLink>
         </li>
-        <li style="text-align:center" class="nav-item px-3">
-            <NavLink class="nav-link" href="shop">
-                <span style="color:#793786;" class="oi oi-cart" aria-hidden="true"></span>
+        <li style="max-width: 100%;" class="nav-item">
+            <NavLink style="padding: 1rem;" class="nav-link" href="shop">
+                <span style="color:#FFFFFF;" class="oi oi-cart" aria-hidden="true"></span>
             </NavLink>
         </li>
     </ul>

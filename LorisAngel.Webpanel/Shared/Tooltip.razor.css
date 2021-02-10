@@ -1,0 +1,34 @@
+﻿.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+span {
+    visibility: hidden;
+    position: absolute;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    top: 160%;
+    left: auto;
+    right: auto;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 6px;
+    background-color: #23272A;
+    z-index: 1;
+    pointer-events: none;
+}
+
+    span::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: auto;
+        right: auto;
+        pointer-events: none;
+    }
+
+.tooltip-wrapper:hover span {
+    visibility: visible;
+    pointer-events: none;
+}

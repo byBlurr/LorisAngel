@@ -11,4 +11,8 @@
     <PackageReference Include="System.Drawing.Common" Version="5.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LorisAngel.Common\LorisAngel.Common.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -25,5 +25,6 @@
         }
 
         // TODO: We probably want a way to convert this into a Discord Color?
+        // public Discord.Color ConvertToDiscord() => new Discord.Color(r, g, b);
     }
 }

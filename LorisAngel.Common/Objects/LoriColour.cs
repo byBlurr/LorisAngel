@@ -4,6 +4,7 @@
     {
 
         public static LoriColour LoriPurple = new LoriColour(121, 55, 134, "#793786");
+        public static LoriColour LoriAlert = new LoriColour(231, 74, 72, "#e74a48");
         public static LoriColour Blurple = new LoriColour(114, 137, 218, "#7289DA");
         public static LoriColour FullWhite = new LoriColour(255, 255, 255, "#FFFFFF");
         public static LoriColour Greyple = new LoriColour(153, 170, 181, "#99AAB5");

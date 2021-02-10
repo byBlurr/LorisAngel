@@ -113,7 +113,7 @@ namespace LorisAngel.Common.Objects
         public void UpdateName(string newName)
         {
             string name = Fix(newName);
-            name = name.ToLower();
+            name = Utility.ToUppercaseFirst(name);
 
             if (!name.Equals(Name))
             {

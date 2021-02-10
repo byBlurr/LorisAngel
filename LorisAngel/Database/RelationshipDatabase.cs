@@ -1,4 +1,5 @@
 ﻿using Discord.Net.Bot.Database.Sql;
+using LorisAngel.Common.Objects;
 using MySql.Data.MySqlClient;
 using System;
 using System.Threading.Tasks;
@@ -7,9 +8,9 @@ namespace LorisAngel.Database
 {
     class RelationshipDatabase
     {
-        public static Relationship DoesExist(ulong user1, ulong user2)
+        public static LoriShip DoesExist(ulong user1, ulong user2)
         {
-            Relationship ship = null;
+            LoriShip ship = null;
 
             var dbCon = DBConnection.Instance();
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
@@ -22,7 +23,7 @@ namespace LorisAngel.Database
                 {
                     while (reader.Read())
                     {
-                        ship = new Relationship(reader.GetUInt64(0), reader.GetUInt64(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt32(5));
+                        ship = new LoriShip(reader.GetUInt64(0), reader.GetUInt64(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt32(5));
                     }
                 }
 
@@ -33,7 +34,7 @@ namespace LorisAngel.Database
             return ship;
         }
 
-        public static void SaveShip(Relationship ship)
+        public static void SaveShip(LoriShip ship)
         {
             var save = Task.Run(async () =>
             {
@@ -69,26 +70,6 @@ namespace LorisAngel.Database
                 }
 
             });
-        }
-    }
-
-    public class Relationship
-    {
-        public ulong User1 { get; set; }
-        public ulong User2 { get; set; }
-        public string Name1 { get; set; }
-        public string Name2 { get; set; }
-        public string Shipname { get; set; }
-        public int Percentage { get; set; }
-
-        public Relationship(ulong user1, ulong user2, string name1, string name2, string shipname, int percentage)
-        {
-            this.User1 = user1;
-            this.User2 = user2;
-            this.Name1 = name1 ?? throw new ArgumentNullException(nameof(name1));
-            this.Name2 = name2 ?? throw new ArgumentNullException(nameof(name2));
-            this.Shipname = shipname ?? throw new ArgumentNullException(nameof(shipname));
-            this.Percentage = percentage;
         }
     }
 }

@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
+using LorisAngel.Common.Objects;
 using LorisAngel.Database;
 using System;
 using System.Collections.Generic;
@@ -412,6 +413,8 @@ namespace LorisAngel.CommandModules
             string message = "";
             int score = 0;
             string name = "";
+            string desc = "";
+            float percentage = 0f;
 
             // Check if entry exists in database
             var ship = RelationshipDatabase.DoesExist(user.Id, user1.Id);
@@ -419,6 +422,8 @@ namespace LorisAngel.CommandModules
             {
                 score = ship.Percentage;
                 name = ship.Shipname;
+                desc = ship.ToDescriptiveString();
+                percentage = ship.ToActualPercentage();
             }
             else
             {
@@ -426,25 +431,24 @@ namespace LorisAngel.CommandModules
                 score = rnd.Next(10, 10000);
                 name = $"{name1[0].ToString().ToUpper()}{name1[1]}{name2[name2.Length - 3]}{name2[name2.Length - 2]}{name2[name2.Length - 1]}";
 
-                ship = new Relationship(user.Id, user1.Id, name1, name2, name, score);
+                ship = new LoriShip(user.Id, user1.Id, name1, name2, name, score);
                 RelationshipDatabase.SaveShip(ship);
             }
 
-            float percentage = (float)score / 100f;
             if (percentage > 95f)
             {
                 title = $"{name1} 💘 {name2}";
-                message = $"I really ship {name}! They're soul mates, a {percentage}% match!";
+                message = desc;
             }
             else if (percentage > 55f)
             {
                 title = $"{name1} ❤️ {name2}";
-                message = $"I ship {name}! They get a {percentage}% match!";
+                message = desc;
             }
             else
             {
                 title = $"{name1} 💔 {name2}";
-                message = $"Can't say I ship {name}! They get a shitty {percentage}% match!";
+                message = desc;
             }
 
             EmbedBuilder embed = new EmbedBuilder()

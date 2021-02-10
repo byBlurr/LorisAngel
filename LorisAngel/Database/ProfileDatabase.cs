@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Sql;
+using LorisAngel.Common.Objects;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -406,7 +407,7 @@ namespace LorisAngel.Database
             {
                 if (discUsr.Activity != null) loriUsr.UpdateActivity(discUsr.Activity.ToString());
                 else if (discUsr.Status != UserStatus.Offline && discUsr.Status != UserStatus.Invisible) loriUsr.UpdateActivity("");
-                loriUsr.UpdateStatus(discUsr.Status);
+                loriUsr.UpdateStatus(discUsr.Status.ToString());
                 loriUsr.UpdateName(discUsr.Username);
             }
         }
@@ -440,7 +441,7 @@ namespace LorisAngel.Database
             {
                 if (user.Id == id)
                 {
-                    user.UpdateStatus(UserStatus.Online);
+                    user.UpdateStatus(UserStatus.Online.ToString());
                 }
             }
         }

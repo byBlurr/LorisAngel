@@ -6,7 +6,7 @@ using Discord.WebSocket;
 using DiscordBotsList.Api;
 using DiscordBotsList.Api.Objects;
 using LorisAngel.Database;
-using LorisAngel.Utility;
+using LorisAngel.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;

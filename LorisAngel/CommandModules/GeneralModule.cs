@@ -2,7 +2,8 @@
 using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
-using LorisAngel.Utility;
+using LorisAngel.Common;
+using LorisAngel.Utils;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -27,8 +28,8 @@ namespace LorisAngel.CommandModules
         private async Task InviteAsync()
         {
             await Context.Message.DeleteAsync();
-            await Context.User.SendMessageAsync($"Invite Loris Angel to your server: {StringUtil.GetInviteLink(729696788097007717)}");
-            await Context.Channel.SendMessageAsync($"Invite Loris Angel to your server: {StringUtil.GetInviteLink(729696788097007717)}");
+            await Context.User.SendMessageAsync($"Invite Loris Angel to your server: {Utility.GetBotInviteLink()}");
+            await Context.Channel.SendMessageAsync($"Invite Loris Angel to your server: {Utility.GetBotInviteLink()}");
         }
 
         [Command("users")]

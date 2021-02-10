@@ -3,7 +3,7 @@ using Discord.Net.Bot.Database.Configs;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 
-namespace LorisAngel.Utility
+namespace LorisAngel.Utils
 {
     class Moderation
     {

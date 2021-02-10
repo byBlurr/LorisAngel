@@ -3,7 +3,7 @@ using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
 using System.Collections.Generic;
 
-namespace LorisAngel.Utility
+namespace LorisAngel.Utils
 {
     class Help
     {

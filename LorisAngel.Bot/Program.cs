@@ -2,7 +2,7 @@
 
 namespace LorisAngel.Bot
 {
-    class Program : Bot
+    class Program : Discord.Net.Bot.Bot
     {
         static void Main(string[] args)
         {

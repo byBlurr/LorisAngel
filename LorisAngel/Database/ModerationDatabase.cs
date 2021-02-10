@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Threading.Tasks;
 
-namespace LorisAngel.Database
+namespace LorisAngel.Bot.Database
 {
     class ModerationDatabase
     {

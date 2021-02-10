@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LorisAngel.Games
+namespace LorisAngel.Bot.Games
 {
     public class GameHandler
     {

@@ -3,7 +3,7 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LorisAngel.Database
+namespace LorisAngel.Bot.Database
 {
     public class FunDatabase
     {

@@ -4,7 +4,7 @@ using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
 using System.Threading.Tasks;
 
-namespace LorisAngel.CommandModules
+namespace LorisAngel.Bot.CommandModules
 {
     public class SettingsModule : ModuleBase
     {

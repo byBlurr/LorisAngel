@@ -1,7 +1,7 @@
-﻿using LorisAngel.Rendering;
+﻿using LorisAngel.Bot.Rendering;
 using System;
 
-namespace LorisAngel.Games
+namespace LorisAngel.Bot.Games
 {
     public class ConnectGame : Game
     {

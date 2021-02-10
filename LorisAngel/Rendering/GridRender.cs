@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 
-namespace LorisAngel.Rendering
+namespace LorisAngel.Bot.Rendering
 {
     public class GridRender
     {

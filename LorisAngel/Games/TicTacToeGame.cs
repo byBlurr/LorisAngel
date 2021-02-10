@@ -1,6 +1,6 @@
-﻿using LorisAngel.Rendering;
+﻿using LorisAngel.Bot.Rendering;
 
-namespace LorisAngel.Games
+namespace LorisAngel.Bot.Games
 {
     public class TicTacToeGame : Game
     {

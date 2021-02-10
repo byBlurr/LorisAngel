@@ -5,7 +5,7 @@ using Discord.WebSocket;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LorisAngel.CommandModules
+namespace LorisAngel.Bot.CommandModules
 {
     public class GuildModule : ModuleBase
     {

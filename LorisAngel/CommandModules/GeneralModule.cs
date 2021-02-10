@@ -3,12 +3,12 @@ using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
 using LorisAngel.Common;
-using LorisAngel.Utils;
+using LorisAngel.Bot.Utils;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace LorisAngel.CommandModules
+namespace LorisAngel.Bot.CommandModules
 {
     public class GeneralModule : ModuleBase
     {

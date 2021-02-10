@@ -2,12 +2,12 @@
 using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
-using LorisAngel.Database;
+using LorisAngel.Bot.Database;
 using LorisAngel.Common.Objects;
 using System;
 using System.Threading.Tasks;
 
-namespace LorisAngel.CommandModules
+namespace LorisAngel.Bot.CommandModules
 {
     public class CurrencyModule : ModuleBase
     {

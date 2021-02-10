@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LorisAngel.Database
+namespace LorisAngel.Bot.Database
 {
     public class ProfileDatabase
     {

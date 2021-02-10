@@ -1,6 +1,6 @@
 ﻿using Discord.Net.Bot;
 
-namespace LorisAngel
+namespace LorisAngel.Bot
 {
     class Program : Bot
     {

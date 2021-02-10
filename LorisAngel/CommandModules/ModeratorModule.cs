@@ -2,11 +2,11 @@
 using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
-using LorisAngel.Database;
+using LorisAngel.Bot.Database;
 using System;
 using System.Threading.Tasks;
 
-namespace LorisAngel.CommandModules
+namespace LorisAngel.Bot.CommandModules
 {
     public class ModeratorModule : ModuleBase
     {

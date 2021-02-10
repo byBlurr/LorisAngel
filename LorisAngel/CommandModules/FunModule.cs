@@ -3,14 +3,14 @@ using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
 using LorisAngel.Common.Objects;
-using LorisAngel.Database;
+using LorisAngel.Bot.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LorisAngel.CommandModules
+namespace LorisAngel.Bot.CommandModules
 {
     public class FunModule : ModuleBase
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LorisAngel.Games
+namespace LorisAngel.Bot.Games
 {
     public abstract class Game
     {

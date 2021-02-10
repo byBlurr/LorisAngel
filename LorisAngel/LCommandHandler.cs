@@ -5,14 +5,14 @@ using Discord.Net.Bot.Database.Configs;
 using Discord.WebSocket;
 using DiscordBotsList.Api;
 using DiscordBotsList.Api.Objects;
-using LorisAngel.Database;
-using LorisAngel.Utils;
+using LorisAngel.Bot.Database;
+using LorisAngel.Bot.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace LorisAngel
+namespace LorisAngel.Bot
 {
     public class LCommandHandler : CommandHandler
     {

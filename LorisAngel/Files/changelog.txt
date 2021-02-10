@@ -1,6 +1,7 @@
 ﻿## Version 2.2.0 - Start of Webpanel
 - Created LorisAngel.Webpanel
 - Created LorisAngel.Common
+- Improved relationship command replies (-ship)
 - Updated dependencies
 - Optimised data saving
 

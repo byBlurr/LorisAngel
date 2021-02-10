@@ -2,8 +2,8 @@
 using Discord.Commands;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Configs;
+using LorisAngel.Common.Objects;
 using LorisAngel.Database;
-using LorisAngel.Leaderboards;
 using System.Threading.Tasks;
 
 namespace LorisAngel.CommandModules
@@ -35,7 +35,7 @@ namespace LorisAngel.CommandModules
                 return;
             }
 
-            Leaderboard fullLb = await LeaderboardDatabase.GetLeaderboardAsync(leaderboard, 10);
+            LoriLeaderboard fullLb = await LeaderboardDatabase.GetLeaderboardAsync(leaderboard, 10);
             var top10 = fullLb.GetTop(10);
             string board = $"`{"pos", 5} {"Name", 30}   {"score",5}`";
 

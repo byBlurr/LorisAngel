@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Sql;
-using LorisAngel.Leaderboards;
+using LorisAngel.Common.Objects;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -103,9 +103,9 @@ namespace LorisAngel.Database
         }
 
         // Get leaderboard
-        public static async Task<Leaderboard> GetLeaderboardAsync(string lbName, int count = 10)
+        public static async Task<LoriLeaderboard> GetLeaderboardAsync(string lbName, int count = 10)
         {
-            Leaderboard lb = null;
+            LoriLeaderboard lb = null;
 
             string tableName;
             tableName = GetTableName(lbName);
@@ -127,7 +127,7 @@ namespace LorisAngel.Database
                         rows.Add(row);
                     }
 
-                    lb = new Leaderboard(GetLeaderboardName(tableName), rows);
+                    lb = new LoriLeaderboard(GetLeaderboardName(tableName), rows);
                     cmd.Dispose();
                     reader.Dispose();
                 }

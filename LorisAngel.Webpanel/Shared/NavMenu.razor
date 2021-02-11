@@ -11,21 +11,25 @@
                 <Tooltip Text="Home"><span style="color:#FFFFFF;" class="oi oi-home" aria-hidden="true"></span></Tooltip>
             </NavLink>
         </li>
-        <li style="max-width: 100%;" class="nav-item">
-            <NavLink style="padding: 1rem;" class="nav-link" href="profile">
-                <Tooltip Text="Profile"><span style="color:#FFFFFF;" class="oi oi-person" aria-hidden="true"></span></Tooltip>
-            </NavLink>
-        </li>
-        <li style="max-width: 100%;" class="nav-item">
-            <NavLink style="padding: 1rem;" class="nav-link" href="servers">
-                <Tooltip Text="Servers"><span style="color:#FFFFFF;" class="oi oi-cloud" aria-hidden="true"></span></Tooltip>
-            </NavLink>
-        </li>
-        <li style="max-width: 100%;" class="nav-item">
-            <NavLink style="padding: 1rem;" class="nav-link" href="shop">
-                <Tooltip Text="Shop"><span style="color:#FFFFFF;" class="oi oi-cart" aria-hidden="true"></span></Tooltip>
-            </NavLink>
-        </li>
+        <AuthorizeView>
+            <Authorized>
+                <li style="max-width: 100%;" class="nav-item">
+                    <NavLink style="padding: 1rem;" class="nav-link" href="profile">
+                        <Tooltip Text="Profile"><span style="color:#FFFFFF;" class="oi oi-person" aria-hidden="true"></span></Tooltip>
+                    </NavLink>
+                </li>
+                <li style="max-width: 100%;" class="nav-item">
+                    <NavLink style="padding: 1rem;" class="nav-link" href="servers">
+                        <Tooltip Text="Servers"><span style="color:#FFFFFF;" class="oi oi-cloud" aria-hidden="true"></span></Tooltip>
+                    </NavLink>
+                </li>
+                <li style="max-width: 100%;" class="nav-item">
+                    <NavLink style="padding: 1rem;" class="nav-link" href="shop">
+                        <Tooltip Text="Shop"><span style="color:#FFFFFF;" class="oi oi-cart" aria-hidden="true"></span></Tooltip>
+                    </NavLink>
+                </li>
+            </Authorized>
+        </AuthorizeView>
     </ul>
 </div>
 

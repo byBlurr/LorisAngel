@@ -53,6 +53,46 @@ namespace LorisAngel.Common.Objects
         {
             return Rows.Count;
         }
+
+        // Helper method for getting table name from leaderboard name
+        public static string GetTableName(string lbName)
+        {
+            string tableName;
+            switch (lbName)
+            {
+                case "Connect 4":
+                    tableName = "connect_leaderboard";
+                    break;
+                case "Tic Tac Toe":
+                    tableName = "tictactoe_leaderboard";
+                    break;
+                default:
+                    tableName = "bot_leaderboard";
+                    break;
+            }
+
+            return tableName;
+        }
+
+        // Helper method for getting leaderboard name from table name
+        public static string GetLeaderboardName(string tableName)
+        {
+            string lbName;
+            switch (tableName)
+            {
+                case "connect_leaderboard":
+                    lbName = "Connect 4";
+                    break;
+                case "tictactoe_leaderboard":
+                    lbName = "Tic Tac Toe";
+                    break;
+                default:
+                    lbName = "Leaderboard";
+                    break;
+            }
+
+            return lbName;
+        }
     }
 
     public class LeaderboardRow

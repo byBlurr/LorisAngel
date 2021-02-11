@@ -15,7 +15,7 @@ namespace LorisAngel.Bot.Database
         public static async Task CheckAsync(ulong id, string name, string lbName)
         {
             string tableName;
-            tableName = GetTableName(lbName);
+            tableName = LoriLeaderboard.GetTableName(lbName);
 
             var dbCon = DBConnection.Instance();
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
@@ -61,7 +61,7 @@ namespace LorisAngel.Bot.Database
             await CheckAsync(userId, username, lbName);
 
             string tableName;
-            tableName = GetTableName(lbName);
+            tableName = LoriLeaderboard.GetTableName(lbName);
 
             var dbCon = DBConnection.Instance();
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
@@ -108,7 +108,7 @@ namespace LorisAngel.Bot.Database
             LoriLeaderboard lb = null;
 
             string tableName;
-            tableName = GetTableName(lbName);
+            tableName = LoriLeaderboard.GetTableName(lbName);
 
             var dbCon = DBConnection.Instance();
             dbCon.DatabaseName = LCommandHandler.DATABASE_NAME;
@@ -127,7 +127,7 @@ namespace LorisAngel.Bot.Database
                         rows.Add(row);
                     }
 
-                    lb = new LoriLeaderboard(GetLeaderboardName(tableName), rows);
+                    lb = new LoriLeaderboard(LoriLeaderboard.GetLeaderboardName(tableName), rows);
                     cmd.Dispose();
                     reader.Dispose();
                 }
@@ -135,46 +135,6 @@ namespace LorisAngel.Bot.Database
             }
 
             return lb;
-        }
-
-        // Helper method for getting table name from leaderboard name
-        private static string GetTableName(string lbName)
-        {
-            string tableName;
-            switch (lbName)
-            {
-                case "Connect 4":
-                    tableName = "connect_leaderboard";
-                    break;
-                case "Tic Tac Toe":
-                    tableName = "tictactoe_leaderboard";
-                    break;
-                default:
-                    tableName = "bot_leaderboard";
-                    break;
-            }
-
-            return tableName;
-        }
-
-        // Helper method for getting leaderboard name from table name
-        private static string GetLeaderboardName(string tableName)
-        {
-            string lbName;
-            switch (tableName)
-            {
-                case "connect_leaderboard":
-                    lbName = "Connect 4";
-                    break;
-                case "tictactoe_leaderboard":
-                    lbName = "Tic Tac Toe";
-                    break;
-                default:
-                    lbName = "Leaderboard";
-                    break;
-            }
-
-            return lbName;
         }
     }
 }

@@ -9,19 +9,66 @@
 
 <h3>idk what stuff to have here?</h3>
 
+<hr />
+
 <h4>Stats?</h4>
-<p>Server Count: how many guilds the bot is in<br />
-Profiles Count: just a count of all rows in the users database<br />
-Total Money: add up everyones money? maybe this would be too demanding actually</p>
+<p>
+    Server Count: how many guilds the bot is in<br />
+    Profiles Count: just a count of all rows in the users database<br />
+    Total Money: add up everyones money? maybe this would be too demanding actually
+</p>
+
+<hr />
+
+@using LorisAngel.Webpanel.Data
+@using LorisAngel.Common.Objects
+@inject LeaderboardService LeaderboardService
+
 
 <h4>Oooh put the leaderboards here?</h4>
-<p>Tic-Tac-Toe leaderboard<br />
-Connect-4 leaderboard</p>
+<p>
+    Tic-Tac-Toe leaderboard<br />
+    Connect-4 leaderboard
+</p>
+
+@if (connect4Board == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ScrollableWindow Height="15rem">
+        <h2>Connect-4 Top 10</h2>
+        <table class="leaderboard">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in connect4Board.GetTop())
+                {
+                    <tr>
+                        <td>@row.Id</td>
+                        <td>@row.Name</td>
+                        <td>@row.Score</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </ScrollableWindow>
+}
+
+<hr />
 
 <h4>Up and coming features?</h4>
-<p>Blackjack<br />
-This webpanel<br />
-Profile avatars</p>
+<p>
+    Blackjack<br />
+    This webpanel<br />
+    Profile avatars
+</p>
 
 <hr />
 
@@ -34,3 +81,12 @@ Profile avatars</p>
         <p>So when you use this, you should be able to have content that you can scroll through... Could be pretty useful when working on larger pages or things such as leaderboards. This way we can keep the actual page fixed and tidy...</p>
     </div>
 </ScrollableWindow>
+
+@code {
+    private LoriLeaderboard connect4Board;
+
+    protected override async Task OnInitializedAsync()
+    {
+        connect4Board = await LeaderboardService.GetLeaderboardAsync("Connect 4");
+    }
+}

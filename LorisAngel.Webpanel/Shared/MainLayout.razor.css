@@ -2,23 +2,41 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    background-image: none;
+    background-color: #23272A;
 }
 
 .main {
     flex: 1;
+    background-image: none;
+    background-color: #23272A;
+}
+
+.page-header {
+    width: 100%;
+    height: 3rem;
+    color: #FFFFFF;
+    background-color: #2C2F33;
+    border-radius: 0.5rem 0rem 0rem 0rem;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+    border-bottom-color: #23272A;
+    padding: 1rem;
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: none;
+    background-color: #23272A;
+    max-width: 5rem;
 }
 
 .top-row {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #d6d5d5;
-    justify-content: flex-end;
-    height: 3.5rem;
-    display: flex;
+    background: none;
+    border-style: none;
+    display: inline-block;
     align-items: center;
+    float: right;
+    max-height: inherit;
 }
 
     .top-row ::deep a, .top-row .btn-link {
@@ -30,6 +48,14 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+#discord-logo {
+    max-height: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    display: inline-block;
+    opacity: 0.5;
+}
 
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {

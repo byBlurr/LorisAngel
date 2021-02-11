@@ -1,4 +1,5 @@
 ﻿@page "/servers"
+@attribute [Authorize(Roles = "user")]
 
 @using LorisAngel.Webpanel.Data
 @inject WeatherForecastService ForecastService

@@ -1,0 +1,12 @@
+﻿.leaderboard {
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 5px;
+    border-color: rgba(255,255,255,0.5);
+}
+
+    .leaderboard th, .leaderboard td {
+        border: 1px solid black;
+        border-color: rgba(255,255,255,0.5);
+    }
+

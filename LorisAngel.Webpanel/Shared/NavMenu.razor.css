@@ -32,23 +32,26 @@
     }
 
     .nav-item ::deep a {
+        background-color: #2C2F33;
         color: #d7d7d7;
-        border-radius: 4px;
+        border-radius: 50%;
         height: 3rem;
         display: flex;
         align-items: center;
         line-height: 3rem;
     }
 
-.nav-item ::deep a.active {
-    background-color: rgba(255,255,255,0.25);
-    color: white;
-}
+        .nav-item ::deep a:hover {
+            background-color: rgba(121, 55, 134,0.5);
+            border-radius: 1rem;
+            color: white;
+        }
 
-.nav-item ::deep a:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
-}
+        .nav-item ::deep a.active {
+            background-color: #793786;
+            border-radius: 1rem;
+            color: white;
+        }
 
 @media (min-width: 641px) {
     .navbar-toggler {

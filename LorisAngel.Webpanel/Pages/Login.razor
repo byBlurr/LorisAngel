@@ -1,3 +1,10 @@
 ﻿@page "/login"
 
-<h1> LOG IN WITH DISCORD OAUTH2 </h1> 
+<AuthorizeView>
+    <Authorized>
+        <h2>Logout</h2>
+    </Authorized>
+    <NotAuthorized>
+        <h2>Login with Discord</h2>
+    </NotAuthorized>
+</AuthorizeView>

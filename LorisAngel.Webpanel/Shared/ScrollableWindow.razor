@@ -1,10 +1,13 @@
-﻿<div style="height: @Height; overflow-y: scroll" class="scrollable">
+﻿<div style="height: @Height; width: @Width" class="scrollable">
     @ChildContent
 </div>
 
 @code {
-    [Parameter] 
+    [Parameter]
     public string Height { get; set; }
+
+    [Parameter]
+    public string Width { get; set; }
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }

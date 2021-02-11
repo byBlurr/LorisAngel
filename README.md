@@ -1,8 +1,9 @@
-[![](https://img.shields.io/badge/Invite%20to%20server-100+-blue)](https://discordapp.com/oauth2/authorize?client_id=729696788097007717&scope=bot&permissions=44032)
+[![](https://img.shields.io/badge/Invite%20to%20server-100+-blue)](https://discordapp.com/oauth2/authorize?client_id=729696788097007717&scope=bot&permissions=44038)
 [![](https://img.shields.io/github/sponsors/byBlurr?style=flat)](https://github.com/sponsors/byBlurr)
 
 # LorisAngel
 Lori's Angel v2 is a rework of the original Lori's Angel bot. Full of fun commands and board games.
+
 
 ### Features
 #### Currently Implemented
@@ -19,6 +20,7 @@ Lori's Angel v2 is a rework of the original Lori's Angel bot. Full of fun comman
 - (v2.2.1) Better profile appearance
 - (v2.2.2) Customisable profile and online shop
 - (v2.3.0) Blackjack and Snakes&Ladders
+
 
 ### Latest Versions
 #### Version 2.1.3 - NSFW Commands
@@ -47,3 +49,4 @@ Lori's Angel v2 is a rework of the original Lori's Angel bot. Full of fun comman
 - NSFW commands must now be used inside an nsfw channel
 - Reworked LoriUser update method to be more optimised
 - Updated help command
+

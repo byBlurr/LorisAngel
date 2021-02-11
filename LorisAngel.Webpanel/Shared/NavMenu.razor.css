@@ -21,6 +21,8 @@
 .nav-item {
     font-size: 0.9rem;
     padding-bottom: 0.5rem;
+    max-width: 100%;
+    text-align: center;
 }
 
     .nav-item:first-of-type {

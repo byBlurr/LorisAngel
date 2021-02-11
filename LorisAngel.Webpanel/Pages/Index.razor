@@ -1,5 +1,12 @@
 ﻿@page "/"
 
+<AuthorizeView>
+    <NotAuthorized>
+        <a href="/login"><h2>You need to login to access the webpanel.</h2></a>
+        <hr />
+    </NotAuthorized>
+</AuthorizeView>
+
 <h1>Homepage</h1>
 <p>Probably a login screen? Needs to use Discord OAuth and get the users id, username to call them by and then their owned servers.</p>
     <br />

@@ -50,16 +50,32 @@
     }
 
 #discord-logo {
+    display: inline-block;
     max-height: 1rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    display: inline-block;
     opacity: 0.5;
 }
+
+.dropdown-menu-button {
+    display: none;
+    max-height: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    color: rgba(255,255,255,0.5);
+}
+
+    .dropdown-menu-button:active {
+        color: rgba(255,255,255,1.0);
+    }
 
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {
         display: none;
+    }
+
+    .dropdown-menu-button {
+        display: inline-block;
     }
 
     .top-row.auth {
@@ -68,6 +84,10 @@
 
     .top-row a, .top-row .btn-link {
         margin-left: 0;
+    }
+
+    .sidebar {
+        display: none;
     }
 }
 

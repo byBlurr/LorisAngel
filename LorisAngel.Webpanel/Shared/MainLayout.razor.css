@@ -24,6 +24,10 @@
     padding: 1rem;
 }
 
+.title {
+    display: inline-block;
+}
+
 .sidebar {
     background-image: none;
     background-color: #23272A;
@@ -70,8 +74,16 @@
     }
 
 @media (max-width: 640.98px) {
+    .page-header {
+        border-radius: 0.5rem 0.5rem 0rem 0rem;
+    }
+
     .top-row:not(.auth) {
         display: none;
+    }
+
+    #subtitle {
+        display:none;
     }
 
     .dropdown-menu-button {

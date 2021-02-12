@@ -1,7 +1,11 @@
-﻿<div class="text-block">
+﻿<div class="text-block" style="width: @Width">
     <span>@Text</span>
 </div>
 
 @code {
-    [Parameter] public string Text { get; set; }
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public string Width { get; set; }
 }

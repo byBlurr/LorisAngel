@@ -53,5 +53,10 @@
             Feet = parts[4][0];
             FeetColour = int.Parse(parts[4][1].ToString());
         }
+
+        public override string ToString()
+        {
+            return Background + "-" + AssembleAvatarString();
+        }
     }
 }

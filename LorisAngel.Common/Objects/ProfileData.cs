@@ -1,8 +1,12 @@
-﻿namespace LorisAngel.Common.Objects
+﻿using Newtonsoft.Json;
+using System;
+
+namespace LorisAngel.Common.Objects
 {
     public class ProfileData
     {
         public string Background { get; set; }
+        public short Colour { get; set; }
         public char Hair { get; set; }
         public int HairColour { get; set; }
         public char Head { get; set; }
@@ -14,10 +18,20 @@
         public char Feet { get; set; }
         public int FeetColour { get; set; }
 
+        public ProfileData(string background, string avatar, short colour)
+        {
+            Background = background;
+            DissembleAvatarStrings(avatar);
+            Colour = colour;
+
+            Console.WriteLine("Used JSON Contructor");
+        }
+
         public ProfileData()
         {
             Background = "default_purple";
             DissembleAvatarStrings("Z0-Z0-Z0-Z0-Z0"); // Z = No Item, 0 = No Colour
+            Colour = 0;
         }
 
         public string BackgroundImage()
@@ -53,6 +67,27 @@
             TorsoColour = int.Parse(parts[2][1].ToString());
             BottomsColour = int.Parse(parts[3][1].ToString());
             FeetColour = int.Parse(parts[4][1].ToString());
+        }
+
+        public LoriColour GetColour()
+        {
+            switch (Colour)
+            {
+                case 0:
+                    return LoriColour.LoriPurple;
+                case 1:
+                    return LoriColour.LoriRed;
+                case 2:
+                    return LoriColour.LoriGreen;
+                case 3:
+                    return LoriColour.Blurple;
+                case 4:
+                    return LoriColour.ActualBlack;
+                case 5:
+                    return LoriColour.FullWhite;
+                default:
+                    return LoriColour.LoriPurple;
+            }
         }
 
         public override string ToString()

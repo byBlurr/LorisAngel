@@ -36,21 +36,22 @@
             else return true;
         }
 
-        public string AssembleAvatarString() => Hair + HairColour + "-" + Head + HeadColour + "-" + Torso + TorsoColour + "-" + Bottoms + BottomsColour + "-" + Feet + FeetColour;
+        public string AssembleAvatarString() => Hair.ToString() + HairColour + "-" + Head.ToString() + HeadColour + "-" + Torso.ToString() + TorsoColour + "-" + Bottoms.ToString() + BottomsColour + "-" + Feet.ToString() + FeetColour;
 
         private void DissembleAvatarStrings(string avatar)
         {
             string[] parts = avatar.Split('-');
 
             Hair = parts[0][0];
-            HairColour = int.Parse(parts[0][1].ToString());
             Head = parts[1][0];
-            HeadColour = int.Parse(parts[1][1].ToString());
             Torso = parts[2][0];
-            TorsoColour = int.Parse(parts[2][1].ToString());
             Bottoms = parts[3][0];
-            BottomsColour = int.Parse(parts[3][1].ToString());
             Feet = parts[4][0];
+
+            HairColour = int.Parse(parts[0][1].ToString());
+            HeadColour = int.Parse(parts[1][1].ToString());
+            TorsoColour = int.Parse(parts[2][1].ToString());
+            BottomsColour = int.Parse(parts[3][1].ToString());
             FeetColour = int.Parse(parts[4][1].ToString());
         }
 

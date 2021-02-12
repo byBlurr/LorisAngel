@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LorisAngel.Common.Objects
+﻿namespace LorisAngel.Common.Objects
 {
     public class ProfileData
     {

@@ -142,6 +142,9 @@ namespace LorisAngel.Bot.CommandModules
             embed.AddField(new EmbedFieldBuilder() { Name = "Lori's Angel Guilds: ", Value = LCommandHandler.GetUserGuildCount(User.Id), IsInline = true });
 
             ProfileRenderer renderer = new ProfileRenderer(profile);
+            renderer.Render();
+            await Context.Channel.SendFileAsync(renderer.GetPath());
+            renderer.Dispose();
 
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }

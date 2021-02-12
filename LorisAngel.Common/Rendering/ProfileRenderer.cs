@@ -3,6 +3,7 @@ using Blurr.Sql;
 using LorisAngel.Common.Objects;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace LorisAngel.Common.Rendering
@@ -49,5 +50,12 @@ namespace LorisAngel.Common.Rendering
                 Util.Log(LogType.Error, "MySql", ex.Message);
             }
         }
+
+        public void Dispose()
+        {
+            if (File.Exists(GetPath())) File.Delete(GetPath());
+        }
+
+        public string GetPath() => Path.Combine(AppContext.BaseDirectory, "profiles", $"profile_{User.Id}.png");
     }
 }

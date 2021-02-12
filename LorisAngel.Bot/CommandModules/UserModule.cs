@@ -6,6 +6,7 @@ using LorisAngel.Common.Objects;
 using LorisAngel.Bot.Database;
 using System;
 using System.Threading.Tasks;
+using LorisAngel.Common.Rendering;
 
 namespace LorisAngel.Bot.CommandModules
 {
@@ -139,6 +140,8 @@ namespace LorisAngel.Bot.CommandModules
             embed.AddField(new EmbedFieldBuilder() { Name = "Unique Identifier: ", Value = profile.Id, IsInline = true });
             embed.AddField(new EmbedFieldBuilder() { Name = "Username: ", Value = User.Username + "#" + User.Discriminator, IsInline = true });
             embed.AddField(new EmbedFieldBuilder() { Name = "Lori's Angel Guilds: ", Value = LCommandHandler.GetUserGuildCount(User.Id), IsInline = true });
+
+            ProfileRenderer renderer = new ProfileRenderer(profile);
 
             await Context.Channel.SendMessageAsync(null, false, embed.Build());
         }

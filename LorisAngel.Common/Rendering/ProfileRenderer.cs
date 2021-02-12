@@ -33,11 +33,20 @@ namespace LorisAngel.Common.Rendering
 
             try
             {
-                Data = SqlHelper.SelectDataFromTable<ProfileData>(connection, "profiles", columns, $"id = '{User.Id}'")[0];
+                var rows = SqlHelper.SelectDataFromTable<ProfileData>(connection, "profiles", columns, $"id = '{User.Id}'");
+                if (rows.Count > 0) Data = rows[0];
+                else
+                {
+                    Data = new ProfileData();
+
+                    string[] insColumns = { "id", "background", "avatar" };
+                    object[] values = { User.Id, Data.Background, Data.AssembleAvatarString() };
+                    SqlHelper.InsertIntoTable(connection, "profiles", insColumns, values);
+                }
             }
             catch (Exception ex)
             {
-                Util.Log(LogType.Error, "MySQL", ex.Message);
+                Util.Log(LogType.Error, "MySql", ex.Message);
             }
         }
     }

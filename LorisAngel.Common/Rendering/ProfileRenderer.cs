@@ -13,11 +13,13 @@ namespace LorisAngel.Common.Rendering
     public class ProfileRenderer
     {
 
+        private ulong Id { get; set; }
         private LoriUser User { get; set; }
         private ProfileData Data { get; set; }
 
-        public ProfileRenderer(LoriUser user)
+        public ProfileRenderer(ulong id, LoriUser user)
         {
+            Id = id;
             User = user;
             GetProfileData();
             Console.WriteLine(Data.ToString());
@@ -43,6 +45,13 @@ namespace LorisAngel.Common.Rendering
             graphicImage.DrawImage(backTexture, 0, 0, width, height);
 
             graphicImage.DrawString(User.Name, new Font(fontName, 32, FontStyle.Bold), darkBrush, ProfileLocations.Name.X + (ProfileLocations.Name.Width / 2), ProfileLocations.Name.Y + (ProfileLocations.Name.Height / 2), format);
+            graphicImage.DrawString(User.Status, new Font(fontName, 18, FontStyle.Bold), darkBrush, ProfileLocations.Status.X + (ProfileLocations.Status.Width / 2), ProfileLocations.Status.Y + (ProfileLocations.Status.Height / 2), format);
+            graphicImage.DrawString(User.Motto, new Font(fontName, 18, FontStyle.Bold), darkBrush, ProfileLocations.Motto.X + (ProfileLocations.Motto.Width / 2), ProfileLocations.Motto.Y + (ProfileLocations.Motto.Height / 2), format);
+            graphicImage.DrawString(User.CreatedOn.ToString(), new Font(fontName, 18, FontStyle.Bold), darkBrush, ProfileLocations.CreatedOn.X + (ProfileLocations.CreatedOn.Width / 2), ProfileLocations.CreatedOn.Y + (ProfileLocations.CreatedOn.Height / 2), format);
+            graphicImage.DrawString(User.LastSeen.ToString(), new Font(fontName, 18, FontStyle.Bold), darkBrush, ProfileLocations.LastSeen.X + (ProfileLocations.LastSeen.Width / 2), ProfileLocations.LastSeen.Y + (ProfileLocations.LastSeen.Height / 2), format);
+            graphicImage.DrawString(User.JoinedOn.ToString(), new Font(fontName, 18, FontStyle.Bold), darkBrush, ProfileLocations.JoinedOn.X + (ProfileLocations.JoinedOn.Width / 2), ProfileLocations.JoinedOn.Y + (ProfileLocations.JoinedOn.Height / 2), format);
+            graphicImage.DrawString(User.LastUpdated.ToString(), new Font(fontName, 18, FontStyle.Bold), darkBrush, ProfileLocations.UpdatedOn.X + (ProfileLocations.UpdatedOn.Width / 2), ProfileLocations.UpdatedOn.Y + (ProfileLocations.UpdatedOn.Height / 2), format);
+            graphicImage.DrawString(Id.ToString(), new Font(fontName, 18, FontStyle.Bold), darkBrush, ProfileLocations.Id.X + (ProfileLocations.Id.Width / 2), ProfileLocations.Id.Y + (ProfileLocations.Id.Height / 2), format);
 
             editedBitmap.Save(GetPath(), System.Drawing.Imaging.ImageFormat.Png);
             graphicImage.Dispose();
@@ -80,7 +89,7 @@ namespace LorisAngel.Common.Rendering
             if (File.Exists(GetPath())) File.Delete(GetPath());
         }
 
-        public string GetPath() => Path.Combine(AppContext.BaseDirectory, "profiles", $"profile_{User.Id}.png");
+        public string GetPath() => Path.Combine(AppContext.BaseDirectory, "profiles", $"profile_{Id}.png");
     }
 
     public class ProfileLocations
@@ -88,8 +97,8 @@ namespace LorisAngel.Common.Rendering
         public static readonly Rectangle Name = new Rectangle(129, 34, 701, 71);
         public static readonly Rectangle Status = new Rectangle(129, 116, 701, 38);
         public static readonly Rectangle Motto = new Rectangle(129, 165, 701, 38);
-        public static readonly Rectangle CreatedOn = new Rectangle(129, 132, 342, 38);
-        public static readonly Rectangle LastSeen = new Rectangle(488, 132, 342, 38);
+        public static readonly Rectangle CreatedOn = new Rectangle(129, 232, 342, 38);
+        public static readonly Rectangle LastSeen = new Rectangle(488, 232, 342, 38);
         public static readonly Rectangle JoinedOn = new Rectangle(129, 279, 342, 38);
         public static readonly Rectangle UpdatedOn = new Rectangle(488, 279, 342, 38);
         public static readonly Rectangle LoriGuilds = new Rectangle(129, 326, 342, 38);

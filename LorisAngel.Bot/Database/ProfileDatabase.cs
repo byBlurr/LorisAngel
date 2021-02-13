@@ -3,6 +3,7 @@ using Discord.Net.Bot;
 using Discord.Net.Bot.Database.Sql;
 using LorisAngel.Common.Objects;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,6 +126,7 @@ namespace LorisAngel.Bot.Database
                         DateTime joinedOn = reader.GetDateTime(3);
                         DateTime lastSeen = reader.GetDateTime(4);
                         string status = reader.GetString(5);
+                        string badges = reader.GetString(6);
                         DateTime lastUpdated = reader.GetDateTime(7);
                         string activity = reader.GetString(8);
                         string motto = reader.GetString(9);
@@ -134,8 +136,9 @@ namespace LorisAngel.Bot.Database
                         if (activity == null) activity = "";
                         if (motto == null) motto = "";
                         if (claimedAt == null) claimedAt = new DateTime();
+                        List<int> userBadges = JsonConvert.DeserializeObject<List<int>>(badges);
 
-                        LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, new List<int>(), lastUpdated, motto, activity, currency, claimedAt);
+                        LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, userBadges, lastUpdated, motto, activity, currency, claimedAt);
                         users.Add(newUser);
                     }
                 }
@@ -157,6 +160,8 @@ namespace LorisAngel.Bot.Database
             {
                 foreach (LoriUser user in users)
                 {
+                    if (!user.Badges.Contains(0)) user.AddBadge(0); // ADD FOUNDER BADGE
+
                     if (user.HasChanged)
                     {
                         while (LCommandHandler.Saving) await Task.Delay(50);
@@ -170,7 +175,9 @@ namespace LorisAngel.Bot.Database
                         }
                         else
                         {
-                            var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status, lastupdated = @lastupdated, motto = @motto, activity = @activity, currency = @currency, claimedat = @claimedat WHERE id = @id", dbCon.Connection);
+                            string badges = JsonConvert.SerializeObject(user.Badges, Formatting.None);
+
+                            var cmd = new MySqlCommand($"UPDATE users SET name = @name, lastseen = @lastseen, status = @status, lastupdated = @lastupdated, motto = @motto, activity = @activity, badges = @badges, currency = @currency, claimedat = @claimedat WHERE id = @id", dbCon.Connection);
                             cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
                             cmd.Parameters.Add("@name", MySqlDbType.String).Value = user.Name;
                             cmd.Parameters.Add("@lastseen", MySqlDbType.DateTime).Value = user.LastSeen;
@@ -178,6 +185,7 @@ namespace LorisAngel.Bot.Database
                             cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
                             cmd.Parameters.Add("@activity", MySqlDbType.String).Value = user.Activity;
                             cmd.Parameters.Add("@motto", MySqlDbType.String).Value = user.Motto;
+                            cmd.Parameters.Add("@badges", MySqlDbType.String).Value = badges;
                             cmd.Parameters.Add("@currency", MySqlDbType.Int32).Value = user.Currency;
                             cmd.Parameters.Add("@claimedat", MySqlDbType.DateTime).Value = user.Claimed;
 
@@ -308,6 +316,8 @@ namespace LorisAngel.Bot.Database
                 while (LCommandHandler.Saving) await Task.Delay(50);
                 LCommandHandler.Saving = true;
 
+                string badges = JsonConvert.SerializeObject(user.Badges, Formatting.None);
+
                 var cmd = new MySqlCommand($"INSERT INTO users (id, name, createdon, joinedon, lastseen, status, badges, lastupdated, motto, activity, currency, claimedat) VALUES (@id, @name, @createdon, @joinedon, @lastseen, @status, @badges, @lastupdated, @motto, @activity, @currency, @claimedat)", dbCon.Connection);
                 cmd.Parameters.Add("@id", MySqlDbType.UInt64).Value = user.Id;
                 cmd.Parameters.Add("@name", MySqlDbType.String).Value = user.Name;
@@ -315,7 +325,7 @@ namespace LorisAngel.Bot.Database
                 cmd.Parameters.Add("@joinedon", MySqlDbType.DateTime).Value = user.JoinedOn;
                 cmd.Parameters.Add("@lastseen", MySqlDbType.DateTime).Value = user.LastSeen;
                 cmd.Parameters.Add("@status", MySqlDbType.String).Value = user.Status;
-                cmd.Parameters.Add("@badges", MySqlDbType.String).Value = "";
+                cmd.Parameters.Add("@badges", MySqlDbType.String).Value = badges;
                 cmd.Parameters.Add("@lastupdated", MySqlDbType.DateTime).Value = user.LastUpdated;
                 cmd.Parameters.Add("@activity", MySqlDbType.String).Value = user.Activity;
                 cmd.Parameters.Add("@motto", MySqlDbType.String).Value = user.Motto;
@@ -350,7 +360,8 @@ namespace LorisAngel.Bot.Database
         {
             DateTime lastseen = new DateTime();
             if (user.Status != UserStatus.Offline && user.Status != UserStatus.Invisible) lastseen = DateTime.Now;
-            LoriUser newUser = new LoriUser(user.Id, "", user.CreatedAt.DateTime, DateTime.Now, lastseen, user.Status.ToString(), new List<int>(), DateTime.Now);
+            List<int> badges = new List<int>();
+            LoriUser newUser = new LoriUser(user.Id, "", user.CreatedAt.DateTime, DateTime.Now, lastseen, user.Status.ToString(), badges, DateTime.Now);
             newUser.SetNew();
             Users.Add(newUser);
         }
@@ -463,6 +474,17 @@ namespace LorisAngel.Bot.Database
                 if (user.Id == id)
                 {
                     user.UpdateMotto(motto);
+                }
+            }
+        }
+
+        public static void AddUserBadge(ulong id, int badgeId)
+        {
+            foreach (LoriUser user in Users)
+            {
+                if (user.Id == id)
+                {
+                    user.AddBadge(badgeId);
                 }
             }
         }

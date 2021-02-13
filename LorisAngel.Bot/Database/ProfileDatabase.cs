@@ -135,7 +135,7 @@ namespace LorisAngel.Bot.Database
                         if (motto == null) motto = "";
                         if (claimedAt == null) claimedAt = new DateTime();
 
-                        LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, "", lastUpdated, motto, activity, currency, claimedAt);
+                        LoriUser newUser = new LoriUser(id, name, createdOn, joinedOn, lastSeen, status, new List<int>(), lastUpdated, motto, activity, currency, claimedAt);
                         users.Add(newUser);
                     }
                 }
@@ -350,7 +350,7 @@ namespace LorisAngel.Bot.Database
         {
             DateTime lastseen = new DateTime();
             if (user.Status != UserStatus.Offline && user.Status != UserStatus.Invisible) lastseen = DateTime.Now;
-            LoriUser newUser = new LoriUser(user.Id, "", user.CreatedAt.DateTime, DateTime.Now, lastseen, user.Status.ToString(), "", DateTime.Now);
+            LoriUser newUser = new LoriUser(user.Id, "", user.CreatedAt.DateTime, DateTime.Now, lastseen, user.Status.ToString(), new List<int>(), DateTime.Now);
             newUser.SetNew();
             Users.Add(newUser);
         }

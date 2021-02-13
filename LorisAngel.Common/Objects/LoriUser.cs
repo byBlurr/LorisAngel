@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace LorisAngel.Common.Objects
@@ -13,7 +14,7 @@ namespace LorisAngel.Common.Objects
         public string Status { get; private set; }
         public string Activity { get; private set; }
         public string Motto { get; private set; }
-        public string Badges { get; private set; } // WILL BE A LIST OF BADGES ONCE BADGES ADDED
+        public List<int> Badges { get; private set; }
         public int Currency;
         public string Avatar { get; private set; } // WILL BE THE AVATAR ON THEIR PROFILE
         public string ProfileCard { get; private set; } // WILL BE THE PROFILE BACKGROUND
@@ -22,7 +23,7 @@ namespace LorisAngel.Common.Objects
         public bool IsNew { get; set; }
         public DateTime Claimed { get; set; }
 
-        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, string badges, DateTime lastUpdated, string activity = "", string motto = "", int currency = 0, DateTime claimedAt = new DateTime())
+        public LoriUser(ulong id, string name, DateTime createdOn, DateTime joinedOn, DateTime lastSeen, string status, List<int> badges, DateTime lastUpdated, string activity = "", string motto = "", int currency = 0, DateTime claimedAt = new DateTime())
         {
             Id = id;
             Name = name.Normalize() ?? throw new ArgumentNullException(nameof(name));
@@ -121,6 +122,14 @@ namespace LorisAngel.Common.Objects
                 HasChanged = true;
                 LastUpdated = DateTime.Now;
             }
+        }
+
+        public void AddBadge(int badgeId)
+        {
+            if (!Badges.Contains(badgeId)) Badges.Add(badgeId);
+
+            HasChanged = true;
+            LastUpdated = DateTime.Now;
         }
 
         private string Fix(string text)

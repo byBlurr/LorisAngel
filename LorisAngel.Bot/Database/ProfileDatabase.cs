@@ -360,8 +360,7 @@ namespace LorisAngel.Bot.Database
         {
             DateTime lastseen = new DateTime();
             if (user.Status != UserStatus.Offline && user.Status != UserStatus.Invisible) lastseen = DateTime.Now;
-            List<int> badges = new List<int>();
-            LoriUser newUser = new LoriUser(user.Id, "", user.CreatedAt.DateTime, DateTime.Now, lastseen, user.Status.ToString(), badges, DateTime.Now);
+            LoriUser newUser = new LoriUser(user.Id, "", user.CreatedAt.DateTime, DateTime.Now, lastseen, user.Status.ToString(), new List<int>(), DateTime.Now);
             newUser.SetNew();
             Users.Add(newUser);
         }

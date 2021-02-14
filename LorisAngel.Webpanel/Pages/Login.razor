@@ -2,9 +2,11 @@
 
 <AuthorizeView>
     <Authorized>
-        <h2>Logout</h2>
     </Authorized>
     <NotAuthorized>
-        <h2>Login with Discord</h2>
+        <div class="login-box">
+            <img class="discord-logo" src="images/discord/discord-logo-white.png" alt="Discord Logo" />
+            <a href="https://discord.com/api/oauth2/authorize?client_id=729696788097007717&redirect_uri=https%3A%2F%2Flocalhost%3A44371&response_type=code&scope=email%20identify%20guilds"><div class="login-button"><h2>Login with Discord</h2></div></a>
+        </div>
     </NotAuthorized>
 </AuthorizeView>

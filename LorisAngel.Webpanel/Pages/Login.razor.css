@@ -1,0 +1,25 @@
+﻿.login-box {
+    padding: 12.5%;
+    width: 100%;
+    text-align: center;
+    left: auto;
+    right: auto;
+}
+
+.discord-logo {
+    width: 10rem;
+}
+
+.login-button {
+    width: 15rem;
+    left: auto;
+    right: auto;
+    border-radius: 5px;
+    background-color: #7289DA;
+    color: #FFFFFF;
+}
+
+    .login-button:hover {
+        border-radius: 3px;
+        color: #99AAB5;
+    }

@@ -1,4 +1,11 @@
-﻿.leaderboard {
+﻿.leaderboards {
+    display: inline-block;
+    width: 75%;
+    left: auto;
+    right: auto;
+}
+
+.leaderboard {
     width: 100%;
     border: 2px solid black;
     border-radius: 5px;

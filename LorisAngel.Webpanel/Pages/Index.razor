@@ -25,7 +25,7 @@
 @inject LeaderboardService LeaderboardService
 
 
-<h4>Oooh put the leaderboards here?</h4>
+<h4>Game Leaderboards</h4>
 <div class="leaderboards">
     @if (connect4Board == null)
     {
@@ -33,13 +33,13 @@
     }
     else
     {
-        <ScrollableWindow Height="15rem" Width="45rem">
+        <ScrollableWindow Height="15rem" Width="40rem" Float="left">
             <h2>Connect-4 Top 10</h2>
             <table class="leaderboard">
                 <thead>
                     <tr>
                         <th>Pos</th>
-                        <th>Name</th>
+                        <th style="width: 50%">Name</th>
                         <th>Score</th>
                     </tr>
                 </thead>
@@ -47,7 +47,7 @@
                     @foreach (var row in connect4Board.GetTop())
                     {
                         <tr>
-                            <td>#@row.Id</td>
+                            <td>#@row.Id</td> <!-- Will not display the ID, will display position -->
                             <td>@row.Name</td>
                             <td>@row.Score</td>
                         </tr>
@@ -63,24 +63,24 @@
     }
     else
     {
-        <ScrollableWindow Height="15rem" Width="45rem">
+        <ScrollableWindow Height="15rem" Width="40rem" Float="right">
             <h2>Tic-Tac-Toe Top 10</h2>
             <table class="leaderboard">
                 <thead>
                     <tr>
                         <th>Pos</th>
-                        <th>Name</th>
+                        <th style="width: 50%">Name</th>
                         <th>Score</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var row in tttBoard.GetTop())
                     {
-                        <tr>
-                            <td>#@row.Id</td>
-                            <td>@row.Name</td>
-                            <td>@row.Score</td>
-                        </tr>
+                    <tr>
+                        <td>#@row.Id</td> <!-- Will not display the ID, will display position -->
+                        <td>@row.Name</td>
+                        <td>@row.Score</td>
+                    </tr>
                     }
                 </tbody>
             </table>

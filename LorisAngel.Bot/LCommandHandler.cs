@@ -296,6 +296,8 @@ namespace LorisAngel.Bot
 
         private async Task LeftGuildAsync(SocketGuild guild)
         {
+            if (guild == null) return;
+        
             var sg = bot.GetGuild(730573219374825523);
             await sg.GetTextChannel(739308321655226469).SendMessageAsync($"[{bot.Guilds.Count}] **Left** guild **{guild.Name}**");
         }
